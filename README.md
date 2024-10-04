@@ -1,18 +1,12 @@
-![image](https://github.com/michaeltroya/supa-next-starter/assets/38507347/2ea40874-98de-49ec-ab6a-74c816e6ca22)
+<h1 align="center">⚡ Builder's League: Edition 1 ⚡</h1>
 
-<h1 align="center">⚡ SupaNext Starter Kit ⚡</h1>
-
-<p align="center">
- The Last Next.js and Supabase Starter You Will Ever Need
-</p>
+<h3 align="center">
+ Reconciliation Road Challenge
+</h3>
 
 <div align="center">
 
 <img alt="GitHub License" src="https://img.shields.io/github/license/michaeltroya/supa-next-starter">
-
-  <a href="https://twitter.com/intent/follow?screen_name=michaeltroya_">
-   <img alt="X (formerly Twitter) Follow" src="https://img.shields.io/twitter/follow/michaeltroya_">
-  </a>
 </div>
 
 <div align="center">
@@ -55,21 +49,7 @@
 
 1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
 
-2. Create a Next.js app using the Supabase Starter template npx command
-
-   ```bash
-   pnpm create next-app -e https://github.com/michaeltroya/supa-next-starter
-   # or
-   npx create-next-app -e https://github.com/michaeltroya/supa-next-starter
-   ```
-
-3. Use `cd` to change into the app's directory
-
-   ```bash
-   cd name-of-new-app
-   ```
-
-4. Rename `.env.local.example` to `.env.local` and update the following:
+2. Rename `.env.local.example` to `.env.local` and update the following:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -78,42 +58,34 @@
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-5. You can now run the Next.js local development server:
+3. You can now run the Next.js local development server:
 
    ```bash
-   pnpm run dev
+   npm run dev
    ```
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
 
-## Showcase
-
-Websites started using this template:
-
-- [mainspring.pro](https://www.mainspring.pro/)
-- [Add yours](https://github.com/michaeltroya/supa-next-starter/edit/main/README.md)
-
 # Documentation
 
 ### Requirements
 
 - Node.js >= 18.17.0
-- pnpm 8
 
 ### Scripts
 
-- `pnpm dev` — Starts the application in development mode at `http://localhost:3000`.
-- `pnpm build` — Creates an optimized production build of your application.
-- `pnpm start` — Starts the application in production mode.
-- `pnpm type-check` — Validate code using TypeScript compiler.
-- `pnpm lint` — Runs ESLint for all files in the `src` directory.
-- `pnpm format-check` — Runs Prettier and checks if any files have formatting issues.
-- `pnpm format` — Runs Prettier and formats files.
-- `pnpm test` — Runs all the jest tests in the project.
-- `pnpm test:ci` — Runs all the jest tests in the project, Jest will assume it is running in a CI environment.
-- `pnpm analyze` — Builds the project and opens the bundle analyzer.
+- `npm run dev` — Starts the application in development mode at `http://localhost:3000`.
+- `npm run build` — Creates an optimized production build of your application.
+- `npm run start` — Starts the application in production mode.
+- `npm run type-check` — Validate code using TypeScript compiler.
+- `npm run lint` — Runs ESLint for all files in the `src` directory.
+- `npm run format-check` — Runs Prettier and checks if any files have formatting issues.
+- `npm run format` — Runs Prettier and formats files.
+- `npm run test` — Runs all the jest tests in the project.
+- `npm run test:ci` — Runs all the jest tests in the project, Jest will assume it is running in a CI environment.
+- `npm run analyze` — Builds the project and opens the bundle analyzer.
 
 ### Paths
 
@@ -125,10 +97,6 @@ import { Button } from '@/components/ui/Button'
 // To import images or other files from the public folder
 import avatar from '@/public/avatar.png'
 ```
-
-### Switch to Yarn/npm
-
-This starter uses pnpm by default, but this choice is yours. If you'd like to switch to Yarn/npm, delete the `pnpm-lock.yaml` file, install the dependencies with Yarn/npm, change the CI workflow, and Husky Git hooks to use Yarn/npm commands.
 
 ## License
 

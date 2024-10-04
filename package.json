@@ -1,13 +1,11 @@
 {
-  "name": "supa-next-starter",
-  "description": "A production ready Next.js/Supabase starter. ",
+  "name": "reconciliation-road-challenge",
+  "description": "A LMS + social media app designed for Truth and Reconciliation.",
   "version": "1.0.0",
-  "private": true,
-  "author": "Michael Troya <hi@michaeltroya.ca> (@michaeltroya)",
+  "author": "Builder's League",
   "license": "MIT",
   "keywords": [
     "nextjs",
-    "starter",
     "supabase",
     "tailwindcss",
     "shadcn",
@@ -24,7 +22,7 @@
     "prepare": "husky install",
     "test": "jest",
     "test:ci": "jest --ci",
-    "analyze": "ANALYZE=true pnpm build"
+    "analyze": "ANALYZE=true npm build"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^14.0.4",
