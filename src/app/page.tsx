@@ -13,6 +13,7 @@ export default async function Index() {
     // This function is just for the interactive tutorial.
     // Feel free to remove it once you have Supabase connected.
     try {
+      console.log("test")
       createServerClient(cookieStore)
       return true
     } catch (e) {

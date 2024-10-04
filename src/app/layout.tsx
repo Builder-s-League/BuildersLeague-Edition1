@@ -12,8 +12,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
+  title: 'Reconciliation Road Challenge',
+  description: 'A fresh adventure begins!',
 }
 
 export default function RootLayout({
@@ -39,9 +39,8 @@ export default function RootLayout({
             <main className="flex min-h-screen flex-col items-center">
               {children}
               <Analytics />{' '}
-              {/* ^^ remove this if you are not deploying to vercel. See more at https://vercel.com/docs/analytics  */}
             </main>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

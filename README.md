@@ -9,10 +9,6 @@
 <img alt="GitHub License" src="https://img.shields.io/github/license/michaeltroya/supa-next-starter">
 </div>
 
-<div align="center">
-  <sub>Created by <a href="https://twitter.com/michaeltroya_">Michael Troya</a>
-</div>
-
 <br/>
 
 <p align="center">
@@ -29,7 +25,7 @@
 - 💚 Supabase w/ supabase-ssr - Works across the entire [Next.js](https://nextjs.org) stack (App Router, Pages Router, Client, Server, Middleware, It just works!)
 - ⚛️ React 18
 - ⛑ TypeScript
-- 📦 [pnpm](https://pnpm.io/) - Fast, disk space efficient package manager
+- 📦 npm - package manager
 - 🎨 [Tailwind](https://tailwindcss.com/)
 - 🔌 [shadcn/ui](https://ui.shadcn.com/) - Beautifully designed components that you can copy and paste into your apps.
 - 🧪 Jest w/SWC + React Testing Library - Unit tests for all of your code.
