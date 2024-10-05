@@ -19,17 +19,23 @@ export default async function Index() {
   const isSupabaseConnected = canInitSupabaseClient()
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-8">Navigation</h1>
+    <div className="flex h-screen flex-col items-center justify-center">
+      <h1 className="mb-8 text-2xl font-bold">Navigation</h1>
       <div className="flex gap-4">
         <Link href="/cbh">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded">CBH</button>
+          <button className="rounded bg-blue-500 px-4 py-2 text-white">
+            CBH
+          </button>
         </Link>
         <Link href="/hr">
-          <button className="px-4 py-2 bg-green-500 text-white rounded">HR</button>
+          <button className="rounded bg-green-500 px-4 py-2 text-white">
+            HR
+          </button>
         </Link>
-        <Link href="/employees">
-          <button className="px-4 py-2 bg-red-500 text-white rounded">Employees</button>
+        <Link href="/emp">
+          <button className="rounded bg-red-500 px-4 py-2 text-white">
+            Employees
+          </button>
         </Link>
       </div>
 

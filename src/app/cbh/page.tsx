@@ -25,14 +25,6 @@ export default async function Index() {
         <Link href="cbh/about">
           <button className="bg-blue-500 px-4 py-2 text-white">About</button>
         </Link>
-        <Link href="cbh/forgot-password">
-          <button className="bg-blue-500 px-4 py-2 text-white">
-            Forgot Password
-          </button>
-        </Link>
-        <Link href="cbh/login">
-          <button className="bg-blue-500 px-4 py-2 text-white">Login</button>
-        </Link>
         <Link href="cbh/my-login">
           <button className="bg-blue-500 px-4 py-2 text-white">My Login</button>
         </Link>
@@ -41,7 +33,7 @@ export default async function Index() {
             Organization Dashboard
           </button>
         </Link>
-        <Link href="cbh/settings">
+        <Link href="cbh/setting">
           <button className="bg-blue-500 px-4 py-2 text-white">Settings</button>
         </Link>
         <Link href="cbh/survey-dash">

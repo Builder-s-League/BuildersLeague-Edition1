@@ -2,22 +2,16 @@ import Link from 'next/link'
 
 export default function Employee() {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="mb-6 text-3xl font-bold text-gray-800">
-        Welcome, Employee!
-      </h1>
-      <div className="flex flex-col gap-4">
-        <Link
-          href="/resources"
-          className="rounded-lg px-4 py-2 text-lg text-blue-600 shadow-md transition-colors duration-300 hover:text-blue-800 hover:shadow-lg"
-        >
-          Resources
+    <div className="flex h-screen flex-col items-center justify-center">
+      <h1 className="mb-8 text-2xl font-bold">Navigation</h1>
+      <div className="flex gap-4">
+        <Link href="/emp/resources">
+          <button className="bg-blue-500 px-4 py-2 text-white">
+            Resources
+          </button>
         </Link>
-        <Link
-          href="/settings"
-          className="rounded-lg px-4 py-2 text-lg text-blue-600 shadow-md transition-colors duration-300 hover:text-blue-800 hover:shadow-lg"
-        >
-          Profile Settings
+        <Link href="/emp/profile-settings">
+          <button className="bg-blue-500 px-4 py-2 text-white">Settings</button>
         </Link>
       </div>
     </div>
