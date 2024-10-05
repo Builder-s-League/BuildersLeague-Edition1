@@ -1,4 +1,5 @@
 import React from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface TopicDetailItemProps {
   title: string
@@ -18,6 +19,8 @@ export default function TopicDetailItem({
     <div className="flex w-full flex-col items-center ">
       <div className="flex flex-row gap-4">
         <h3>{title}</h3>
+
+        <Checkbox />
         <p>{status}</p>
       </div>
       {link && <div>{link.date && <p>{link.date.toLocaleString()}</p>}</div>}

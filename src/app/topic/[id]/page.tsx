@@ -1,12 +1,42 @@
+'use client'
+
 import LinearProgressBar from '@/components/LinearProgressBar'
+import TopicContentTable from '@/components/TopicContentTableList'
 import TopicDetailItem from '@/components/TopicDetailItem'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { mockTopic as topicMock } from '@/mocks/topic'
+import { Topic } from '@/types/topic'
+import { useState } from 'react'
 
 interface TopicDetailPageProps {
   params: {
     id: string
   }
 }
+
 export default function TopicDetailPage({ params }: TopicDetailPageProps) {
+  const [topic, setTopic] = useState<Topic>(topicMock)
+
+  const handleCheckboxChange = (id: number) => {
+    const updatedContents = topic.contents.map((content) =>
+      content.id === id ? { ...content, status: !content.status } : content,
+    )
+    const completedTasks = updatedContents.filter(
+      (content) => content.status,
+    ).length
+    const progress = Math.round((completedTasks / updatedContents.length) * 100)
+    setTopic({ ...topic, contents: updatedContents, progress })
+  }
+
   return (
     <div className="flex w-full flex-col">
       <div className="h-40">
@@ -16,21 +46,13 @@ export default function TopicDetailPage({ params }: TopicDetailPageProps) {
         </nav>
       </div>
       <div className="flex w-full flex-col items-center">
-        <LinearProgressBar value={66} max={100} />
-        <p>66%</p>
+        <LinearProgressBar value={topic.progress} max={100} />
+        <p>{topic.progress}%</p>
       </div>
-      <div className="flex w-full flex-col items-center gap-4">
-        <TopicDetailItem title="1. Introduction" status="Done" />
-        <TopicDetailItem title="1. Introduction" status="Done" />
-        <TopicDetailItem
-          title="1. Introduction"
-          status="Done"
-          link={{
-            href: 'https://google.com',
-            date: new Date(),
-          }}
-        />
-      </div>
+      <TopicContentTable
+        contents={topic.contents}
+        onCheckboxChange={handleCheckboxChange}
+      />
     </div>
   )
 }
