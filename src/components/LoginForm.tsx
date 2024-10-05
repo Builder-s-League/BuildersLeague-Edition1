@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '../../supabase/superbaseClient'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -11,13 +12,18 @@ export default function LoginForm() {
   const [isForgotPassword, setIsForgotPassword] = useState(false)
   const router = useRouter()
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    // mock login
-    if (email === 'admin@cbh.ca' && password === 'password') {
-      window.alert('Logged in successfully!')
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (data) {
+      // redirect to homepage - will update to feed
+      router.push('/feed')
     } else {
-      setErrorMessage('Invalid username or password')
+      console.error('Login error:', error)
     }
   }
 
