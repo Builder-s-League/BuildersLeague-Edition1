@@ -23,7 +23,7 @@
     "test": "jest",
     "test:ci": "jest --ci",
     "analyze": "ANALYZE=true npm build",
-    "lint-stage": "lint-stage"
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^14.0.4",
