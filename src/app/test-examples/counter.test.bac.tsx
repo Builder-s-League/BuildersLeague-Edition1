@@ -1,3 +1,4 @@
+'use client'
 import { userEvent, render, screen } from '@/test/test-utils'
 import Counter from './counter'
 
