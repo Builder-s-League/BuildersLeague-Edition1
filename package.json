@@ -22,7 +22,9 @@
     "prepare": "husky install",
     "test": "jest",
     "test:ci": "jest --ci",
-    "analyze": "ANALYZE=true npm build",
+ 
+    "analyze": "ANALYZE=true npm run build",
+ 
     "lint-staged": "lint-staged"
   },
   "dependencies": {
