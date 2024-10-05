@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Employee() {
   return (
-    <div className="flex h-screen h-screen w-screen flex-col items-center justify-center bg-gray-100 p-6">
+    <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100 p-6">
       <h1 className="mb-6 text-3xl font-bold text-gray-800">
         Welcome, Employee!
       </h1>
