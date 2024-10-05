@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 type OptType = {
   text: string
@@ -193,10 +194,12 @@ const File = ({ type }: { type: Filetype }) => {
     case 'image': {
       return (
         <figure className="max-w-lg">
-          <img
+          <Image
             className="h-auto max-w-full rounded-lg"
             src="https://t3.ftcdn.net/jpg/07/02/44/70/240_F_702447075_0ZdExxmdIZrZezTiSn9YhIzu0ADh98h6.jpg"
             alt="image description"
+            width={240} // width of the image
+            height={160} // height of the image
           />
           <figcaption className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
             Image caption
