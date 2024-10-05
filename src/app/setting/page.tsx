@@ -11,22 +11,34 @@ const Setting: React.FC = () => {
           <p className="text-3xl">phone number: 123-456-7890</p>
         </div>
         {/* Update button aligned to the left with increased margin left */}
-        <button className="mt-[10rem] rounded bg-green-500 px-8 py-5 text-2xl text-white">
+        <a
+          href="/setting/update-email"
+          className="mt-[10rem] rounded bg-green-500 px-8 py-5 text-2xl text-white"
+        >
           Update Email and Phone
-        </button>
+        </a>
       </div>
 
       {/* Buttons section */}
       <div className="mt-10 flex flex-col items-end space-y-3">
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        <a
+          href="/setting/app-tour"
+          className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white"
+        >
           App Tour Change
-        </button>
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        </a>
+        <a
+          href="/setting/blob-storage"
+          className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white"
+        >
           Storage Change
-        </button>
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        </a>
+        <a
+          href="/setting/app-domain"
+          className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white"
+        >
           App Domain Change
-        </button>
+        </a>
       </div>
     </div>
   )
