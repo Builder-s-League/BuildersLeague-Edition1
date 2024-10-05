@@ -1,23 +1,17 @@
-import AuthButton from '@/components/AuthButton'
-import ConnectSupabaseSteps from '@/components/ConnectSupabaseSteps'
-import SignUpUserSteps from '@/components/SignUpUserSteps'
-import Header from '@/components/Header'
+import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
-import ThemeToggle from '@/components/ThemeToggle'
-import Link from 'next/link'
 
 export default async function Index() {
   const cookieStore = cookies()
 
   const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
+    // This function is for Supabase initialization check.
     try {
-      console.log('test')
       createServerClient(cookieStore)
       return true
     } catch (e) {
+      console.error('Supabase initialization failed:', e)
       return false
     }
   }
@@ -25,36 +19,26 @@ export default async function Index() {
   const isSupabaseConnected = canInitSupabaseClient()
 
   return (
-    <div className="flex w-full flex-1 flex-col items-center gap-20">
-      <nav className="flex h-16 w-full justify-center border-b border-b-foreground/10">
-        <div className="flex w-full max-w-4xl items-center justify-between p-3 text-sm">
-          {isSupabaseConnected && <AuthButton />}
-          <Link href="/mylogin">My Login</Link>
-        </div>
-      </nav>
-
-      <div className="flex max-w-4xl flex-1 flex-col gap-20 px-3">
-        <Header />
-        <main className="flex flex-1 flex-col gap-6">
-          <h2 className="mb-4 text-4xl font-bold">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-2xl font-bold mb-8">Navigation</h1>
+      <div className="flex gap-4">
+        <Link href="/cbh">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded">CBH</button>
+        </Link>
+        <Link href="/hr">
+          <button className="px-4 py-2 bg-green-500 text-white rounded">HR</button>
+        </Link>
+        <Link href="/employees">
+          <button className="px-4 py-2 bg-red-500 text-white rounded">Employees</button>
+        </Link>
       </div>
 
-      <footer className="w-full justify-center border-t border-t-foreground/10 p-8 text-center text-xs">
-        <p className="mb-6">
-          Powered by{' '}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-        <ThemeToggle />
-      </footer>
+      {/* Optionally, show Supabase connection status */}
+      {isSupabaseConnected ? (
+        <p className="mt-8 text-green-600">Supabase is connected!</p>
+      ) : (
+        <p className="mt-8 text-red-600">Supabase is not connected.</p>
+      )}
     </div>
   )
 }
