@@ -1,5 +1,36 @@
+'use client'
 import React from 'react'
 import { redirect } from 'next/navigation'
+import OrganizationCBH from '@/components/OrganizationCBH'
+import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
+import { Input } from '@/components/ui/input'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { buttonVariants } from '@/components/ui/button'
+
+const orgData = [
+  {
+    name: 'Org 1',
+    address: 'Adresss 1',
+    contactInfo: '123-123-1234',
+    hrName: 'John Doe',
+    hrEmail: 'john.doe@gmail.com',
+  },
+  {
+    name: 'Org 2',
+    address: 'Adresss 1',
+    contactInfo: '123-123-1234',
+    hrName: 'John Doe',
+    hrEmail: 'john.doe@gmail.com',
+  },
+  {
+    name: 'Org 3',
+    address: 'Adresss 1',
+    contactInfo: '123-123-1234',
+    hrName: 'John Doe',
+    hrEmail: 'john.doe@gmail.com',
+  },
+]
 
 export default function OrgDashboard() {
   const allowedUser = 'CBH'
@@ -7,56 +38,34 @@ export default function OrgDashboard() {
   if (currentUser != allowedUser) {
     redirect('/')
   }
+  const path = usePathname()
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-6">
       <div className="mb-3 grid grid-flow-col grid-cols-3 gap-4">
-        <input
-          className="col-span-2 rounded-lg border p-2 text-center"
+        <Input
+          type="text"
+          className="col-span-2"
           placeholder="Search organization..."
         />
         <div className="grid grid-cols-2 gap-2">
-          <a href="#" className="rounded bg-blue-500 p-2 text-center">
+          <Link
+            href={`${path}/add`}
+            className={buttonVariants({ variant: 'default' })}
+          >
             Add
-          </a>
-          <a href="#" className="rounded bg-blue-500 p-2 text-center">
+          </Link>
+          <Link href="#" className={buttonVariants({ variant: 'secondary' })}>
             Export
-          </a>
+          </Link>
         </div>
       </div>
 
-      {['Org 1', 'Org 2', 'Org 3'].map((org, idx) => (
-        <div key={idx} className="mb-4 grid grid-cols-4 gap-4 p-4">
-          <div className="col-span-3 content-center rounded border text-center text-lg">
-            {org}
-          </div>
-          <div className="flex flex flex-col gap-2">
-            <a href="#" className="rounded bg-green-500 p-2 text-center">
-              Edit Org
-            </a>
-            <a href="#" className="rounded bg-yellow-500 p-2 text-center">
-              Edit Members
-            </a>
-          </div>
-        </div>
+      {orgData.map((org, idx) => (
+        <OrganizationCBH key={idx} idx={idx} org={org} />
       ))}
 
-      <div className="mt-6 flex justify-around rounded border p-4">
-        <a href="#" className="rounded bg-gray-500 p-2 text-white">
-          OM
-        </a>
-        <a href="#" className="rounded bg-gray-500 p-2 text-white">
-          OGC
-        </a>
-        <a href="#" className="rounded bg-gray-500 p-2 text-white">
-          C
-        </a>
-        <a href="#" className="rounded bg-gray-500 p-2 text-white">
-          FB
-        </a>
-        <a href="#" className="rounded bg-gray-500 p-2 text-white">
-          S
-        </a>
-      </div>
+      <OrganizationCBHFooter />
     </div>
   )
 }
