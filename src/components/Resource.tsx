@@ -21,37 +21,9 @@ export const Resource = () => {
         handleSearchText={handleSearchText}
       />
       {/* questionnare */}
-      <Questionnaire />
-
-      <NoteDiv />
-      <Actions />
     </div>
   )
 }
-const Questionnaire = () => {
-  return (
-    <div className="flex w-full flex-col gap-5">
-      <QuesAnsElement
-        ques={'Here is the question?'}
-        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
-      />
-      <QuesAnsElement
-        ques={'Here is the question?'}
-        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
-      />
-      <QuesAnsElement
-        ques={'Here is the question?'}
-        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
-      />
-      <QuesAnsElement
-        ques={'Here is the question?'}
-        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
-      />
-    </div>
-  )
-}
-const demoText =
-  "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 const Content = ({
   selectedFileType,
   searchText,
@@ -65,10 +37,10 @@ const Content = ({
     <>
       <Title title={'Residential school history'} />
       {/* <Input
-        placeholder="Type or speak..."
-        onChange={handleSearchText}
-        value={searchText}
-      ></Input> */}
+          placeholder="Type or speak..."
+          onChange={handleSearchText}
+          value={searchText}
+        ></Input> */}
       <PlayAudio text={demoText} />
       <Description text={demoText} />
 
@@ -76,6 +48,9 @@ const Content = ({
     </>
   )
 }
+const demoText =
+  "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+
 const PlayAudio = ({ text }: { text: string }) => {
   const [playing, setPlaying] = useState<boolean>(false)
   const handleAudio = () => {
@@ -127,84 +102,6 @@ const PlayAudio = ({ text }: { text: string }) => {
           />
         </svg>
       )}
-    </div>
-  )
-}
-const Actions = () => {
-  const [checked, setChecked] = useState<boolean>(true)
-  const handleCheck = () => {
-    setChecked((prev) => !prev)
-  }
-  return (
-    <div className="1 flex  w-full justify-between">
-      <button
-        type="button"
-        className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-      >
-        Save to my notes
-      </button>
-
-      <div className="flex items-center">
-        <input
-          checked={checked}
-          onChange={handleCheck}
-          id="checked-checkbox"
-          type="checkbox"
-          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-        />
-        <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          Hide my name
-        </label>
-      </div>
-      <button
-        type="button"
-        className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-      >
-        Post to public
-      </button>
-    </div>
-  )
-}
-const NoteDiv = () => {
-  return (
-    <textarea
-      id="message"
-      rows={4}
-      className="block w-full rounded-xl border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-      placeholder="type in your notes here..."
-    ></textarea>
-  )
-}
-const QuesAnsElement = ({ ques, opt }: { ques: string; opt: OptType[] }) => {
-  return (
-    <div className="flex w-full flex-col  gap-2 rounded-xl border border-slate-200 p-10 ">
-      <Question ques={ques} />
-      {opt.map((o: OptType, i: number) => {
-        return <Option option={o} key={i} index={i} />
-      })}
-    </div>
-  )
-}
-
-const Question = ({ ques }: { ques: string }) => {
-  return <div className="text-sm font-thin">{ques}</div>
-}
-const Option = ({ option, index }: { index: number; option: OptType }) => {
-  return (
-    <div className="flex gap-1 text-sm font-thin">
-      <div>{index + 1}.</div>
-      <div>{option.text}</div>
-    </div>
-  )
-}
-
-const Card = () => {
-  return <div className="h-32 w-full rounded-md p-2 "></div>
-}
-function Title({ title }: { title: string }) {
-  return (
-    <div className="textjustify-center flex border-slate-400 text-3xl  font-thin">
-      {title}
     </div>
   )
 }
@@ -335,4 +232,11 @@ const File = ({ type }: { type: Filetype }) => {
       break
     }
   }
+}
+function Title({ title }: { title: string }) {
+  return (
+    <div className="textjustify-center flex border-slate-400 text-3xl  font-thin">
+      {title}
+    </div>
+  )
 }
