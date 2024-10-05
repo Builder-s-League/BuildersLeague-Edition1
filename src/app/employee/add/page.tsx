@@ -39,9 +39,9 @@ export default function AddNewEmployee() {
 
       <div>
         <input placeholder="Employee generated password" />
-        <div>
-          <a href="#">Add</a>
-        </div>
+      </div>
+      <div>
+        <a href="#">Add</a>
       </div>
 
       <div>
