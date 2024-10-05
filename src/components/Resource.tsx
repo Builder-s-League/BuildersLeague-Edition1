@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type OptType = {
   text: string
 }
 export const Resource = () => {
   const [search, setSearch] = useState('')
-  const [selectedFileType, setSelectedFileType] = useState<Filetype>('image')
+  const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch((prev) => e.target.value)
   }
@@ -50,6 +50,8 @@ const Questionnaire = () => {
     </div>
   )
 }
+const demoText =
+  "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 const Content = ({
   selectedFileType,
   searchText,
@@ -62,22 +64,77 @@ const Content = ({
   return (
     <>
       <Title title={'Residential school history'} />
-      <Input
-        placeholder="search"
+      {/* <Input
+        placeholder="Type or speak..."
         onChange={handleSearchText}
         value={searchText}
-      ></Input>
-      <Description
-        text={
-          "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        }
-      />
+      ></Input> */}
+      <PlayAudio text={demoText} />
+      <Description text={demoText} />
 
       <File type={selectedFileType} />
     </>
   )
 }
+const PlayAudio = ({ text }: { text: string }) => {
+  const [playing, setPlaying] = useState<boolean>(false)
+  const handleAudio = () => {
+    setPlaying((prev) => !prev)
+  }
+  useEffect(() => {
+    if (playing) {
+      if (text.trim() === '') return
+      const utterance = new SpeechSynthesisUtterance(text)
+      window.speechSynthesis.speak(utterance)
+    } else {
+      window.speechSynthesis.cancel()
+    }
+  }, [playing, text])
+  return (
+    <div
+      className="relative flex h-10 w-1/3 justify-between rounded-xl border p-2 "
+      onClick={handleAudio}
+    >
+      <div className="w-full">{playing ? 'Stop' : 'Play'} audio</div>
+      {!playing ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="absolute right-3 top-3 h-4 w-4 text-slate-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+          />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="absolute right-3 top-3 h-4 w-4 text-slate-500"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 5.25v13.5m-7.5-13.5v13.5"
+          />
+        </svg>
+      )}
+    </div>
+  )
+}
 const Actions = () => {
+  const [checked, setChecked] = useState<boolean>(true)
+  const handleCheck = () => {
+    setChecked((prev) => !prev)
+  }
   return (
     <div className="1 flex  w-full justify-between">
       <button
@@ -89,14 +146,14 @@ const Actions = () => {
 
       <div className="flex items-center">
         <input
-          checked
+          checked={checked}
+          onChange={handleCheck}
           id="checked-checkbox"
           type="checkbox"
-          value=""
           className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
         />
         <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          Checked state
+          Hide my name
         </label>
       </div>
       <button
@@ -177,6 +234,7 @@ const Input = ({
           type="text"
           className="col-span-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           value={value}
+          placeholder={placeholder}
         />
         <button
           data-copy-to-clipboard-target="npm-install-copy-button"
@@ -209,9 +267,9 @@ const Input = ({
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 5.917 5.724 10.5 15 1.5"
               />
             </svg>
