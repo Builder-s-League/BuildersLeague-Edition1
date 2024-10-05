@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 
+type OptType = {
+  text: string
+}
 export const Resource = () => {
   const [search, setSearch] = useState('')
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,15 +22,93 @@ export const Resource = () => {
       />
 
       <FileInput />
-      <QuesAnsElement ques={'ssss'} opt={'sesedede'} />
+      <div className="flex w-full flex-col gap-5">
+        <QuesAnsElement
+          ques={'Here is the question?'}
+          opt={[
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+          ]}
+        />
+        <QuesAnsElement
+          ques={'Here is the question?'}
+          opt={[
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+          ]}
+        />
+        <QuesAnsElement
+          ques={'Here is the question?'}
+          opt={[
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+          ]}
+        />
+        <QuesAnsElement
+          ques={'Here is the question?'}
+          opt={[
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+            { text: 'sesedede' },
+          ]}
+        />
+      </div>
+      <NoteDiv />
+      <Actions />
     </div>
   )
 }
-const QuesAnsElement = ({ ques, opt }: { ques: string; opt: string }) => {
+const Actions = () => {
   return (
-    <div>
+    <div className="1 justify-betweengit  flex w-full">
+      <button
+        type="button"
+        className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+      >
+        Save to my notes
+      </button>
+
+      <div className="flex items-center">
+        <input
+          checked
+          id="checked-checkbox"
+          type="checkbox"
+          value=""
+          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+        />
+        <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+          Checked state
+        </label>
+      </div>
+      <button
+        type="button"
+        className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+      >
+        Post to public
+      </button>
+    </div>
+  )
+}
+const NoteDiv = () => {
+  return (
+    <textarea
+      id="message"
+      rows={4}
+      className="block w-full rounded-xl border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+      placeholder="type in your notes here..."
+    ></textarea>
+  )
+}
+const QuesAnsElement = ({ ques, opt }: { ques: string; opt: OptType[] }) => {
+  return (
+    <div className="flex w-full flex-col  gap-2 rounded-xl border border-slate-200 p-10 ">
       <Question ques={ques} />
-      <Option option={opt} />
+      {opt.map((o: OptType, i: number) => {
+        return <Option option={o} key={i} index={i} />
+      })}
     </div>
   )
 }
@@ -35,8 +116,13 @@ const QuesAnsElement = ({ ques, opt }: { ques: string; opt: string }) => {
 const Question = ({ ques }: { ques: string }) => {
   return <div className="text-sm font-thin">{ques}</div>
 }
-const Option = ({ option }: { option: string }) => {
-  return <div className="text-sm font-thin">{option}</div>
+const Option = ({ option, index }: { index: number; option: OptType }) => {
+  return (
+    <div className="flex gap-1 text-sm font-thin">
+      <div>{index + 1}.</div>
+      <div>{option.text}</div>
+    </div>
+  )
 }
 
 const Card = () => {
