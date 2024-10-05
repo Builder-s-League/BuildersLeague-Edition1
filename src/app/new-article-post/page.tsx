@@ -6,7 +6,7 @@ const NewArticlePost = () => {
         <p>Share an article</p>
         <form className='text-center mb-4'>
             <div>
-            <input className='placeholder:text-center border-white rounded-lg border w-full p-2' placeholder='Article Link' type="text" />
+            <button className=' border-white rounded-lg border w-full p-2' >Article Link</button>
             </div>
             <div className='flex items-center justify-center'>
              <textarea
