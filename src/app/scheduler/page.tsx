@@ -9,10 +9,10 @@ const SchedulePage = () => {
         <div className="rounded bg-white p-4 shadow ">
           <h2 className="mb-2 text-xl font-semibold text-black">Releases</h2>
           <div className="flex-grow space-y-2">
-            <p className="text-black">August 8, 2024 - Content 1 -></p>
-            <p className="text-black">August 8, 2024 - Content 2 -></p>
-            <p className="text-black">August 8, 2024 - Content 3 -></p>
-            <p className="text-black">August 8, 2024 - Content 4 -></p>
+            <p className="text-black">August 8, 2024 - Content 1 -&#x2192</p>
+            <p className="text-black">August 8, 2024 - Content 2 -&#x2192</p>
+            <p className="text-black">August 8, 2024 - Content 3 -&#x2192</p>
+            <p className="text-black">August 8, 2024 - Content 4 -&#x2192</p>
             <p className="text-black"><a href="#">Add new +</a></p>
 
           </div>

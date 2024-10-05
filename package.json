@@ -22,7 +22,8 @@
     "prepare": "husky install",
     "test": "jest",
     "test:ci": "jest --ci",
-    "analyze": "ANALYZE=true npm build"
+    "analyze": "ANALYZE=true npm build",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^14.0.4",
@@ -35,6 +36,7 @@
     "@tanstack/react-query-devtools": "^5.17.15",
     "@vercel/analytics": "^1.1.1",
     "axios": "^1.6.5",
+    "bundle-analyzer": "^0.0.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "geist": "^1.0.0",
@@ -44,6 +46,7 @@
     "nextjs-toploader": "^1.6.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "reconciliation-road-challenge": "file:",
     "tailwind-merge": "^2.2.0",
     "undici": "^5.28.2"
   },

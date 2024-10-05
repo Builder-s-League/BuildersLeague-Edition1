@@ -1,0 +1,26 @@
+{
+    "sourceFile": ".husky/pre-commit",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1728100196297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1728100202831,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,4 @@\n+#!/bin/sh\r\n+. \"$(dirname \"$0\")/_/husky.sh\"\r\n+\r\n+npm lint-staged\r\n"
+                },
+                {
+                    "date": 1728100496084,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,4 @@\n #!/bin/sh\r\n . \"$(dirname \"$0\")/_/husky.sh\"\r\n \r\n-npm lint-staged\r\n-#!/bin/sh\r\n-. \"$(dirname \"$0\")/_/husky.sh\"\r\n-\r\n-npm run\r\n+#npm run lint-staged\r\n"
+                }
+            ],
+            "date": 1728100196297,
+            "name": "Commit-0",
+            "content": "#!/bin/sh\r\n. \"$(dirname \"$0\")/_/husky.sh\"\r\n\r\nnpm run\r\n"
+        }
+    ]
+}
