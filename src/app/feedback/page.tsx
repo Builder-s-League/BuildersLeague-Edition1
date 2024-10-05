@@ -6,7 +6,6 @@ export default function Feedback() {
       <button>Upload image</button>
       <button>Submit</button>
       <button>Go Back</button>
-      <button>Go Back</button>
     </div>
   )
 }
