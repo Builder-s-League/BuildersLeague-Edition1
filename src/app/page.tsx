@@ -5,7 +5,6 @@ import Header from '@/components/Header'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
 import ThemeToggle from '@/components/ThemeToggle'
-import Link from 'next/link'
 
 export default async function Index() {
   const cookieStore = cookies()
@@ -14,7 +13,7 @@ export default async function Index() {
     // This function is just for the interactive tutorial.
     // Feel free to remove it once you have Supabase connected.
     try {
-      console.log('test')
+      console.log("test")
       createServerClient(cookieStore)
       return true
     } catch (e) {
@@ -29,7 +28,6 @@ export default async function Index() {
       <nav className="flex h-16 w-full justify-center border-b border-b-foreground/10">
         <div className="flex w-full max-w-4xl items-center justify-between p-3 text-sm">
           {isSupabaseConnected && <AuthButton />}
-          <Link href="/mylogin">My Login</Link>
         </div>
       </nav>
 
