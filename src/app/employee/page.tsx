@@ -1,4 +1,3 @@
-import EDNavBar from '@/components/EmployeeDashboard/EDNavBar'
 import EmployeeCard from '@/components/EmployeeDashboard/EmployeeCard'
 import PageButton from '@/components/EmployeeDashboard/PageButton'
 

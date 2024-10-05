@@ -14,6 +14,7 @@ const Wrapper = ({ children }: { children: ReactElement }) => (
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>,
+  // @ts-expect-error
 ) => render(ui, { wrapper: Wrapper, ...options })
 
 export * from '@testing-library/react'
