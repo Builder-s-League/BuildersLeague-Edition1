@@ -9,7 +9,7 @@
 # testing
 /coverage
 .env 
-package.json
+ 
 # next.js
 /.next/
 /out/
