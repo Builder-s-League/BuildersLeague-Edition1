@@ -7,58 +7,74 @@ type OptType = {
 }
 export const Resource = () => {
   const [search, setSearch] = useState('')
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [selectedFileType, setSelectedFileType] = useState<Filetype>('image')
+  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch((prev) => e.target.value)
   }
 
   return (
     <div className="flex flex-col items-center gap-10 p-10">
-      <Title title={'this is my title'} />
-      <Input placeholder="search" onChange={handleInput} value={search}></Input>
+      {/* content  */}
+      <Content
+        selectedFileType={selectedFileType}
+        searchText={search}
+        handleSearchText={handleSearchText}
+      />
+      {/* questionnare */}
+      <Questionnaire />
+
+      <NoteDiv />
+      <Actions />
+    </div>
+  )
+}
+const Questionnaire = () => {
+  return (
+    <div className="flex w-full flex-col gap-5">
+      <QuesAnsElement
+        ques={'Here is the question?'}
+        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
+      />
+      <QuesAnsElement
+        ques={'Here is the question?'}
+        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
+      />
+      <QuesAnsElement
+        ques={'Here is the question?'}
+        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
+      />
+      <QuesAnsElement
+        ques={'Here is the question?'}
+        opt={[{ text: 'sesedede' }, { text: 'sesedede' }, { text: 'sesedede' }]}
+      />
+    </div>
+  )
+}
+const Content = ({
+  selectedFileType,
+  searchText,
+  handleSearchText,
+}: {
+  selectedFileType: Filetype
+  searchText: string
+  handleSearchText: any
+}) => {
+  return (
+    <>
+      <Title title={'Residential school history'} />
+      <Input
+        placeholder="search"
+        onChange={handleSearchText}
+        value={searchText}
+      ></Input>
       <Description
         text={
           "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         }
       />
 
-      <FileInput />
-      <div className="flex w-full flex-col gap-5">
-        <QuesAnsElement
-          ques={'Here is the question?'}
-          opt={[
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-          ]}
-        />
-        <QuesAnsElement
-          ques={'Here is the question?'}
-          opt={[
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-          ]}
-        />
-        <QuesAnsElement
-          ques={'Here is the question?'}
-          opt={[
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-          ]}
-        />
-        <QuesAnsElement
-          ques={'Here is the question?'}
-          opt={[
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-            { text: 'sesedede' },
-          ]}
-        />
-      </div>
-      <NoteDiv />
-      <Actions />
-    </div>
+      <File type={selectedFileType} />
+    </>
   )
 }
 const Actions = () => {
@@ -130,7 +146,7 @@ const Card = () => {
 }
 function Title({ title }: { title: string }) {
   return (
-    <div className="flex justify-center border-slate-400 text-3xl font-bold">
+    <div className="textjustify-center flex border-slate-400 text-3xl  font-thin">
       {title}
     </div>
   )
@@ -138,7 +154,7 @@ function Title({ title }: { title: string }) {
 
 const Description = ({ text }: { text: string }) => {
   return (
-    <p className="mb-3 w-full text-left text-gray-500 dark:text-gray-400">
+    <p className="mb-3 w-full text-left text-gray-500  dark:text-gray-400">
       {text}
     </p>
   )
@@ -216,37 +232,49 @@ const Input = ({
     </div>
   )
 }
+type Filetype = 'image' | 'video' | 'audio'
+const File = ({ type }: { type: Filetype }) => {
+  switch (type) {
+    case 'image': {
+      return (
+        <figure className="max-w-lg">
+          <img
+            className="h-auto max-w-full rounded-lg"
+            src="https://t3.ftcdn.net/jpg/07/02/44/70/240_F_702447075_0ZdExxmdIZrZezTiSn9YhIzu0ADh98h6.jpg"
+            alt="image description"
+          />
+          <figcaption className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+            Image caption
+          </figcaption>
+        </figure>
+      )
 
-const FileInput = () => {
-  return (
-    <div className="flex w-full items-center justify-center">
-      <label className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 dark:hover:bg-gray-800">
-        <div className="flex flex-col items-center justify-center pb-6 pt-5">
-          <svg
-            className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 16"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-            />
-          </svg>
-          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            SVG, PNG, JPG or GIF (MAX. 800x400px)
-          </p>
-        </div>
-        <input id="dropzone-file" type="file" className="hidden" />
-      </label>
-    </div>
-  )
+      break
+    }
+    case 'video': {
+      return (
+        <video className="h-full w-full rounded-lg" controls>
+          <source
+            src="https://docs.material-tailwind.com/demo.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+      )
+      break
+    }
+    case 'audio': {
+      return (
+        <audio className="w-full" controls>
+          <source src="https://www.example.com/audio.mp3" type="audio/mp3" />
+          Your browser does not support the audio tag.
+        </audio>
+      )
+      break
+    }
+    default: {
+      //statements;
+      break
+    }
+  }
 }
