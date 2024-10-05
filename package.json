@@ -22,10 +22,7 @@
     "prepare": "husky install",
     "test": "jest",
     "test:ci": "jest --ci",
- 
-    "analyze": "ANALYZE=true npm run build",
- 
-    "lint-staged": "lint-staged"
+    "analyze": "ANALYZE=true npm build"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^14.0.4",
