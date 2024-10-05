@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import NextLogo from './NextLogo'
 import SupabaseLogo from './SupabaseLogo'
 
@@ -23,9 +22,6 @@ export default function Header() {
         </a>
         !
       </p>
-      <nav>
-        <Link href="/about">About</Link>
-      </nav>
       <div className="my-8 w-full bg-gradient-to-r from-transparent via-foreground/10 to-transparent p-[1px]" />
     </div>
   )
