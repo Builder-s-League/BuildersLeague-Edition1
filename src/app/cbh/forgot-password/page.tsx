@@ -49,7 +49,7 @@ export default function ForgotPassword() {
         <p className="text-white-500 mt-10 text-center text-sm">
           Remembered your password?{' '}
           <a
-            href="/mylogin"
+            href="/cbh/my-login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Log In
