@@ -1,4 +1,4 @@
-import { TopicLink } from '@/type/topic-link'
+import { TopicLink } from '@/types/topic-link'
 
 export const mockedTypeLinks: TopicLink[] = [
   {
