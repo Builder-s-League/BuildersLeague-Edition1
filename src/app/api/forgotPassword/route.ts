@@ -1,7 +1,7 @@
 import { forgotPasswordSchema } from '../../../schemas/forgotPasswordSchema'
 import { supabase } from '../../../../supabase'
 import { v4 as uuidv4 } from 'uuid'
-
+import bcrypt from 'bcryptjs'
 export async function POST(req: Request) {
   try {
     // Parse the request body as JSON
@@ -31,11 +31,12 @@ export async function POST(req: Request) {
       throw new Error('No email found in our records')
     }
     const newPassword = generateRandomPassword()
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
     // Send a password reset email
     const { error: updateError } = await supabase
       .from('users')
       .update({
-        password: newPassword,
+        password: hashedPassword,
       })
       .eq('id', UserData.id)
 
