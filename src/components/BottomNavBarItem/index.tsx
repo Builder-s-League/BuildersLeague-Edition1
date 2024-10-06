@@ -15,9 +15,9 @@ export default function BottomNavBarItem({
   return (
     <Link href={page} className="group flex flex-col items-center gap-2">
       {Icon && (
-        <Icon className="h-4 w-4 text-gray-700 group-hover:text-white" />
+        <Icon className="h-4 w-4 text-gray-600 group-hover:text-white" />
       )}
-      <p className="text-sm text-gray-700 group-hover:text-white">{text}</p>
+      <p className="text-sm text-gray-600 group-hover:text-white">{text}</p>
     </Link>
   )
 }
