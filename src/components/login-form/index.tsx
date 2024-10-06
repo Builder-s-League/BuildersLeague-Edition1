@@ -1,30 +1,16 @@
 import Link from 'next/link'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
 export default function LoginForm() {
   return (
-    <form className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground animate-in">
-      <label className="text-md" htmlFor="email">
-        Email
-      </label>
-      <input
-        className="mb-6 rounded-md border bg-inherit px-4 py-2"
-        name="email"
-        placeholder="you@example.com"
-        required
-      />
-      <label className="text-md" htmlFor="password">
-        Password
-      </label>
-      <input
-        className="mb-6 rounded-md border bg-inherit px-4 py-2"
-        type="password"
-        name="password"
-        placeholder="••••••••"
-        required
-      />
-      <button className="mb-2 rounded-md bg-green-700 px-4 py-2 text-foreground">
-        Sign In
-      </button>
+    <form className="gap-z flex w-full flex-1 flex-col justify-center gap-2 text-foreground animate-in">
+      <Label className="text-md" htmlFor="email" />
+      <Input name="email" placeholder="you@example.com" required />
+      <Label className="text-md" htmlFor="password" />
+      <Input name="password" type="password" required placeholder="*******" />
+      <Button className="my-2">Sign In</Button>
       <Link href="">
         <p className="text-sm text-blue-700">Forgot the password?</p>
       </Link>
