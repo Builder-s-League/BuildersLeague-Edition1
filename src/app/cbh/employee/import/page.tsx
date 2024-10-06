@@ -46,11 +46,12 @@ export default function ImportEmployee() {
 
       <div className="container mx-auto p-4">
         <div className="mb-6 rounded border p-4">
-          <h2 className="mb-4 text-center text-lg">ImportEmployees</h2>
+          <h2 className="mb-4 text-center text-lg">Import Employees</h2>
           <form
             onSubmit={() => handleFileUpload}
             className="grid grid-cols-1 gap-4"
           >
+            <label> Profile Photo </label>
             <Input
               type="file"
               accept=".csv"
