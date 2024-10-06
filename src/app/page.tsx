@@ -37,6 +37,16 @@ export default async function Index() {
             Employees
           </button>
         </Link>
+        <Link href="/about">
+          <button className="rounded bg-red-500 px-4 py-2 text-white">
+            About
+          </button>
+        </Link>
+        <Link href="/contact-us">
+          <button className="rounded bg-red-500 px-4 py-2 text-white">
+            Contact
+          </button>
+        </Link>
       </div>
 
       {/* Optionally, show Supabase connection status */}
