@@ -1,4 +1,4 @@
-import { Resource } from '@/components/Resource'
+import { Resource } from '@/components/Resource/Resource'
 import { useState } from 'react'
 
 export default function Page() {
