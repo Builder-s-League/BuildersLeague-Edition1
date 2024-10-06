@@ -8,13 +8,6 @@ export async function middleware(request: NextRequest) {
     // Feel free to remove once you have Supabase connected.
     const { supabase, response } = createMiddlewareClient(request)
 
-    const { data: signindata } = await supabase.auth.signInWithPassword({
-      email: 'john.battman@example.ca',
-      password: 'password!',
-    })
-
-    console.info(signindata)
-
     // Refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
     await supabase.auth.getSession()
