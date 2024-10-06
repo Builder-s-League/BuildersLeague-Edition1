@@ -1,3 +1,4 @@
+'use client'
 import React, { useMemo, useState } from 'react'
 import PageButton from '@/components/EmployeeDashboard/PageButton'
 import { parse } from 'json2csv'
@@ -16,12 +17,10 @@ export function ExportCSV() {
     }
 
     try {
-      // Convert JSON data to CSV format
       const csv = parse(csvData)
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
       const url = URL.createObjectURL(blob)
 
-      // Create a temporary link to trigger the download
       const link = document.createElement('a')
       link.href = url
       link.setAttribute('download', 'employee_export_data.csv')
@@ -35,7 +34,11 @@ export function ExportCSV() {
 
   return (
     <>
-      <PageButton className="self-end" label="Export" onClick={handleExport} />
+      <PageButton
+        className="self-end"
+        label="Export"
+        onClick={() => handleExport()}
+      />
     </>
   )
 }

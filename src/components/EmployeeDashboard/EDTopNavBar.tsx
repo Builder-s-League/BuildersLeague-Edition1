@@ -31,7 +31,5 @@ export default function EDTopNavBar() {
         </div>
       </div>
     </>
-
-    /*BUGFIX*/
   )
 }
