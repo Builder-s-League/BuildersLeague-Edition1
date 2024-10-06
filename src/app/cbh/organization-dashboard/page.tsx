@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { redirect } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
 import OrganizationCBH from '@/components/OrganizationCBH'
 import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
 import { Input } from '@/components/ui/input'
@@ -8,37 +8,37 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { buttonVariants } from '@/components/ui/button'
 
-const orgData = [
-  {
-    name: 'Org 1',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-  {
-    name: 'Org 2',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-  {
-    name: 'Org 3',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-]
-
 export default function OrgDashboard() {
-  const allowedUser = 'CBH'
-  const currentUser = 'CBH'
-  if (currentUser != allowedUser) {
-    redirect('/')
-  }
+  const [orgData, setOrgData] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const path = usePathname()
+  const supabase = createBrowserClient()
+
+  useEffect(() => {
+    async function fetchOrganizations() {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('id, name, email, contact_info, isactive')
+          .eq('role', 1)
+
+        if (error) throw error
+
+        setOrgData(data || [])
+      } catch (err) {
+        console.error('Error fetching organizations:', err)
+        setError('Failed to fetch organizations')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchOrganizations()
+  }, [])
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
 
   return (
     <div className="container mx-auto p-6">
@@ -62,7 +62,7 @@ export default function OrgDashboard() {
       </div>
 
       {orgData.map((org, idx) => (
-        <OrganizationCBH key={idx} idx={idx} org={org} />
+        <OrganizationCBH key={idx} org={org} />
       ))}
 
       <OrganizationCBHFooter />
