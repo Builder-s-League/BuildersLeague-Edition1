@@ -9,23 +9,37 @@ const SchedulePage = () => {
         <div className="rounded bg-white p-4 shadow ">
           <h2 className="mb-2 text-xl font-semibold text-black">Releases</h2>
           <div className="flex-grow space-y-2">
-            <p className="text-black">August 8, 2024 - Content 1 -&#x2192</p>
-            <p className="text-black">August 8, 2024 - Content 2 -&#x2192</p>
-            <p className="text-black">August 8, 2024 - Content 3 -&#x2192</p>
-            <p className="text-black">August 8, 2024 - Content 4 -&#x2192</p>
-            <p className="text-black"><a href="#">Add new +</a></p>
-
+            <p className="text-black">
+              August 8, 2024 - Content 1 &#8209;{'>'}
+            </p>
+            <p className="text-black">
+              August 8, 2024 - Content 2 &#8209;{'>'}
+            </p>
+            <p className="text-black">
+              August 8, 2024 - Content 3 &#8209;{'>'}
+            </p>
+            <p className="text-black">
+              August 8, 2024 - Content 4 &#8209;{'>'}
+            </p>
+            <p className="text-black">
+              <a href="#">Add new +</a>
+            </p>
           </div>
-          <div className="mt-4 flex justify-items-end flex-grow top-[100%]">
-            <button className="rounded bg-black px-4 py-2 text-white">Delete selected release</button></div>
+          <div className="top-[100%] mt-4 flex flex-grow justify-items-end">
+            <button className="rounded bg-black px-4 py-2 text-white">
+              Delete selected release
+            </button>
+          </div>
         </div>
         <div className="rounded bg-white p-4 shadow">
           <h2 className="mb-2 text-xl font-semibold">Column 2</h2>
-          <div className="outline-black bg-black rounded-[10%] flex h-[150px]">
-            <h2 className="ml-[41%] justify-center items-center flex-auto">August</h2>
-            <div className=" border-[1.5px] border-white rounded-[15%] bg-black mt-[33%] mb-7 mr-10"><a href="#">30</a></div>
-
-
+          <div className="flex h-[150px] rounded-[10%] bg-black outline-black">
+            <h2 className="ml-[41%] flex-auto items-center justify-center">
+              August
+            </h2>
+            <div className=" mb-7 mr-10 mt-[33%] rounded-[15%] border-[1.5px] border-white bg-black">
+              <a href="#">30</a>
+            </div>
           </div>
         </div>
         <div className="flex h-full flex-col rounded bg-white p-4 text-black shadow">

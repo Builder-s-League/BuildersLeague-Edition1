@@ -99,7 +99,7 @@ export default function Login({
           required
         />
         <button className="mb-2 rounded-md bg-green-700 px-4 py-2 text-foreground">
-          Sign In
+          Log In
         </button>
         <button
           formAction={signUp}
@@ -112,6 +112,9 @@ export default function Login({
             {searchParams.message}
           </p>
         )}
+        <Link className="" href={'/forget-password'}>
+          forget password?
+        </Link>
       </form>
     </div>
   )

@@ -15,7 +15,7 @@ const forgetpassword = () => {
         A new password has been sent to your email.
       </div>
       <div className="flex w-[30%] justify-center rounded-lg border border-white bg-black p-3">
-        <Link href="#">log in</Link>
+        <Link href="/login">log in</Link>
       </div>
     </div>
   )
