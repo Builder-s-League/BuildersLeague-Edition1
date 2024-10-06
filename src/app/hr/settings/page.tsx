@@ -140,12 +140,9 @@ export default function Settings() {
         </div>
         <div>
           <div>
-            <Link
-              href={`${path}/test-account-info`}
-              className={buttonVariants({ variant: 'secondary' })}
-            >
+            <Button className="mt-7 flex w-32 flex-col" variant="secondary">
               Test account info
-            </Link>
+            </Button>
             <Button className="mt-2 flex w-32 flex-col" variant="secondary">
               Contact us
             </Button>
