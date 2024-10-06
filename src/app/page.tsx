@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
+import { LogOut } from 'lucide-react'
+import { LogoutButton } from '@/components/Logout'
 
 export default async function Index() {
   const cookieStore = cookies()
@@ -37,6 +39,7 @@ export default async function Index() {
             Employees
           </button>
         </Link>
+        <LogoutButton></LogoutButton>
       </div>
 
       {/* Optionally, show Supabase connection status */}
