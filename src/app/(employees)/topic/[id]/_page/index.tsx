@@ -4,6 +4,7 @@ import LinearProgressBar from '@/components/LinearProgressBar'
 import TopicContentTable from '@/components/TopicContentTableList'
 
 import { Topic } from '@/types/topic'
+import Image from 'next/image'
 import { useState } from 'react'
 
 interface TopicDetailPageProps {
@@ -26,6 +27,15 @@ export default function TopicDetailPageContent({
 
   return (
     <div className="flex w-full flex-col">
+      <div className="h-40 w-full">
+        <Image
+          src={topicState.image.url}
+          alt={topicState.image.alt}
+          width={1920}
+          height={400}
+          className="block h-full w-full object-cover"
+        />
+      </div>
       <div className="flex w-full flex-col items-center">
         <LinearProgressBar value={topicState.progress} max={100} />
         <p>{topicState.progress}%</p>
