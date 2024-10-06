@@ -1,3 +1,4 @@
+'use client'
 import { render, screen } from '@/test/test-utils'
 import Page from './page'
 
