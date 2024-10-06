@@ -2,6 +2,7 @@
 import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { Button } from './ui/button'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -13,6 +14,8 @@ export const ProfileSetting = () => {
   const [previewImageURL, setPreviewURL] = useState<string>('')
   const [fileToSend, sendFile] = useState<File | null>()
   const [isModalOpen, setModalOpen] = useState(false)
+  const [help, setHelp] = useState(false)
+  const [videoContent, setVideoContent] = useState<null | string>(null)
 
   useEffect(() => {
     checkImageExistence()
@@ -110,6 +113,32 @@ export const ProfileSetting = () => {
     setModalOpen(false)
   }
 
+  function handleHelp() {
+    setHelp((prev) => !prev)
+
+    if (help) fetchVideoFromSupabase()
+  }
+
+  const fetchVideoFromSupabase = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_video') // Your bucket name for videos
+        .download('sample-video.mp4') // The file path to the video in the bucket
+
+      if (error) {
+        throw error
+      }
+
+      // Convert the downloaded blob (video) into a URL
+      const videoUrl = URL.createObjectURL(data)
+
+      // Set the video URL in state to use in a video player
+      setVideoContent(videoUrl) // Assuming setFileContent sets the video URL
+    } catch (error) {
+      console.error('Error fetching video from Supabase:', error)
+    }
+  }
+
   return (
     <>
       {isModalOpen && (
@@ -123,8 +152,8 @@ export const ProfileSetting = () => {
         <h1 className="mb-4 text-center text-2xl font-bold">
           Profile Settings
         </h1>
-        <div className="flex flex-row rounded-2xl p-4">
-          <div className="m-4 flex flex-col items-center rounded-lg p-4">
+        <div className="flex flex-row rounded-2xl bg-slate-500 p-4">
+          <div className="m-4 flex flex-col items-center rounded-lg bg-slate-200 p-4">
             <div className="flex flex-row rounded-lg p-4">
               <div className="mr-4 flex flex-col font-semibold">
                 <label>Full Name: </label>
@@ -141,17 +170,24 @@ export const ProfileSetting = () => {
                 <label>123 This St</label>
               </div>
             </div>
-            <div className="mt-4 flex w-48 flex-col">
-              <button className="my-1 h-8 rounded-lg bg-blue-500 text-white hover:bg-blue-700">
-                Change Password
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-green-500 text-white hover:bg-green-700">
-                Help
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-red-500 text-white hover:bg-red-700">
-                Logout
-              </button>
-            </div>
+            {help ? (
+              <div className="space-y-3 ">
+                <Button onClick={handleHelp}>Back</Button>
+                {videoContent && (
+                  <video
+                    src={videoContent}
+                    className="h-20 w-full bg-white"
+                    controls
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="mt-4 flex w-48 flex-col gap-3">
+                <Button>Change Password</Button>
+                <Button onClick={handleHelp}>Help</Button>
+                <Button>Logout</Button>
+              </div>
+            )}
           </div>
           <div className="group m-4 flex h-[10rem] cursor-pointer flex-col items-center rounded-lg  p-4">
             <div className="relative">
@@ -193,10 +229,10 @@ export const ProfileSetting = () => {
           </div>
         </div>
         <div className="border-grey flex gap-2 rounded-lg border-2 p-4">
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">F</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">C</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">N</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">P</button>
+          <Button>F</Button>
+          <Button>C</Button>
+          <Button>N</Button>
+          <Button>P</Button>
         </div>
       </div>
     </>
