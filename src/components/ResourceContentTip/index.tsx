@@ -35,21 +35,14 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
           : 0
 
         // Calculate the left position with boundary checks
-        console.log('range', range)
-        console.log('window.scrollX', window.scrollX)
-        console.log('range.width', range.width)
-        console.log('tooltipWidth', tooltipWidth)
-        console.log('viewportWidth', window.innerWidth)
         let leftPos = range.left + window.scrollX + range.width - tooltipWidth
 
         // Ensure the tooltip stays within the viewport
         const viewportWidth = window.innerWidth
-        console.log(viewportWidth)
-        console.log(leftPos + tooltipWidth > viewportWidth)
-        console.log(leftPos + tooltipWidth)
 
+        // If the tooltip goes off the right edge, adjust the position
         if (leftPos + tooltipWidth > viewportWidth) {
-          leftPos = viewportWidth - tooltipWidth - 80 // 10px padding from the right edge
+          leftPos = viewportWidth - tooltipWidth - 80
         }
         if (leftPos < 10) {
           // Ensure it doesn't go off the left edge
