@@ -1,6 +1,7 @@
 import CBHNavBar from '@/components/NavBar/CBHNavbar'
+import React from 'react'
 
-export default function CBHLayout({ children }: { children: React.ReactNode }) {
+export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CBHNavBar />

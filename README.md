@@ -39,7 +39,7 @@
 - 🗂 Path Mapping — Import components or images using the `@` prefix
 - ⚪⚫ Dark mode - Toggle theme modes with [next-themes](https://github.com/pacocoursey/next-themes)
 - ✨ Next Top Loader - Render a pleasent top loader on navigation with [nextjs-toploader](https://github.com/TheSGJ/nextjs-toploader)
-- 🔋 Lots Extras - Next Bundle Analyzer, Vercel Analytics, Vercel Geist Font
+- 🔋 Lots Extras - Next Bundle Analyzer, Vercel Analytics, Vercel Geist Font.
 
 ## Clone and run locally
 

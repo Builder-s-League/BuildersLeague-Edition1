@@ -10,10 +10,10 @@ function CBHNavBar() {
           label="Organizations"
           link="/cbh/organization-dashboard"
         />
-        <NavbarButton label="Report" link="/cbh/report" />
-        <NavbarButton label="Feedback" link="/cbh/feedback" />
-        <NavbarButton label="Schedule" link="/cdh/schedule" />
-        <NavbarButton label="Survey" link="/cbh/survey" />
+        <NavbarButton label="Report" link="/cbh" />
+        <NavbarButton label="Feedback" link="/cbh" />
+        <NavbarButton label="Schedule" link="/cbh" />
+        <NavbarButton label="Survey" link="/cbh/survey-dash" />
         <NavbarButton label="Setting" link="/cbh/setting" />
       </div>
       <NavbarButton label="log in/log out" link="/cbh/login" />

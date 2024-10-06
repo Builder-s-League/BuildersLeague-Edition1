@@ -6,7 +6,7 @@ function HRNavBar() {
     <nav className="flex w-full items-center justify-between bg-gray-800 p-4">
       <div className="flex space-x-4">
         <NavbarButton label="Home (UGC)" link="/" />
-        <NavbarButton label="Employees" link="/hr/employees" />
+        <NavbarButton label="Employees" link="/emp" />
         <NavbarButton label="Settings" link="/hr/settings" />
       </div>
       <NavbarButton label="log in/log out" link="/hr/login" />
