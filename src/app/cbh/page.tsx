@@ -25,8 +25,8 @@ export default async function Index() {
         <Link href="cbh/about">
           <button className="bg-blue-500 px-4 py-2 text-white">About</button>
         </Link>
-        <Link href="cbh/my-login">
-          <button className="bg-blue-500 px-4 py-2 text-white">My Login</button>
+        <Link href="cbh/login">
+          <button className="bg-blue-500 px-4 py-2 text-white">Login</button>
         </Link>
         <Link href="cbh/organization-dashboard">
           <button className="bg-blue-500 px-4 py-2 text-white">
