@@ -54,6 +54,20 @@ export default function AddNewEmployee() {
     setPassword(newPass)
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
+      if (!allowedTypes.includes(file.type)) {
+        setNotification('Only JPEG, PNG, or GIF image files are allowed.')
+        setProfilePhoto(null)
+        return
+      }
+      setProfilePhoto(file)
+      setNotification('') // Clear notification if file is valid
+    }
+  }
+
   return (
     <div className="bg-gray-0 flex min-h-screen items-center justify-center">
       <div className="max-w-md space-y-4 rounded-md border border-white bg-black p-6 text-white shadow-md">
@@ -99,12 +113,9 @@ export default function AddNewEmployee() {
           <Input
             id="picture"
             type="file"
+            accept="image/jpeg, image/png, image/gif"
             className="rounded border border-white p-2 text-white file:bg-black file:text-white"
-            onChange={(e) => {
-              if (e.target.files && e.target.files.length > 0) {
-                setProfilePhoto(e.target.files[0])
-              }
-            }}
+            onChange={handleFileChange}
           />
           <Button
             className="w-full rounded border border-white p-2 placeholder-gray-500"
@@ -116,7 +127,11 @@ export default function AddNewEmployee() {
 
         {notification && (
           <div
-            className={`rounded p-2 ${notification === 'Employee added successfully!' ? 'bg-green-500' : 'bg-red-500'} text-white`}
+            className={`rounded p-2 ${
+              notification === 'Employee added successfully!'
+                ? 'bg-green-500'
+                : 'bg-red-500'
+            } text-white`}
           >
             {notification}
           </div>
