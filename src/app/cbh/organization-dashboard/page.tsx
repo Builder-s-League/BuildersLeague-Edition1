@@ -29,7 +29,7 @@ export default function OrgDashboard() {
           <div className="col-span-3 content-center rounded border text-center text-lg">
             {org}
           </div>
-          <div className="flex flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <a href="#" className="rounded bg-green-500 p-2 text-center">
               Edit Org
             </a>
