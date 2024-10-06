@@ -28,11 +28,11 @@ function generatePassword(length = 12) {
 }
 
 export default function AddNewEmployee() {
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [profilePhoto, setProfilePhoto] = useState(null)
-  const [notification, setNotification] = useState('')
+  const [password, setPassword] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null)
+  const [notification, setNotification] = useState<string>('')
 
   const handleAddEmployee = () => {
     // Validate name, email, profile photo, and password
@@ -100,7 +100,11 @@ export default function AddNewEmployee() {
             id="picture"
             type="file"
             className="rounded border border-white p-2 text-white file:bg-black file:text-white"
-            onChange={(e) => setProfilePhoto(e.target.files[0])}
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setProfilePhoto(e.target.files[0])
+              }
+            }}
           />
           <Button
             className="w-full rounded border border-white p-2 placeholder-gray-500"
