@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Hamburger } from './Hamburger'
+import { MenuDrawer } from '../MenuDrawer'
 
 type OptType = {
   text: string
@@ -13,7 +15,8 @@ export const Resource = () => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-10 p-10">
+    <div className="relative flex flex-col items-center gap-10 p-10">
+      <MenuDrawer />
       {/* content  */}
       <Content
         selectedFileType={selectedFileType}
