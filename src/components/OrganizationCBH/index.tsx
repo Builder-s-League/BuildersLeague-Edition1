@@ -9,9 +9,16 @@ type Props = {
 
 export default function OrganizationCBH({ org }: Props) {
   return (
-    <div key={org.id} className="mb-4 grid grid-cols-4 gap-4 p-4">
-      <div className="col-span-3 content-center rounded border text-center text-lg">
-        {org.name}
+    <div key={org.id} className="mb-4 grid grid-cols-4 gap-4">
+      <div className="relative col-span-3 flex flex-col justify-between rounded border p-4">
+        <span className="absolute inset-0 flex items-center justify-center text-lg">
+          {org.name}
+        </span>
+        <span
+          className={`mt-auto self-end text-sm ${org.isactive ? 'text-green-500' : 'text-gray-500'}`}
+        >
+          {org.isactive ? 'active' : 'inactive'}
+        </span>
       </div>
       <div className="flex flex-col gap-2">
         <Link
