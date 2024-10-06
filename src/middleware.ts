@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createMiddlewareClient } from '@/utils/supabase'
+import { UserData } from '@/types/user'
 
 export async function middleware(request: NextRequest) {
   try {
@@ -7,9 +8,55 @@ export async function middleware(request: NextRequest) {
     // Feel free to remove once you have Supabase connected.
     const { supabase, response } = createMiddlewareClient(request)
 
+    const { data: signindata } = await supabase.auth.signInWithPassword({
+      email: 'john.battman@example.ca',
+      password: 'password!',
+    })
+
+    console.info(signindata)
+
     // Refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
     await supabase.auth.getSession()
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (user) {
+      const { data, error } = await supabase
+        .from('users')
+        .select()
+        .eq('email', user.email)
+
+      if (error) throw error
+      if (!data || !data?.length) throw new Error('user not found')
+
+      const path = request.nextUrl.pathname
+
+      const currentUser = data[0] as unknown as UserData
+
+      if (path.startsWith('/cbh')) {
+        if (currentUser.role !== 0) {
+          return NextResponse.redirect(new URL('login', request.nextUrl))
+        }
+        NextResponse.next()
+      }
+
+      if (path.startsWith('/hr')) {
+        if (currentUser.role !== 1) {
+          return NextResponse.redirect(new URL('login', request.nextUrl))
+        }
+        NextResponse.next()
+      }
+
+      if (path.startsWith('/emp')) {
+        if (currentUser.role !== 2) {
+          return NextResponse.redirect(new URL('login', request.nextUrl))
+        }
+        NextResponse.next()
+      }
+    }
 
     return response
   } catch (e) {
