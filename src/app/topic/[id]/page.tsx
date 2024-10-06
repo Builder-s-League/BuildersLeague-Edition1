@@ -2,6 +2,7 @@
 
 import LinearProgressBar from '@/components/LinearProgressBar'
 import TopicContentTable from '@/components/TopicContentTableList'
+import MenuDrawer from '@/components/MenuDrawer'
 import TopicDetailItem from '@/components/TopicDetailItem'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -41,11 +42,7 @@ export default function TopicDetailPage({ params }: TopicDetailPageProps) {
     <div className="flex w-full flex-col">
       <div className="h-40">
         <nav className="flex w-full flex-row justify-between">  {/* Hamburguer Button*/}
-          <button className="w-8 h-8 flex justify-around flex-col flex-nowrap z-10" >
-            <div className="w-8 h-1 rounded-lg bg-white"></div>
-            <div className="w-8 h-1 rounded-lg bg-white"></div>
-            <div className="w-8 h-1 rounded-lg bg-white"></div>
-          </button>
+          <MenuDrawer/>
           <button>Feedback</button>
         </nav>
       </div>
