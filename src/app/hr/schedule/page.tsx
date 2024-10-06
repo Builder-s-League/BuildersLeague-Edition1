@@ -1,8 +1,20 @@
-'use client'
-
 import React from 'react'
 
-const SchedulePage = () => {
+async function fetchContent() {
+  const response = await fetch(
+    'https://website-742c531.payloadcms.app/api/pages',
+    { next: { revalidate: 60 } }, // Revalidate every 60 seconds
+  )
+  if (!response.ok) {
+    throw new Error('Failed to fetch content')
+  }
+  const data = await response.json()
+  return data.docs
+}
+
+export default async function SchedulePage() {
+  const contents = await fetchContent()
+
   return (
     <div className="container mx-auto h-screen px-4 py-8">
       <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -36,12 +48,19 @@ const SchedulePage = () => {
         </div>
         <div className="flex h-full flex-col rounded bg-white p-4 text-black shadow">
           <h2 className="mb-2 text-xl font-semibold">Content</h2>
-          <ul className="flex-grow list-disc pl-5">
-            <li>Content 1</li>
-            <li>Content 2</li>
-            <li>Content 3</li>
-            <li>Content 4</li>
-            <li>...</li>
+          <ul className="flex-grow space-y-2">
+            {contents.map((content: any, index: number) => (
+              <li key={index} className="flex items-center">
+                <input
+                  type="radio"
+                  id={`content-${index}`}
+                  name="selectedContent"
+                  value={content.id}
+                  className="mr-2"
+                />
+                <label htmlFor={`content-${index}`}>{content.title}</label>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="flex h-full flex-col rounded bg-white p-4 text-black shadow">
@@ -73,5 +92,3 @@ const SchedulePage = () => {
     </div>
   )
 }
-
-export default SchedulePage
