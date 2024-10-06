@@ -2,6 +2,7 @@
 
 import LinearProgressBar from '@/components/LinearProgressBar'
 import TopicContentTable from '@/components/TopicContentTableList'
+import MenuDrawer from '@/components/MenuDrawer'
 import TopicDetailItem from '@/components/TopicDetailItem'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
