@@ -22,10 +22,10 @@ export default function EditOrganization() {
 
   const [organization, setOrganization] = useState({
     name: '',
-    address: '',
+    // address: '',
     contact_info: '',
-    hr_name: '',
-    hr_email: '',
+    // hr_name: '',
+    email: '',
     isactive: false,
     password: '', // Add password field
   })
@@ -37,9 +37,10 @@ export default function EditOrganization() {
   useEffect(() => {
     const fetchOrganization = async () => {
       const { data, error } = await supabase
-        .from('organizations')
+        .from('users')
         .select('*')
         .eq('id', id)
+        .eq('role', 1)
         .single()
 
       if (error) {
@@ -64,7 +65,7 @@ export default function EditOrganization() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const { error } = await supabase
-      .from('organizations')
+      .from('users')
       .update(organization)
       .eq('id', id)
 
@@ -76,7 +77,7 @@ export default function EditOrganization() {
   }
 
   const handleDelete = async () => {
-    const { error } = await supabase.from('organizations').delete().eq('id', id)
+    const { error } = await supabase.from('users').delete().eq('id', id)
 
     if (error) {
       console.error('Error deleting organization:', error)
@@ -92,7 +93,7 @@ export default function EditOrganization() {
     }
 
     const { error } = await supabase
-      .from('organizations')
+      .from('users')
       .update({ password: newPassword })
       .eq('id', id)
 
@@ -125,7 +126,7 @@ export default function EditOrganization() {
             />
           </div>
 
-          <div>
+          {/* <div>
             <Label htmlFor="address">Organization Address</Label>
             <Input
               type="text"
@@ -136,7 +137,7 @@ export default function EditOrganization() {
               placeholder="Organization Address"
               required
             />
-          </div>
+          </div> */}
 
           <div>
             <Label htmlFor="contact_info">
@@ -153,7 +154,7 @@ export default function EditOrganization() {
             />
           </div>
 
-          <div>
+          {/* <div>
             <Label htmlFor="hr_name">HR Manager Name</Label>
             <Input
               type="text"
@@ -164,15 +165,15 @@ export default function EditOrganization() {
               placeholder="HR Manager Name"
               required
             />
-          </div>
+          </div> */}
 
           <div>
-            <Label htmlFor="hr_email">HR Manager Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               type="email"
-              id="hr_email"
-              name="hr_email"
-              value={organization.hr_email}
+              id="email"
+              name="email"
+              value={organization.email}
               onChange={handleInputChange}
               placeholder="HR Manager Email"
               required
