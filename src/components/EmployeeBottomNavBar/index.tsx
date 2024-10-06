@@ -8,7 +8,11 @@ export default function EmployeeBottomNavBar() {
       <BottomNavBarItem text="Feed" page="/feed" icon={Rss} />
       <BottomNavBarItem text="LMS" page="/lms" icon={NotebookPen} />
       <BottomNavBarItem text="Notes" page="/notes" icon={Newspaper} />
-      <BottomNavBarItem text="Profile" page="/profile" icon={UserRound} />
+      <BottomNavBarItem
+        text="Profile"
+        page="/emp/profile-settings"
+        icon={UserRound}
+      />
     </BottomNavBar>
   )
 }
