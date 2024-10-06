@@ -1,90 +1,106 @@
 'use client'
 import React, { useState } from 'react'
-import { redirect } from 'next/navigation'
-import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
-import { Input } from '@/components/ui/input'
+import { useRouter } from 'next/navigation'
+import { createBrowserClient } from '@/utils/supabase'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function AddOrganization() {
-  const [newOrg, setNewOrg] = useState({
+  const router = useRouter()
+  const supabase = createBrowserClient()
+
+  const [organization, setOrganization] = useState({
     name: '',
-    address: '',
-    contactInfo: '',
-    hrName: '',
-    hrEmail: '',
+    contact_info: '',
+    email: '',
+    isactive: false, // Default value set to false
+    password: '',
+    role: 1, // Assuming role 1 is for organizations
   })
 
-  const handleChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setNewOrg((prevOrg) => ({
-      ...prevOrg,
-      [name]: value,
-    }))
+    setOrganization((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert(`Organization ${newOrg.name} added successfully!`)
-    setNewOrg({
-      name: '',
-      address: '',
-      contactInfo: '',
-      hrName: '',
-      hrEmail: '',
-    })
+    const { error } = await supabase.from('users').insert(organization)
+
+    if (error) {
+      console.error('Error adding organization:', error)
+      alert('Failed to add organization')
+    } else {
+      alert('Organization added successfully')
+      router.push('/cbh/organization-dashboard')
+    }
   }
 
   return (
     <div className="container mx-auto p-4">
       <div className="mb-6 rounded border p-4">
-        <h2 className="mb-4 text-center text-lg">Add New Organization</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-          <Input
-            type="text"
-            name="name"
-            value={newOrg.name}
-            onChange={handleChange}
-            placeholder="Organization Name"
-            required
-          />
-          <Input
-            type="text"
-            name="address"
-            value={newOrg.address}
-            onChange={handleChange}
-            placeholder="Organization Address"
-            required
-          />
-          <Input
-            type="text"
-            name="contactInfo"
-            value={newOrg.contactInfo}
-            onChange={handleChange}
-            placeholder="Contact Contact Information"
-            required
-          />
-          <Input
-            type="text"
-            name="hrName"
-            value={newOrg.hrName}
-            onChange={handleChange}
-            placeholder="HR Manager Name"
-            required
-          />
-          <Input
-            type="email"
-            name="hrEmail"
-            value={newOrg.hrEmail}
-            onChange={handleChange}
-            placeholder="HR Manager Email"
-            required
-          />
-          <Button type="submit" className="rounded bg-blue-500 p-2 text-white">
-            Submit
-          </Button>
+        <h1 className="mb-6 text-center text-lg">Add New Organization</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="name">Organization Name</Label>
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              value={organization.name}
+              onChange={handleInputChange}
+              placeholder="Organization Name"
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="contact_info">
+              Organization Contact Information
+            </Label>
+            <Input
+              type="text"
+              id="contact_info"
+              name="contact_info"
+              value={organization.contact_info}
+              onChange={handleInputChange}
+              placeholder="Organization Contact Information"
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={organization.email}
+              onChange={handleInputChange}
+              placeholder="HR Email"
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              value={organization.password}
+              onChange={handleInputChange}
+              placeholder="Set Password"
+              required
+            />
+          </div>
+
+          <div>
+            <Button type="submit">Add Organization</Button>
+          </div>
         </form>
       </div>
-      <OrganizationCBHFooter />
     </div>
   )
 }
