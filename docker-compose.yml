@@ -1,0 +1,7 @@
+services:
+  web:
+    build:
+      dockerfile: deployment-configs/DockerFile
+    ports:
+      - '8080:3000'
+    env_file: './.env.local'
