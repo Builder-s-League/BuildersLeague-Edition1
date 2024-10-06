@@ -9,6 +9,7 @@ async function fetchContent() {
     throw new Error('Failed to fetch content')
   }
   const data = await response.json()
+  console.log(1223)
   return data.docs
 }
 
