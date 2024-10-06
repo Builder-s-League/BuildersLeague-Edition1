@@ -10,6 +10,9 @@ export default function Employee() {
             Resources
           </button>
         </Link>
+        <Link href="/emp/notes">
+          <button className="bg-blue-500 px-4 py-2 text-white">Notes</button>
+        </Link>
         <Link href="/emp/profile-settings">
           <button className="bg-blue-500 px-4 py-2 text-white">Settings</button>
         </Link>
