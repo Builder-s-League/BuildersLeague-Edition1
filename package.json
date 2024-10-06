@@ -55,6 +55,7 @@
     "nextjs-toploader": "^1.6.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-tooltip": "^5.28.0",
     "tailwind-merge": "^2.2.0",
     "undici": "^5.28.2",
     "uuid": "^10.0.0",
