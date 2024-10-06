@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
 
 export default function OrgDashboard() {
   const [orgData, setOrgData] = useState<any[]>([])
@@ -55,6 +56,32 @@ export default function OrgDashboard() {
     return nameMatch && statusMatch
   })
 
+  const handleExport = () => {
+    const csvContent = [
+      ['Name', 'Email', 'Contact Info', 'Status'],
+      ...filteredOrgData.map((org) => [
+        org.name,
+        org.email,
+        org.contact_info,
+        org.isactive ? 'Active' : 'Inactive',
+      ]),
+    ]
+      .map((row) => row.join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'organizations.csv')
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  }
+
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
 
@@ -84,9 +111,12 @@ export default function OrgDashboard() {
           >
             Add
           </Link>
-          <Link href="#" className={buttonVariants({ variant: 'secondary' })}>
+          <Button
+            onClick={handleExport}
+            className={buttonVariants({ variant: 'secondary' })}
+          >
             Export
-          </Link>
+          </Button>
         </div>
       </div>
 
