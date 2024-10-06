@@ -53,8 +53,8 @@ export default async function Page() {
           <p>I love it...</p>
           <div className="topic">
             <textarea>
-              &quot;Lorem ipsum, this is the quote efiwojfweoifjwe
-              feiwojfwe&quot;
+              &ldquo;Lorem ipsum, this is the quote efiwojfweoifjwe
+              feiwojfwe&rdquo;
             </textarea>
             <p>Topic 1, Item 2 ---</p>
           </div>
