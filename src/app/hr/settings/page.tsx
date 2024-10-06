@@ -1,8 +1,10 @@
 'use client'
-import { Button } from '@/components/ui/button'
+
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Settings() {
   const [isPTag, setPtag] = useState(true)
@@ -37,6 +39,8 @@ export default function Settings() {
     setPtag(true)
     setUpdate(true)
   }
+
+  const path = usePathname()
 
   return (
     <div className="flex w-1/2 flex-col border border-white">
@@ -136,9 +140,12 @@ export default function Settings() {
         </div>
         <div>
           <div>
-            <Button className="mt-7 flex w-32 flex-col" variant="secondary">
+            <Link
+              href={`${path}/test-account-info`}
+              className={buttonVariants({ variant: 'secondary' })}
+            >
               Test account info
-            </Button>
+            </Link>
             <Button className="mt-2 flex w-32 flex-col" variant="secondary">
               Contact us
             </Button>
