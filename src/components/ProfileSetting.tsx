@@ -11,6 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 export const ProfileSetting = () => {
   const [fileContent, setFileContent] = useState<null | string>(null)
   const [previewImageURL, setPreviewURL] = useState<string>('')
+  const [fileToSend, sendFile] = useState<File | null>()
   const [isModalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
@@ -63,10 +64,21 @@ export const ProfileSetting = () => {
   }
 
   const profileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] // Use the actual file
+    const file = event.target.files?.[0]
     if (file) {
-      setFileContent(URL.createObjectURL(file)) // Set a temporary preview URL for the image
-      uploadImageToSupabase(file) // Upload the actual file
+      const fileReader = new FileReader()
+
+      fileReader.onload = (evt: ProgressEvent<FileReader>) => {
+        setPreviewURL(evt.target?.result as string)
+        sendFile(file)
+        setModalOpen(true)
+      }
+
+      fileReader.onerror = (error) => {
+        console.error('Error reading file:', error)
+      }
+
+      fileReader.readAsDataURL(file)
     }
   }
 
@@ -92,6 +104,9 @@ export const ProfileSetting = () => {
 
   const onConfirm = () => {
     setFileContent(previewImageURL)
+
+    if (fileToSend) uploadImageToSupabase(fileToSend)
+
     setModalOpen(false)
   }
 
