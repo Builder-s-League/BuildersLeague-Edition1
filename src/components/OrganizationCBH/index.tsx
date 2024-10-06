@@ -20,7 +20,10 @@ export default function OrganizationCBH({ org }: Props) {
         >
           Edit Org
         </Link>
-        <Link href="#" className={buttonVariants({ variant: 'secondary' })}>
+        <Link
+          href="/cbh/employee"
+          className={buttonVariants({ variant: 'secondary' })}
+        >
           Edit Members
         </Link>
       </div>
