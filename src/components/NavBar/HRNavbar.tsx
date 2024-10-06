@@ -7,7 +7,7 @@ function HRNavBar() {
       <div className="flex space-x-4">
         <NavbarButton label="Home (UGC)" link="/" />
         <NavbarButton label="Employees" link="/emp" />
-        <NavbarButton label="Settings" link="#" />
+        <NavbarButton label="Settings" link="/" />
       </div>
       <NavbarButton label="log in/log out" link="/hr/login" />
     </nav>
