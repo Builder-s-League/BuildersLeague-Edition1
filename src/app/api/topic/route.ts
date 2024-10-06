@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
 
   const apiUrl = process.env.CMS_API_URL
   const endpoint = `/topics/${id}?locale=undefined&draft=false&depth=4`
-  const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const apiKey = process.env.CMS_API_KEY
 
   try {
     const response = await fetch(apiUrl + endpoint, {
       headers: {
-        Authorization: `users API-Key 1644be42-c99b-477d-b721-51a748cd7891`,
+        Authorization: `users API-Key ${apiKey}`,
       },
     })
     if (!response.ok) {
