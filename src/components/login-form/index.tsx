@@ -25,7 +25,7 @@ export default function LoginForm() {
       <button className="mb-2 rounded-md bg-green-700 px-4 py-2 text-foreground">
         Sign In
       </button>
-      <Link href="">
+      <Link href="forgetPassword">
         <p className="text-sm text-blue-700">Forgot the password?</p>
       </Link>
     </form>
