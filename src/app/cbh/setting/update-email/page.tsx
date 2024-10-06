@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { Button } from '@/components/ui/button'
 
 const Setting: React.FC = () => {
   return (
@@ -16,24 +17,24 @@ const Setting: React.FC = () => {
         </div>
 
         {/* Update button aligned to the left */}
-        <button className="mt-24 rounded bg-green-500 px-8 py-5 text-2xl text-white">
+        <Button variant="outline" className="w-full">
           Update
-        </button>
+        </Button>
       </div>
 
       {/* Buttons section */}
       <div className="flex flex-col space-y-3">
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        <Button variant="outline" className="w-full">
           Test Account Info
-        </button>
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        </Button>
+        <Button variant="outline" className="w-full">
           Contact Us
-        </button>
+        </Button>
 
         {/* Feedback button placed below the stacked buttons */}
-        <button className="w-full rounded bg-blue-500 px-8 py-5 text-2xl text-white">
+        <Button variant="outline" className="w-full">
           Feedback
-        </button>
+        </Button>
       </div>
     </div>
   )
