@@ -5,6 +5,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import bcrypt from 'bcryptjs'
 
 export default function AddOrganization() {
   const router = useRouter()
@@ -26,7 +27,10 @@ export default function AddOrganization() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const { error } = await supabase.from('users').insert(organization)
+    const { error } = await supabase.from('users').insert({
+      ...organization,
+      password: await bcrypt.hash(organization.password, 10),
+    })
 
     if (error) {
       console.error('Error adding organization:', error)
