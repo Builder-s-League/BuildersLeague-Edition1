@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createBrowserClient } from '@/utils/supabase'
+import bcrypt from 'bcryptjs'
+//import { supabase } from '@supabase/index.ts'
 
 // Utility function to generate a random password
 function generatePassword(length = 12) {
@@ -45,21 +47,34 @@ export default function AddNewEmployee() {
       )
       return
     }
+    // Insert user into your custom user table
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const { error } = await supabase.from('users').insert({
+      name: name,
+      email: email,
+      password: hashedPassword, // Store the hashed password
+    })
+    if (error) {
+      console.error('Error adding user to table:', error.message)
+    } else {
+      console.log('User created successfully!')
+    }
 
     // Proceed with adding the employee
     setNotification('Employee added successfully!')
     // Here you would usually call a function to add the employee
     // For example: addEmployee({ name, email, password, profilePhoto });
-    console.log(profilePhoto)
-    const fileName = `${Date.now()}_${profilePhoto.name}`
+    // console.log("profilePhoto", profilePhoto)
+    // const fileName = `${Date.now()}_${profilePhoto.name}`
 
-    const { data, error } = await supabase.storage
-      .from('photos')
-      .upload(fileName, profilePhoto)
+    // const { data, error } = await supabase.storage
+    //   .from('photos')
+    //   .upload(fileName, profilePhoto)
 
-    if (error) {
-      throw error
-    }
+    // if (error) {
+    //   throw error
+    // }
   }
 
   const passwordGenerator = () => {
@@ -155,7 +170,7 @@ export default function AddNewEmployee() {
             className="rounded border border-white px-4 py-2"
             onClick={handleAddEmployee}
           >
-            Add
+            Add test
           </Button>
         </div>
       </div>
