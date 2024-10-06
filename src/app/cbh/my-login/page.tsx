@@ -61,7 +61,7 @@ export default function MyLogin() {
           </div>
           <div className="text-center text-sm">
             <a
-              href="/forgotPassword"
+              href="/cbh/forgot-password"
               className="text-white-600 font-serif font-semibold hover:text-indigo-500"
             >
               Forgot password?
