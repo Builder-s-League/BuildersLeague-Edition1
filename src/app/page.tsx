@@ -22,19 +22,39 @@ export default async function Index() {
     <div className="flex h-screen flex-col items-center justify-center">
       <h1 className="mb-8 text-2xl font-bold">Navigation</h1>
       <div className="flex gap-4">
-        <Link href="/cbh">
-          <button className="rounded bg-blue-500 px-4 py-2 text-white">
-            CBH
-          </button>
-        </Link>
-        <Link href="/hr">
-          <button className="rounded bg-green-500 px-4 py-2 text-white">
-            HR
-          </button>
-        </Link>
+        <abbr title="USE APPSMITH">
+          <Link href="/cbh">
+            <button
+              disabled
+              className="rounded bg-blue-500 px-4 py-2 text-white"
+            >
+              CBH
+            </button>
+          </Link>
+        </abbr>
+        <abbr title="USE APPSMITH">
+          <Link href="/hr">
+            <button
+              disabled
+              className="rounded bg-green-500 px-4 py-2 text-white"
+            >
+              HR
+            </button>
+          </Link>
+        </abbr>
         <Link href="/emp">
           <button className="rounded bg-red-500 px-4 py-2 text-white">
             Employees
+          </button>
+        </Link>
+        <Link href="/about">
+          <button className="rounded bg-red-500 px-4 py-2 text-white">
+            About
+          </button>
+        </Link>
+        <Link href="/contact-us">
+          <button className="rounded bg-red-500 px-4 py-2 text-white">
+            Contact
           </button>
         </Link>
       </div>
