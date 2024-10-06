@@ -72,6 +72,14 @@ CREATE TABLE Schedules (
     updated_at TIMESTAMP
 );
 
+CREATE TABLE Schedule_Organizations (
+  id SERIAL PRIMARY KEY,
+  parent_id INT REFERENCES Schedules(id) ON DELETE CASCADE,
+  organization_id INT REFERENCES Users(id),
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+
 CREATE TABLE CBH_banned_words (
     id SERIAL PRIMARY KEY,
     banned_word VARCHAR(255),
