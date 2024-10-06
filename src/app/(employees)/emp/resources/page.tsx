@@ -16,7 +16,6 @@ export default function ResourcePage() {
 
   return (
     <div className="flex w-full flex-col gap-10 p-10">
-      <MenuDrawer />
       <Content selectedFileType={selectedFileType} />
     </div>
   )
