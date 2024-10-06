@@ -1,8 +1,8 @@
 'use client'
-
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MenuDrawer from '@/components/MenuDrawer'
 import Image from 'next/image'
+import ResourceContentTooltip from '@/components/ResourceContentTip'
 
 type Filetype = 'image' | 'video' | 'audio'
 
@@ -87,11 +87,19 @@ const AudioIcon = ({ playing }: { playing: boolean }) => (
   </svg>
 )
 
-const Description = ({ text }: { text: string }) => (
-  <p className="mb-3 w-full text-left text-gray-500 dark:text-gray-400">
-    {text}
-  </p>
-)
+const Description = ({ text }: { text: string }) => {
+  const contentRef = useRef(null)
+
+  return (
+    <div ref={contentRef}>
+      <p>
+        This is the resource article content. Select any piece of text to see
+        the tooltip.
+      </p>
+      <ResourceContentTooltip contentRef={contentRef} />
+    </div>
+  )
+}
 
 const File = ({ type }: { type: Filetype }) => {
   switch (type) {
