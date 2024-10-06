@@ -20,9 +20,9 @@ export default function AboutPage() {
           ducimus repellat, neque non obcaecati aliquam quisquam dolores. Totam
           quod cupiditate non quis?
         </p>
-        <Link href="/tour">
+        <Link href="http://localhost:3000/setting/app-tour">
           <button className="rounded border border-white px-4 py-2 transition-colors hover:bg-white hover:text-black">
-            Help / App Tour
+            Help
           </button>
         </Link>
         {showVideo && (
