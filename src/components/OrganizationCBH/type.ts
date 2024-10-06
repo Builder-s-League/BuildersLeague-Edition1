@@ -3,5 +3,5 @@ export type OrganizationType = {
   name: string
   email: string
   contact_info: string
-  isActive: boolean
+  isactive: boolean
 }

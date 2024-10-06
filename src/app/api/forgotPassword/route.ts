@@ -1,7 +1,6 @@
 import { forgotPasswordSchema } from '../../../schemas/forgotPasswordSchema'
 import { supabase } from '../../../../supabase'
-import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcryptjs'
+
 export async function POST(req: Request) {
   try {
     // Parse the request body as JSON
@@ -16,37 +15,20 @@ export async function POST(req: Request) {
         { status: 411 },
       )
     }
+
     if (!supabase) throw new Error('Supabase client is not initialized')
 
-    // get userin the database
-    const { data: UserData, error: userError } = await supabase
-      .from('Users')
-      .select('*')
-      .eq('email', email)
-      .limit(1)
-      .single()
-    // Use .single() to expect a single user or null
+    // Send the password reset email using Supabase's built-in auth method
+    const { error: resetError } =
+      await supabase.auth.resetPasswordForEmail(email)
 
-    if (userError || !UserData) {
-      throw new Error('No email found in our records')
+    if (resetError) {
+      throw new Error('No email found in our records or an error occurred')
     }
-    const newPassword = generateRandomPassword()
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
-    // Send a password reset email
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        password: hashedPassword,
-      })
-      .eq('id', UserData.id)
-
-    if (updateError) throw new Error('Something went wrong') // Throw an error if the reset password request fails
-
-    //Send password in Email
 
     // Success response
     return new Response(
-      JSON.stringify({ message: 'Password reset email sent' }),
+      JSON.stringify({ message: 'Password reset email sent successfully' }),
       { status: 200 },
     )
   } catch (err) {
@@ -59,7 +41,4 @@ export async function POST(req: Request) {
       { status: 400 },
     )
   }
-}
-const generateRandomPassword = () => {
-  return uuidv4().slice(0, 8) // Simple random password, adjust as necessary
 }
