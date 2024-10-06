@@ -12,7 +12,7 @@ import { Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
-export const HrForgetPassword = () => {
+export const ForgetPassword = () => {
   const [email, setEmail] = useState<string>('')
   const [message, setMessage] = useState<string>('') // State to hold success/error messages
   const [loading, setLoading] = useState<boolean>(false) // State to handle loading status
