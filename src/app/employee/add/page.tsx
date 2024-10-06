@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { createBrowserClient } from '@/utils/supabase'
 
 // Utility function to generate a random password
 function generatePassword(length = 12) {
@@ -34,7 +35,9 @@ export default function AddNewEmployee() {
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null)
   const [notification, setNotification] = useState<string>('')
 
-  const handleAddEmployee = () => {
+  const supabase = createBrowserClient()
+
+  const handleAddEmployee = async () => {
     // Validate name, email, profile photo, and password
     if (!name || !email.includes('@') || !profilePhoto || !password) {
       setNotification(
@@ -47,6 +50,16 @@ export default function AddNewEmployee() {
     setNotification('Employee added successfully!')
     // Here you would usually call a function to add the employee
     // For example: addEmployee({ name, email, password, profilePhoto });
+    console.log(profilePhoto)
+    const fileName = `${Date.now()}_${profilePhoto.name}`
+
+    const { data, error } = await supabase.storage
+      .from('photos')
+      .upload(fileName, profilePhoto)
+
+    if (error) {
+      throw error
+    }
   }
 
   const passwordGenerator = () => {
