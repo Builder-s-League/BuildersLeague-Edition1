@@ -1,4 +1,4 @@
-export default function Settings() {
+const Settings = () => {
   return (
     <div>
       <button>E</button>
@@ -15,3 +15,5 @@ export default function Settings() {
     </div>
   )
 }
+
+export default Settings

@@ -3,6 +3,10 @@ import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { Button } from './ui/button'
+import fetchMediaFromSupabase from '@/utils/supra-media'
+import VideoPreview from './EmployeeSettings/video-preview'
+import FooterButtons from './EmployeeSettings/footer-buttons'
+import UserInfo from './EmployeeSettings/user-info'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -15,7 +19,6 @@ export const ProfileSetting = () => {
   const [fileToSend, sendFile] = useState<File | null>()
   const [isModalOpen, setModalOpen] = useState(false)
   const [help, setHelp] = useState(false)
-  const [videoContent, setVideoContent] = useState<null | string>(null)
 
   useEffect(() => {
     checkImageExistence()
@@ -34,35 +37,12 @@ export const ProfileSetting = () => {
 
       // If the image exists, fetch it
       if (data.length > 0) {
-        fetchImageFromSupabase()
+        fetchMediaFromSupabase('CBH_ProfileImage', 'profile_image', 'image')
       } else {
         console.log('No profile image found')
       }
     } catch (error) {
       console.error('Error checking image existence:', error)
-    }
-  }
-
-  const fetchImageFromSupabase = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('CBH_ProfileImage') // Your bucket name
-        .download('profile_image') // The file path in the bucket
-
-      if (error) {
-        throw error
-      }
-
-      // Convert the downloaded image to a base64 string
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64data = reader.result as string
-
-        setFileContent(base64data) // Set the base64 string as the file content
-      }
-      reader.readAsDataURL(data) // Convert the blob to base64
-    } catch (error) {
-      console.error('Error fetching image from Supabase:', error)
     }
   }
 
@@ -113,30 +93,8 @@ export const ProfileSetting = () => {
     setModalOpen(false)
   }
 
-  function handleHelp() {
+  const sectionToggle = () => {
     setHelp((prev) => !prev)
-
-    if (help) fetchVideoFromSupabase()
-  }
-
-  const fetchVideoFromSupabase = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('CBH_video') // Your bucket name for videos
-        .download('sample-video.mp4') // The file path to the video in the bucket
-
-      if (error) {
-        throw error
-      }
-
-      // Convert the downloaded blob (video) into a URL
-      const videoUrl = URL.createObjectURL(data)
-
-      // Set the video URL in state to use in a video player
-      setVideoContent(videoUrl) // Assuming setFileContent sets the video URL
-    } catch (error) {
-      console.error('Error fetching video from Supabase:', error)
-    }
   }
 
   return (
@@ -148,46 +106,13 @@ export const ProfileSetting = () => {
           onConfirm={onConfirm}
         />
       )}
-      <div className="mx-auto mt-12 flex w-fit flex-col items-center rounded-2xl border-2 border-white p-6">
+      <div className="relative mx-auto mt-12 flex h-[90vh] w-fit flex-col items-center rounded-2xl border-2 border-white p-6">
         <h1 className="mb-4 text-center text-2xl font-bold">
           Profile Settings
         </h1>
-        <div className="flex flex-row rounded-2xl bg-slate-500 p-4">
-          <div className="m-4 flex flex-col items-center rounded-lg bg-slate-200 p-4">
-            <div className="flex flex-row rounded-lg p-4">
-              <div className="mr-4 flex flex-col font-semibold">
-                <label>Full Name: </label>
-                <label>Nickname: </label>
-                <label>Email: </label>
-                <label>DOB: </label>
-                <label>Address: </label>
-              </div>
-              <div className="flex flex-col">
-                <label>John Doe</label>
-                <label>John</label>
-                <label>john.doe@example.com</label>
-                <label>January 1, 1999</label>
-                <label>123 This St</label>
-              </div>
-            </div>
-            {help ? (
-              <div className="space-y-3 ">
-                <Button onClick={handleHelp}>Back</Button>
-                {videoContent && (
-                  <video
-                    src={videoContent}
-                    className="h-20 w-full bg-white"
-                    controls
-                  />
-                )}
-              </div>
-            ) : (
-              <div className="mt-4 flex w-48 flex-col gap-3">
-                <Button>Change Password</Button>
-                <Button onClick={handleHelp}>Help</Button>
-                <Button>Logout</Button>
-              </div>
-            )}
+        <div className="flex justify-between rounded-2xl px-4">
+          <div className="flex flex-col items-center rounded-lg p-2">
+            <UserInfo />
           </div>
           <div className="group m-4 flex h-[10rem] cursor-pointer flex-col items-center rounded-lg  p-4">
             <div className="relative">
@@ -228,12 +153,18 @@ export const ProfileSetting = () => {
             </label>
           </div>
         </div>
-        <div className="border-grey flex gap-2 rounded-lg border-2 p-4">
-          <Button>F</Button>
-          <Button>C</Button>
-          <Button>N</Button>
-          <Button>P</Button>
-        </div>
+        {help ? (
+          <VideoPreview sectionToggle={sectionToggle} />
+        ) : (
+          <div className="m-4 flex w-full flex-col items-start gap-3 pl-16">
+            <Button className="w-[10rem]">Change Password</Button>
+            <Button className="w-[10rem]" onClick={sectionToggle}>
+              Help
+            </Button>
+            <Button className="w-[10rem]">Logout</Button>
+          </div>
+        )}
+        <FooterButtons />
       </div>
     </>
   )
