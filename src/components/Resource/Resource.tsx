@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Hamburger } from './Hamburger'
-import { MenuDrawer } from '../MenuDrawer'
+import MenuDrawer from '@/components/MenuDrawer'
 
 type OptType = {
   text: string
@@ -15,15 +15,16 @@ export const Resource = () => {
   }
 
   return (
-    <div className="relative flex flex-col items-center gap-10 p-10">
-      <MenuDrawer />
-      {/* content  */}
+    <div className="flex w-full flex-col gap-10 p-10">
+      <div className="flex ">
+        {' '}
+        <MenuDrawer />
+      </div>
       <Content
         selectedFileType={selectedFileType}
         searchText={search}
         handleSearchText={handleSearchText}
       />
-      {/* questionnare */}
     </div>
   )
 }
@@ -37,7 +38,7 @@ const Content = ({
   handleSearchText: any
 }) => {
   return (
-    <>
+    <div className="flex flex-col items-center gap-10">
       <Title title={'Residential school history'} />
       {/* <Input
           placeholder="Type or speak..."
@@ -48,7 +49,7 @@ const Content = ({
       <Description text={demoText} />
 
       <File type={selectedFileType} />
-    </>
+    </div>
   )
 }
 const demoText =
