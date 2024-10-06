@@ -2,3 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm run lint-staged
+npm run lint:fix
+npm run format
+npm run test
+npm run type-check
+git add .
