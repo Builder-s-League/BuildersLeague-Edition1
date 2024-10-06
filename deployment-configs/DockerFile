@@ -1,7 +1,7 @@
 FROM node:22.5.1-alpine AS build-stage
 
 # Set the working directory for all build
-WORKDIR /usr/src/usr/src/app
+WORKDIR /usr/src/app
 
 # Copy dep
 COPY package.json package.json
