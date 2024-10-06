@@ -13,7 +13,7 @@ export default function Dashboard() {
       <div className="  flex w-full flex-col space-y-2">
         <div className="m-6 flex flex-col space-x-4 self-end">
           <div className="flex">
-            <PageButton label="Add" link="/add" />
+            <PageButton label="Add" link="/employee/add" />
             <PageButton label="Import" link="/import" />
             <PageButton label="Export" link="/export" />
           </div>
