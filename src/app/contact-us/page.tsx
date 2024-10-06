@@ -1,34 +1,25 @@
-import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 
 export default function Contact() {
   return (
-    <div className="max-w mx-auto gap-1 rounded-lg p-6 shadow-md">
-      <h1 className="mb-3 text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
-        Contact Us
-      </h1>
-      <p className="max-w-2xl text-lg font-light text-foreground">
-        If you need assistance with renewing or canceling your subscription,
-        we’re here to help! Please find our contact information below:
-      </p>
-      <div className="m-2 mx-auto mb-4 rounded-lg border border-gray-800 bg-background p-6  shadow-md">
-        <div className="mb-4">
-          <strong>Email:</strong>{' '}
-          <span className="text-gray-100">support@example.com</span>
-        </div>
-        <div className="mb-4">
-          <strong>Contact Number:</strong>{' '}
-          <span className="text-gray-100">+1 (234) 567-890</span>
+    <div className="flex flex-col items-center m-auto gap-8">
+      <h1 className="text-4xl font-medium leading-none">Contact us</h1>
+      <div className="flex flex-col items-center">
+        <p className="text-m text-muted-foreground">Want to renew/cancel subscription?</p>
+        <p className="text-m text-muted-foreground">Here is our contact information:</p>
+
+        <Separator className="mt-2" />
+        <div className="flex h-8 items-center space-x-4 text-sm w-full">
+          <div className="w-1/2 h-4 flex justify-end">Email address</div>
+          <Separator orientation="vertical" />
+          <div className="w-1/2 h-4 flex justify-start">Contact Number</div>
         </div>
       </div>
-      <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
-        Our customer support team is available Monday to Friday, 9 AM to 5 PM
-        (UTC). We aim to respond to all inquiries within 24 hours.
-      </p>
 
-      <Link href="/" className={buttonVariants({ variant: 'default' })}>
-        Go Back
-      </Link>
+      <Button>
+        <a href="./">Go back</a>
+      </Button>
     </div>
   )
 }

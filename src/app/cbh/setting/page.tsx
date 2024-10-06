@@ -71,9 +71,9 @@ const Setting: React.FC = () => {
         </div>
 
         {/* Buttons section */}
-        <div className="mt-10 flex flex-col  space-y-4">
-          <Link href="/setting/app-tour">
-            <Button className="mt-2 flex w-full flex-col" variant="secondary">
+        <div className="mt-10 flex flex-col items-end space-y-4">
+          <Link href="/cbh/setting/app-tour">
+            <Button variant="outline" className="w-full">
               App Tour Change
             </Button>
           </Link>
