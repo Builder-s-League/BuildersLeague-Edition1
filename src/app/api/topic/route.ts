@@ -30,8 +30,6 @@ export async function GET(request: NextRequest) {
       progress: 50,
     }
 
-    console.log('responseData', responseData)
-
     return NextResponse.json(responseData)
   } catch (error) {
     console.error(error)
