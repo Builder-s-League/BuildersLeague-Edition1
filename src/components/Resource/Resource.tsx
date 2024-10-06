@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Hamburger } from './Hamburger'
 import MenuDrawer from '@/components/MenuDrawer'
+import Image from 'next/image'
 
 type OptType = {
   text: string
@@ -158,7 +158,7 @@ const Input = ({
               />
             </svg>
           </span>
-          <span id="success-icon" className="inline-flex hidden items-center">
+          <span id="success-icon" className="inline-flex  items-center">
             <svg
               className="h-3.5 w-3.5 text-blue-700 dark:text-blue-500"
               aria-hidden="true"
@@ -197,7 +197,7 @@ const File = ({ type }: { type: Filetype }) => {
     case 'image': {
       return (
         <figure className="max-w-lg">
-          <img
+          <Image
             className="h-auto max-w-full rounded-lg"
             src="https://t3.ftcdn.net/jpg/07/02/44/70/240_F_702447075_0ZdExxmdIZrZezTiSn9YhIzu0ADh98h6.jpg"
             alt="image description"
