@@ -1,25 +1,85 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export const ProfileSetting = () => {
   const [fileContent, setFileContent] = useState<null | string>(null)
-  console.log(fileContent)
+
+  useEffect(() => {
+    checkImageExistence()
+  }, [])
+
+  // Check if the image exists in Supabase storage
+  const checkImageExistence = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage')
+        .list('', { search: 'profile_image' }) // Check for the profile_image file
+
+      if (error) {
+        throw error
+      }
+
+      // If the image exists, fetch it
+      if (data.length > 0) {
+        fetchImageFromSupabase()
+      } else {
+        console.log('No profile image found')
+      }
+    } catch (error) {
+      console.error('Error checking image existence:', error)
+    }
+  }
+
+  const fetchImageFromSupabase = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage') // Your bucket name
+        .download('profile_image') // The file path in the bucket
+
+      if (error) {
+        throw error
+      }
+
+      // Convert the downloaded image to a base64 string
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64data = reader.result as string
+
+        setFileContent(base64data) // Set the base64 string as the file content
+      }
+      reader.readAsDataURL(data) // Convert the blob to base64
+    } catch (error) {
+      console.error('Error fetching image from Supabase:', error)
+    }
+  }
 
   const profileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+    const file = event.target.files?.[0] // Use the actual file
     if (file) {
-      const fileReader = new FileReader()
+      setFileContent(URL.createObjectURL(file)) // Set a temporary preview URL for the image
+      uploadImageToSupabase(file) // Upload the actual file
+    }
+  }
 
-      fileReader.onload = (evt: ProgressEvent<FileReader>) => {
-        console.log(evt.target?.result)
-        setFileContent(evt.target?.result as string)
-      }
+  const uploadImageToSupabase = async (file: File) => {
+    const fileName = 'profile_image'
 
-      fileReader.onerror = (error) => {
-        console.error('Error reading file:', error)
-      }
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage')
+        .upload(fileName, file, { upsert: true }) // Upload the file directly as binary
 
-      fileReader.readAsDataURL(file)
+      if (error) throw error
+
+      console.log('Image uploaded successfully:', data)
+    } catch (error) {
+      console.error('Error uploading image to Supabase:', error)
     }
   }
 
