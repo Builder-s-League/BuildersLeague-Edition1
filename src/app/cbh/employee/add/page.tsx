@@ -1,4 +1,5 @@
 'use client'
+import EDTopNavBar from '@/components/EmployeeDashboard/EDTopNavBar'
 import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -60,47 +61,53 @@ export default function AddEmployee() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="mb-6 rounded border p-4">
-        <h2 className="mb-4 text-center text-lg">Add New Employee</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-          <Input
-            type="text"
-            name="name"
-            value={newEmployee.name}
-            onChange={handleChange}
-            placeholder="Employee Name"
-            required
-          />
-          <Input
-            type="email"
-            name="email"
-            value={newEmployee.email}
-            onChange={handleChange}
-            placeholder="Email Address"
-            required
-          />
-          <Input
-            type="file"
-            name="contact_info"
-            value={newEmployee.contact_info}
-            onChange={handleChange}
-            placeholder="Profile Photo"
-            required
-          />
-          <Input
-            type="text"
-            value={newEmployee.password}
-            placeholder="Random Generated Password"
-            readOnly
-          />
+    <>
+      <EDTopNavBar />
+      <div className="container mx-auto p-4">
+        <div className="mb-6 rounded border p-4">
+          <h2 className="mb-4 text-center text-lg">Add New Employee</h2>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+            <Input
+              type="text"
+              name="name"
+              value={newEmployee.name}
+              onChange={handleChange}
+              placeholder="Employee Name"
+              required
+            />
+            <Input
+              type="email"
+              name="email"
+              value={newEmployee.email}
+              onChange={handleChange}
+              placeholder="Email Address"
+              required
+            />
+            <Input
+              type="file"
+              name="contact_info"
+              value={newEmployee.contact_info}
+              onChange={handleChange}
+              placeholder="Profile Photo"
+              required
+            />
+            <Input
+              type="text"
+              value={newEmployee.password}
+              placeholder="Random Generated Password"
+              readOnly
+            />
 
-          <Button type="submit" className="rounded bg-blue-500 p-2 text-white">
-            Add
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="rounded bg-blue-500 p-2 text-white"
+            >
+              Add
+            </Button>
+          </form>
+        </div>
+        <OrganizationCBHFooter />
       </div>
-      <OrganizationCBHFooter />
-    </div>
+    </>
   )
 }

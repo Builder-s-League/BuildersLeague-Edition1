@@ -1,26 +1,10 @@
+import EDTopNavBar from '@/components/EmployeeDashboard/EDTopNavBar'
 import EmployeeCard from '@/components/EmployeeDashboard/EmployeeCard'
-import PageButton from '@/components/EmployeeDashboard/PageButton'
 
 export default function Dashboard() {
   return (
     <>
-      <div className="flex w-full flex-col p-4">
-        <div className="flex flex-wrap space-x-4">
-          <PageButton label="Back to last page" link="/" />
-        </div>
-      </div>
-
-      <div className="  flex w-full flex-col space-y-2">
-        <div className="m-6 flex flex-col space-x-4 self-end">
-          <div className="flex">
-            <PageButton label="Add" link="employee/add" />
-            <PageButton label="Import" link="/import" />
-            <PageButton label="Export" link="/export" />
-          </div>
-
-          <PageButton label="Email to all" link="/email" />
-        </div>
-      </div>
+      <EDTopNavBar />
 
       <div>
         <div className="mt-4 flex w-full flex-col space-x-4">
