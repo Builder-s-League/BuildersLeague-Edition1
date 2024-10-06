@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-
+import bcrypt from 'bcryptjs'
 export default function EditOrganization() {
   const { id } = useParams()
   const router = useRouter()
@@ -94,7 +94,7 @@ export default function EditOrganization() {
 
     const { error } = await supabase
       .from('users')
-      .update({ password: newPassword })
+      .update({ password: await bcrypt.hash(organization.password, 10) })
       .eq('id', id)
 
     if (error) {
