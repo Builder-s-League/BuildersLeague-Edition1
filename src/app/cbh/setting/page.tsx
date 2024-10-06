@@ -44,41 +44,27 @@ const Setting: React.FC = () => {
   }, [email, phoneNumber])
 
   return (
-    <div className="mt-[10rem] flex flex-col items-center">
-      {/* Header with Settings and Log In/Out buttons */}
-      <div className="mb-10 flex w-full items-center justify-between px-10">
-        {/* Center the Settings button */}
-        <div className="flex-grow text-center">
-          <Link href="">
-            <Button
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-            >
-              Setting
-            </Button>
-          </Link>
-        </div>
+    <div className="max-w mx-auto gap-1 rounded-lg p-6 shadow-md">
+      <h1 className="mb-3 text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
+        Settings
+      </h1>
 
-        {/* Right-aligned Log In/Out button */}
-        <Link href="">
-          <Button variant="outline">Log In/Out</Button>
-        </Link>
-      </div>
-
-      {/* Main container with email/phone and buttons */}
-      <div className="flex justify-between gap-10">
-        <div className="mb-4 flex flex-col justify-between px-10">
+      <div className="flex justify-evenly">
+        <div className="flex w-80 flex-col items-start py-8">
           {/* Email and phone section */}
           <div className="mb-6 mt-10">
-            <p className="text-3xl">Email: {email || 'Loading...'}</p>
-            <p className="text-3xl">
-              Phone number: {phoneNumber || 'Loading...'}
+            <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
+              <span className="font-bold">Email:</span> {email || 'Loading...'}
+            </p>
+            <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
+              <span className="font-bold">Phone Number:</span>{' '}
+              {phoneNumber || 'Loading...'}
             </p>
           </div>
 
           {/* Update button aligned to the left with increased margin left */}
           <Link href="/cbh/setting/update-email">
-            <Button variant="outline" className="mt-4 w-full">
+            <Button variant="outline" className=" w-full">
               Update Email and Phone
             </Button>
           </Link>
@@ -86,18 +72,18 @@ const Setting: React.FC = () => {
 
         {/* Buttons section */}
         <div className="mt-10 flex flex-col items-end space-y-4">
-          <Link href="/setting/app-tour">
+          <Link href="/cbh/setting/app-tour">
             <Button variant="outline" className="w-full">
               App Tour Change
             </Button>
           </Link>
           <Link href="/setting/blob-storage">
-            <Button variant="outline" className="w-full">
+            <Button className="mt-2 flex w-full flex-col" variant="secondary">
               Storage Change
             </Button>
           </Link>
           <Link href="/setting/app-domain">
-            <Button variant="outline" className="w-full">
+            <Button className="w-50  flex flex-col" variant="outline">
               App Domain Change
             </Button>
           </Link>
