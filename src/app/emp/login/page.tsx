@@ -14,8 +14,8 @@ export default function EmployeeLogin() {
 
       <div className="flex h-full flex-col justify-center gap-2">
         <LoginForm
-          forgotPasswordRoute={'/cbh/forget-password'}
-          routeOnSubmit={'/cbh/about'}
+          forgotPasswordRoute={'/hr/forgetPassword'}
+          routeOnSubmit={'/emp/feed'}
         />
       </div>
     </div>

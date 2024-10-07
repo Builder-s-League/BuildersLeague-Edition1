@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { Button } from '../ui/button'
 import { ChatBubbleIcon } from '@radix-ui/react-icons'
 
-const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
+const unallowedRoutes = ['']
 
 export function EmployeeTopNavBar() {
   const pathname = usePathname()

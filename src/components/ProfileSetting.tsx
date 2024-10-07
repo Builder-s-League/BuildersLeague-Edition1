@@ -194,12 +194,13 @@ export const ProfileSetting = () => {
                 <Button className="w-full">Update Profile</Button>
               </div>
               <div className=" flex flex-col gap-4">
-                <Link href="/change-password" className="w-full">
+                <Link href="" className="w-full">
                   <Button variant="outline" className="w-full">
                     Change Password
                   </Button>
                 </Link>
-                <Link href="/help" className="w-full">
+
+                <Link href="/cbh/about" className="w-full">
                   <Button variant="outline" className="w-full">
                     Help
                   </Button>

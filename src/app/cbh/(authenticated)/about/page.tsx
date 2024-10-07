@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 
 export default function AboutPage() {
   useEffect(() => {
+    // Dynamically load Instagram's embed.js
     const script = document.createElement('script')
     script.async = true
     script.src = '//www.instagram.com/embed.js'
@@ -36,6 +37,12 @@ export default function AboutPage() {
             </blockquote>
           </div>
         </section>
+
+        <Link href="/setting/app-tour">
+          <button className="hover rounded-lg border border-gray-500 bg-transparent px-8 py-3 font-semibold shadow-md transition duration-300 hover:border-gray-700 hover:bg-gray-700 focus:outline-none">
+            Help
+          </button>
+        </Link>
       </div>
     </div>
   )

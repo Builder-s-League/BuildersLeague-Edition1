@@ -45,15 +45,15 @@ const CBHNavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
-    { label: 'Home (UGC)', link: '/', icon: Home },
-    {
-      label: 'Organizations',
-      link: '/cbh/organization-dashboard',
-      icon: Building2,
-    },
+    { label: 'Home (UGC)', link: '/cbh/about', icon: Home },
+    // {
+    //   label: 'Organizations',
+    //   link: '/cbh/organization-dashboard',
+    //   icon: Building2,
+    // },
     { label: 'Report', link: '/cbh/report', icon: FileText },
-    { label: 'Feedback', link: '/cbh', icon: MessageSquare },
-    { label: 'Schedule', link: '/cbh', icon: Calendar },
+    // { label: 'Feedback', link: '/cbh', icon: MessageSquare },
+    { label: 'Schedule', link: '/cbh/schedule', icon: Calendar },
     { label: 'Survey', link: '/cbh/survey-dash', icon: ClipboardList },
     { label: 'Setting', link: '/cbh/setting', icon: Settings },
   ]
@@ -72,7 +72,7 @@ const CBHNavBar: React.FC = () => {
               <NavItem key={item.label} {...item} />
             ))}
           </div>
-          <NavItem label="Log in/out" link="/cbh/login" icon={LogIn} />
+          <NavItem label="Log in/out" link="/" icon={LogIn} />
         </div>
         {isMenuOpen && (
           <div className="mt-4 flex flex-col space-y-2 lg:hidden">

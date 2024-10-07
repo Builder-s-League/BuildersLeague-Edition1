@@ -4,15 +4,9 @@ import PageButton from '@/components/EmployeeDashboard/PageButton'
 export default function Dashboard() {
   return (
     <>
-      <div className="flex w-full flex-col p-4">
-        <div className="flex flex-wrap space-x-4">
-          <PageButton label="Back to last page" link="/" />
-        </div>
-      </div>
-
       <div className="  flex w-full flex-col space-y-2">
         <div className="m-6 flex flex-col space-x-4 self-end">
-          <div className="flex">
+          <div className="mb-4 flex flex-wrap space-x-2">
             <PageButton label="Add" link="/employee/add" />
             <PageButton label="Import" link="/import" />
             <PageButton label="Export" link="/export" />
@@ -22,8 +16,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div>
-        <div className="mt-4 flex w-full flex-col space-x-4">
+      <div className="flex w-full flex-col space-y-4">
+        {/* Using a responsive grid for Employee Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             { name: 'Philip Fake Name', learningHours: 20, employeeNumber: 10 },
             { name: 'Jane Doe', learningHours: 15, employeeNumber: 11 },
