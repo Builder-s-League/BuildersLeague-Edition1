@@ -25,6 +25,7 @@ export default async function CBHNavigation() {
     { name: 'Organization Dashboard', href: 'cbh/organization-dashboard' },
     { name: 'Settings', href: 'cbh/setting' },
     { name: 'Survey Dashboard', href: 'cbh/survey-dash' },
+    { name: 'Manage Content', href: 'cbh/report' },
   ]
 
   return (
