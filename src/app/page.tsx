@@ -20,9 +20,7 @@ export default async function Navigation() {
   const navItems = [
     { name: 'CBH', path: '/cbh/login' },
     { name: 'HR', path: '/hr/login' },
-    { name: 'Employees', path: '/emp/login' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact-us' },
+    { name: 'Employees', path: '/emp/feed' },
   ]
 
   return (
