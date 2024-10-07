@@ -1,51 +1,29 @@
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
-import Link from 'next/link'
-import { Upload } from 'lucide-react'
+'use client'
+import { useRouter } from 'next/navigation'
 
-export default function Settings() {
+export default function Feedback() {
+  const router = useRouter()
   return (
-    <div className="container mx-auto mt-8 px-4">
-      <Card className="mx-auto max-w-2xl">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">Settings</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-6 flex flex-wrap gap-4">
-            <Button variant="outline">E</Button>
-            <Button variant="outline">UGC</Button>
-            <Button variant="destructive">Settings</Button>
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Feedback</h2>
-            <Textarea
-              className="min-h-[100px]"
-              placeholder="Enter your feedback here..."
-            />
-            <Button className="w-full" variant="secondary">
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Image
-            </Button>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="secondary">Submit</Button>
-          <Link href="./settings">
-            <Button variant="outline">Go Back</Button>
-          </Link>
-        </CardFooter>
-      </Card>
-      <div className="mt-4 text-center">
-        <Link href="/login">
-          <Button variant="link">Login/Out</Button>
-        </Link>
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-black p-6">
+      <div className="w-full max-w-md space-y-6 rounded-lg p-8 shadow-lg">
+        <h1 className="text-2xl font-bold text-white">Feedback</h1>
+        <button className="w-full rounded-lg bg-blue-600 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700">
+          Provide Text Feedback
+        </button>
+        <button className="w-full rounded-lg bg-green-600 py-2 font-semibold text-white transition duration-200 hover:bg-green-700">
+          Upload Image
+        </button>
+        <button className="w-full rounded-lg bg-indigo-600 py-2 font-semibold text-white transition duration-200 hover:bg-indigo-700">
+          Submit Feedback
+        </button>
+        <button
+          onClick={() => {
+            router.back()
+          }}
+          className="w-full rounded-lg bg-gray-600 py-2 font-semibold text-white transition duration-200 hover:bg-gray-700"
+        >
+          Go Back
+        </button>
       </div>
     </div>
   )
