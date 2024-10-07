@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function AboutPage() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-black p-8 text-white">
+    <div className="flex min-h-screen w-full flex-col bg-white p-8">
       <div className="flex flex-col items-center space-y-6">
         <h1 className="text-center text-5xl font-bold tracking-tight">
           About Page
@@ -11,7 +11,7 @@ export default function AboutPage() {
           App Description
         </p>
         <Link href="/setting/app-tour">
-          <button className="rounded-lg border border-gray-500 bg-transparent px-8 py-3 font-semibold text-white shadow-md transition duration-300 hover:border-gray-700 hover:bg-gray-700 hover:text-white focus:outline-none">
+          <button className="hover rounded-lg border border-gray-500 bg-transparent px-8 py-3 font-semibold shadow-md transition duration-300 hover:border-gray-700 hover:bg-gray-700 focus:outline-none">
             Help
           </button>
         </Link>

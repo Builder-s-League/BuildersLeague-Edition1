@@ -14,8 +14,8 @@ const Setting: React.FC = () => {
   useEffect(() => {
     const fetchAdminData = async () => {
       const { data, error } = await supabase
-        .from('cbh_admins')
-        .select('email, phone_number')
+        .from('users')
+        .select('email, contact_info')
         .order('id', { ascending: true }) // Order by id to get the first entry
         .limit(1) // Limit the result to the first entry
         .single() // Fetch single record
@@ -23,10 +23,10 @@ const Setting: React.FC = () => {
       if (error) {
         console.error('Error fetching admin data:', error)
       } else {
-        setEmail(data?.email || null) // Update state with fetched email
-        setPhoneNumber(data?.phone_number || null) // Update state with fetched phone number
+        setEmail(data?.email || 'not set') // Update state with fetched email
+        setPhoneNumber(data?.contact_info || 'not set') // Update state with fetched phone number
         console.log('Fetched email:', data?.email) // Log the fetched email
-        console.log('Fetched phone number:', data?.phone_number) // Log the fetched phone number
+        console.log('Fetched phone number:', data?.contact_info) // Log the fetched phone number
       }
     }
 

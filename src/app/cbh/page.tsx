@@ -26,9 +26,9 @@ export default async function CBHNavigation() {
   ]
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b  text-white">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b ">
       <h1 className="mb-8 text-4xl font-bold tracking-tight">CBH Navigation</h1>
-      <nav className="flex flex-wrap justify-center gap-4">
+      <nav className="flex flex-col flex-wrap justify-center gap-4 md:flex-row">
         {navItems.map((item) => (
           <Link
             key={item.name}
@@ -37,7 +37,7 @@ export default async function CBHNavigation() {
           >
             {item.name}
             <ArrowRight className="ml-2 h-5 w-5 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:opacity-100" />
-            <span className="absolute bottom-0 left-0 h-1 w-0 bg-white transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            <span className="absolute bottom-0 left-0 h-1 w-0 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
         ))}
       </nav>
