@@ -23,19 +23,27 @@ import { Checkbox } from '@/components/ui/checkbox'
 const SurveyPage = () => {
   const [isNewSurveyOpen, setIsNewSurveyOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [surveys, setSurveys] = useState<Survey[]>([])
+  const [nameFilter, setNameFilter] = useState('')
+  const [allSurveys, setAllSurveys] = useState<Survey[]>([])
+  //const [surveys, setSurveys] = useState<Survey[]>([])
   const supabase = createBrowserClient()
   const itemsPerPage = 5
 
   //const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>({})
 
   const fetchSurveys = async () => {
-    const { data, error } = await supabase.from('survey').select('*')
+    const { data, error } = await supabase.from('survey').select(`
+        *,
+        survey_organizations (
+          organization_id,
+          users (name)
+        )
+      `)
 
     if (error) {
       console.error('Error fetching surveys:', error)
     } else {
-      setSurveys(data as Survey[])
+      setAllSurveys(data as Survey[])
     }
   }
 
@@ -44,6 +52,12 @@ const SurveyPage = () => {
   }, [])
 
   const [selectedSurveys, setSelectedSurveys] = useState<number[]>([])
+
+  const surveys = useMemo(() => {
+    return allSurveys.filter((survey) =>
+      survey.name.toLowerCase().includes(nameFilter.toLowerCase()),
+    )
+  }, [allSurveys, nameFilter])
 
   const handleStatusChange = async (id: number, status: boolean) => {
     const { error } = await supabase
@@ -54,7 +68,7 @@ const SurveyPage = () => {
     if (error) {
       console.error('Error updating survey status:', error)
     } else {
-      setSurveys((prevSurveys) =>
+      setAllSurveys((prevSurveys) =>
         prevSurveys.map((survey) =>
           survey.id === id ? { ...survey, status } : survey,
         ),
@@ -104,7 +118,13 @@ const SurveyPage = () => {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedSurveys(paginatedSurveys.map((survey) => survey.id))
+      setSelectedSurveys((prev) => {
+        const newSelection = new Set([
+          ...prev,
+          ...paginatedSurveys.map((survey) => survey.id),
+        ])
+        return Array.from(newSelection)
+      })
     } else {
       setSelectedSurveys([])
     }
@@ -114,17 +134,31 @@ const SurveyPage = () => {
     const selectedSurveyData = surveys.filter((survey) =>
       selectedSurveys.includes(survey.id),
     )
+
+    const escapeCSV = (field: string | number | boolean) => {
+      const stringField = String(field)
+      if (
+        stringField.includes(',') ||
+        stringField.includes('"') ||
+        stringField.includes('\n')
+      ) {
+        return `"${stringField.replace(/"/g, '""')}"`
+      }
+      return stringField
+    }
+
     const csvContent = [
       ['ID', 'Name', 'Date', 'Link', 'Target Org', 'Active'],
       ...selectedSurveyData.map((survey) => [
         survey.id,
-        survey.created_at,
-        survey.link,
-        survey.organization_id,
+        escapeCSV(survey.name),
+        formatDate(survey.created_at),
+        escapeCSV(survey.link),
+        escapeCSV(formatOrganizations(survey)),
         survey.status,
       ]),
     ]
-      .map((row) => row.join(','))
+      .map((row) => row.map(escapeCSV).join(','))
       .join('\n')
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
@@ -145,16 +179,22 @@ const SurveyPage = () => {
       return
     }
 
+    const selectedFilteredSurveyIds = surveys
+      .filter((survey) => selectedSurveys.includes(survey.id))
+      .map((survey) => survey.id)
+
     const { error } = await supabase
       .from('survey')
       .delete()
-      .in('id', selectedSurveys)
+      .in('id', selectedFilteredSurveyIds)
 
     if (error) {
       console.error('Error deleting surveys:', error)
     } else {
-      setSurveys((prevSurveys) =>
-        prevSurveys.filter((survey) => !selectedSurveys.includes(survey.id)),
+      setAllSurveys((prevSurveys) =>
+        prevSurveys.filter(
+          (survey) => !selectedFilteredSurveyIds.includes(survey.id),
+        ),
       )
       setSelectedSurveys([])
     }
@@ -174,6 +214,11 @@ const SurveyPage = () => {
   const handleNewSurveyClose = () => {
     setIsNewSurveyOpen(false)
     fetchSurveys()
+  }
+
+  const formatOrganizations = (survey: Survey) => {
+    const orgNames = survey.survey_organizations.map((so) => so.users.name)
+    return orgNames.join(', ')
   }
 
   return (
@@ -199,6 +244,11 @@ const SurveyPage = () => {
                 type="text"
                 placeholder="Search for content..."
                 className="w-full pr-10"
+                value={nameFilter}
+                onChange={(e) => {
+                  setNameFilter(e.target.value)
+                  setCurrentPage(1)
+                }}
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -222,8 +272,9 @@ const SurveyPage = () => {
               <TableHead className="w-[50px]">
                 <Checkbox
                   checked={
-                    selectedSurveys.length === paginatedSurveys.length &&
-                    paginatedSurveys.length > 0
+                    paginatedSurveys.every((survey) =>
+                      selectedSurveys.includes(survey.id),
+                    ) && paginatedSurveys.length > 0
                   }
                   onCheckedChange={handleSelectAll}
                 />
@@ -247,12 +298,12 @@ const SurveyPage = () => {
                 <TableCell>{renderCell(survey.name)}</TableCell>
                 <TableCell>{formatDate(survey.created_at)}</TableCell>
                 <TableCell>{renderCell(survey.link)}</TableCell>
-                <TableCell>{renderCell(survey.organization_id + '')}</TableCell>
+                <TableCell>{renderCell(formatOrganizations(survey))}</TableCell>
                 <TableCell>
                   <Switch
-                    checked={survey.status}
+                    checked={!survey.status}
                     onCheckedChange={(checked) =>
-                      handleStatusChange(survey.id, checked)
+                      handleStatusChange(survey.id, !checked)
                     }
                   />
                 </TableCell>
