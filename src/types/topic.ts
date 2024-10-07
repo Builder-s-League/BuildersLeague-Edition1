@@ -23,3 +23,11 @@ export type Topic = {
   content: Content[]
   progress: number
 }
+
+export type TopicShort = {
+  id: string
+  title: string
+  description: string
+  contentsQuantity: number
+  percentage: number
+}
