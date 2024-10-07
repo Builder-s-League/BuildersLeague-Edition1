@@ -45,15 +45,15 @@ const CBHNavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
-    { label: 'Home (UGC)', link: '/', icon: Home },
-    {
-      label: 'Organizations',
-      link: '/cbh/organization-dashboard',
-      icon: Building2,
-    },
+    { label: 'Home (UGC)', link: '/cbh/about', icon: Home },
+    // {
+    //   label: 'Organizations',
+    //   link: '/cbh/organization-dashboard',
+    //   icon: Building2,
+    // },
     { label: 'Report', link: '/cbh/report', icon: FileText },
-    { label: 'Feedback', link: '/cbh', icon: MessageSquare },
-    { label: 'Schedule', link: '/cbh', icon: Calendar },
+    // { label: 'Feedback', link: '/cbh', icon: MessageSquare },
+    { label: 'Schedule', link: '/cbh/schedule', icon: Calendar },
     { label: 'Survey', link: '/cbh/survey-dash', icon: ClipboardList },
     { label: 'Setting', link: '/cbh/setting', icon: Settings },
   ]

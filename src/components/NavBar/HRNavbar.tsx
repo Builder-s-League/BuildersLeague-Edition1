@@ -23,9 +23,8 @@ const NavItem: React.FC<NavItemProps> = ({ label, link, icon: Icon }) => (
 
 const HRNavBar: React.FC = () => {
   const navItems = [
-    { label: 'Home (UGC)', link: '/hr', icon: Home },
+    { label: 'Home (UGC)', link: '/hr/about', icon: Home },
     { label: 'Employees', link: '/hr/employee', icon: Users },
-    { label: 'Schedule', link: '/hr/schedule', icon: Calendar },
     { label: 'Settings', link: '/hr/settings', icon: Settings },
   ]
 
