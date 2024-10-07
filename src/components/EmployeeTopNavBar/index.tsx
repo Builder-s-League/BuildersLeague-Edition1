@@ -4,6 +4,8 @@ import { ArrowLeftIcon } from 'lucide-react'
 import MenuDrawer from '../MenuDrawer'
 import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { Button } from '../ui/button'
+import { ChatBubbleIcon } from '@radix-ui/react-icons'
 
 const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
@@ -19,13 +21,24 @@ export function EmployeeTopNavBar() {
       ) : (
         <ArrowLeftIcon className="cursor-pointer" onClick={router.back} />
       )}
-      <Image
-        src="/cobh_logo/cbh_logo.svg"
-        alt="Community of Big Hearts Logo"
-        width={48}
-        height={48}
-        className="h-12 w-12"
-      />
+
+      <div className="flex flex-row items-center space-x-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/emp/feedback')}
+          className="flex items-center gap-2"
+        >
+          <ChatBubbleIcon className="h-6 w-6" />
+          Feedback
+        </Button>
+        <Image
+          src="/cobh_logo/cbh_logo.svg"
+          alt="Community of Big Hearts Logo"
+          width={48}
+          height={48}
+          className="h-12 w-12"
+        />
+      </div>
     </nav>
   )
 }
