@@ -26,16 +26,16 @@ export default async function Navigation() {
   ]
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center text-white">
-      <h1 className="mb-8 text-6xl font-bold tracking-tight text-secondary">
+    <div className="flex h-screen flex-col items-center justify-center">
+      <h1 className="mb-8 text-6xl font-bold tracking-tight text-gray-900">
         Navigation
       </h1>
-      <nav className="flex flex-wrap justify-center gap-4">
+      <nav className="flex flex-col flex-wrap justify-center gap-4 md:flex-row">
         {navItems.map((item) => (
           <Link
             key={item.name}
             href={item.path}
-            className="bg-light-gray-800 group relative overflow-hidden rounded-lg px-6 py-3 text-3xl font-medium text-secondary transition-all duration-300 ease-in-out"
+            className="bg-light-gray-800 group relative overflow-hidden rounded-lg px-6 py-3 text-3xl font-medium text-gray-900 transition-all duration-300 ease-in-out"
           >
             {item.name}
             <span className="absolute bottom-0 left-0 h-1 w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>

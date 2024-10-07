@@ -3,6 +3,7 @@
 import { ArrowLeftIcon } from 'lucide-react'
 import MenuDrawer from '../MenuDrawer'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
@@ -18,7 +19,12 @@ export function EmployeeTopNavBar() {
       ) : (
         <ArrowLeftIcon className="cursor-pointer" onClick={router.back} />
       )}
-      <button>Feedback</button>
+      <Image
+        src="/cobh_logo/COBH_Logo_Large.svg"
+        alt="Community of Big Hearts Logo"
+        width={300}
+        height={300}
+      />
     </nav>
   )
 }

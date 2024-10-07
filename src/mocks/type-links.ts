@@ -14,26 +14,26 @@ export const mockedTypeLinks: TopicLink[] = [
   {
     id: 3,
     title: 'Barriers to Reconciliation',
-    progress: 50,
+    progress: 55,
   },
   {
     id: 4,
     title: 'Trauma and Reconciliation',
-    progress: 50,
+    progress: 0,
   },
   {
     id: 5,
     title: 'Building Trust',
-    progress: 50,
+    progress: 0,
   },
   {
     id: 6,
     title: 'Cultural Reconciliation Challenges',
-    progress: 50,
+    progress: 0,
   },
   {
     id: 7,
     title: 'Youth Engagement',
-    progress: 50,
+    progress: 0,
   },
 ]
