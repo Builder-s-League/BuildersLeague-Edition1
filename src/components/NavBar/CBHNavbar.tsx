@@ -42,7 +42,6 @@ const CBHNavBar: React.FC = () => {
     },
     { label: 'Report', link: '/cbh/report', icon: FileText },
     { label: 'Feedback', link: '/cbh/feedback', icon: MessageSquare },
-    { label: 'Schedule', link: '/cbh', icon: Calendar },
     { label: 'Survey', link: '/cbh/survey-dash', icon: ClipboardList },
     { label: 'Setting', link: '/cbh/setting', icon: Settings },
   ]

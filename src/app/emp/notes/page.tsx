@@ -100,14 +100,6 @@ export default async function Page() {
             <span>Under review</span>
           </div>
         </div>
-
-        {/*Footer section*/}
-        <footer>
-          <button>F</button>
-          <button>C</button>
-          <button>N</button>
-          <button>P</button>
-        </footer>
       </div>
     </>
   )
