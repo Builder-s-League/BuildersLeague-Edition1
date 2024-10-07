@@ -4,12 +4,6 @@ import PageButton from '@/components/EmployeeDashboard/PageButton'
 export default function Dashboard() {
   return (
     <>
-      <div className="flex w-full flex-col p-4">
-        <div className="flex flex-wrap space-x-4">
-          <PageButton label="Back to last page" link="/" />
-        </div>
-      </div>
-
       <div className="  flex w-full flex-col space-y-2">
         <div className="m-6 flex flex-col space-x-4 self-end">
           <div className="flex">
