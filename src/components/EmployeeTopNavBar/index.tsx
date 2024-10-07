@@ -23,14 +23,6 @@ export function EmployeeTopNavBar() {
       )}
 
       <div className="flex flex-row items-center space-x-4">
-        <Button
-          variant="outline"
-          onClick={() => router.push('/emp/feedback')}
-          className="flex items-center gap-2"
-        >
-          <ChatBubbleIcon className="h-6 w-6" />
-          Feedback
-        </Button>
         <Image
           src="/cobh_logo/cbh_logo.svg"
           alt="Community of Big Hearts Logo"

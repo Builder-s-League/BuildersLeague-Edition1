@@ -16,12 +16,14 @@ export default function ResourcePage({ params }: ResourcePageProps) {
   const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
   const [activateNoteArea, setActivateNoteArea] = useState(1)
   return (
-    <div className="border-lg border-light flex w-full flex-col gap-10 border p-10 ">
-      <Content
-        selectedFileType={selectedFileType}
-        setActivateNoteArea={setActivateNoteArea}
-      />
-      <ResourceAddNote activateNoteArea={activateNoteArea} />
+    <div className="container">
+      <div className="mx-auto flex flex-col items-start justify-center gap-2 px-4 py-8 md:py-12 md:pb-8 lg:py-12 lg:pb-10">
+        <Content
+          selectedFileType={selectedFileType}
+          setActivateNoteArea={setActivateNoteArea}
+        />
+        <ResourceAddNote activateNoteArea={activateNoteArea} />
+      </div>
     </div>
   )
 }
@@ -34,7 +36,7 @@ const Content = ({
   selectedFileType: Filetype
 }) => {
   return (
-    <div className=" flex max-w-[100vh] flex-col items-center gap-10">
+    <div className="mx-auto flex flex-col items-center justify-center gap-10   py-8  md:py-12 md:pb-8 lg:py-12 lg:pb-10">
       <Title title="Residential school history" />
       <PlayAudio text={demoText} />
       <Description text={demoText} setActivateNoteArea={setActivateNoteArea} />
@@ -54,9 +56,15 @@ const Description = ({
   text: string
 }) => {
   const contentRef = useRef(null)
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Escape') {
+      setActivateNoteArea((prev: number) => prev + 1)
+    }
+  }
 
   return (
     <div
+      onKeyDown={handleKeyDown}
       ref={contentRef}
       onMouseDown={() => setActivateNoteArea((prev: number) => prev + 1)}
       onMouseUp={() => setActivateNoteArea((prev: number) => prev + 1)}
@@ -69,7 +77,28 @@ const Description = ({
         content. Select any piece of text to see the tooltip. This is the
         resource article content. Select any piece of text to see the tooltip.
         This is the resource article content. Select any piece of text to see
-        the tooltip.
+        the tooltip. This is the resource article content. Select any piece of
+        text to see the tooltip. This is the resource article content. Select
+        any piece of text to see the tooltip. This is the resource article
+        content. Select any piece of text to see the tooltip. This is the
+        resource article content. Select any piece of text to see the tooltip.
+        This is the resource article content. Select any piece of text to see
+        the tooltip. This is the resource article content. Select any piece of
+        text to see the tooltip. This is the resource article content. Select
+        any piece of text to see the tooltip. This is the resource article
+        content. Select any piece of text to see the tooltip. This is the
+        resource article content. Select any piece of text to see the tooltip.
+        This is the resource article content. Select any piece of text to see
+        the tooltip. This is the resource article content. Select any piece of
+        text to see the tooltip. This is the resource article content. Select
+        any piece of text to see the tooltip. This is the resource article
+        content. Select any piece of text to see the tooltip. This is the
+        resource article content. Select any piece of text to see the tooltip.
+        This is the resource article content. Select any piece of text to see
+        the tooltip. This is the resource article content. Select any piece of
+        text to see the tooltip. This is the resource article content. Select
+        any piece of text to see the tooltip. This is the resource article
+        content. Select any piece of text to see the tooltip.
       </p>
       <ResourceContentTooltip
         contentRef={contentRef}

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { mockTopics } from '@/mocks/topic'
@@ -24,9 +23,9 @@ export default function Page() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Contents: {topic.contentsQuantity}</span>
-                    <span>{topic.percentage}% Complete</span>
+                    <span>{topic.progress}% Complete</span>
                   </div>
-                  <Progress value={topic.percentage} className="w-full" />
+                  <Progress value={topic.progress} className="w-full" />
                 </div>
               </CardContent>
             </Card>

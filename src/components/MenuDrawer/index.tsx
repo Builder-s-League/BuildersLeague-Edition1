@@ -15,9 +15,10 @@ import {
 } from '@/components/ui/drawer'
 import Link from 'next/link'
 import { mockedTypeLinks } from '@/mocks/type-links'
+import { mockTopics } from '@/mocks/topic'
 
 export default function MenuDrawer() {
-  const topics = mockedTypeLinks
+  const topics = mockTopics
   return (
     <Drawer direction="left">
       <DrawerTrigger asChild>
