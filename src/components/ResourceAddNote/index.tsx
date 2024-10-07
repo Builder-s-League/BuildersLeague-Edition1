@@ -36,15 +36,13 @@ export const ResourceAddNote = ({
   const [isVisible, setIsvisible] = useState(false)
   useEffect(() => {
     NoteAreaRef.current.focus()
+
     setNotepos(() => {
       let p = JSON.parse(localStorage.getItem('highlightPosition') || '')
-
       if (!p) return { top: 0, left: 0 }
-
       return p
     })
   }, [activateNoteArea])
-  useEffect(() => {}, [isVisible])
 
   useEffect(() => {
     if (notePos.top == 0 && NoteAreaRef.current.focus != true) {
@@ -56,14 +54,14 @@ export const ResourceAddNote = ({
   const handleNoteChange = (e: any) => {
     setNote((prev) => ({
       ...prev,
-      note_content: e.target.value, // Update the specific property
+      note_content: e.target.value,
     }))
   }
 
   useEffect(() => {
     setNote((prev) => ({
       ...prev,
-      is_public: saveToPublic, // Update the specific property
+      is_public: saveToPublic,
     }))
   }, [saveToPublic])
 
@@ -71,7 +69,7 @@ export const ResourceAddNote = ({
     <div
       style={{
         position: 'absolute',
-        top: notePos.top * 1.72,
+        top: notePos.top + 130,
         left: notePos.left,
         borderRadius: '5px',
         padding: '10px',
@@ -79,50 +77,45 @@ export const ResourceAddNote = ({
         visibility: isVisible ? 'visible' : 'hidden',
       }}
     >
-      <div className="relative z-20">
-        <Card className="rounded-xl border bg-gray-700">
-          <CardHeader>
-            <CardTitle className="z-50   font-thin">
-              Write down your thought about
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Textarea onChange={handleNoteChange} ref={NoteAreaRef} />
-          </CardContent>
-          <CardFooter>
-            <div className="flex w-full items-center justify-between gap-4">
-              <Button
-                size={'sm'}
-                variant="outline"
-                onClick={() => setSaveToNotes((prev) => !prev)}
-              >
-                Save to my note
-              </Button>
-              <div className="item-center flex gap-1">
-                <Checkbox
-                  id="cb"
-                  checked={hide}
-                  onCheckedChange={(prev) => setHide((prev) => !prev)}
-                />
-
-                <Label htmlFor="cb">hide my name</Label>
+      <div className="relative ">
+        <div className="relative z-20 " id="card">
+          <Card className="border-gold rounded-xl border bg-background">
+            <CardHeader>
+              <CardTitle className="font-thin">
+                Write down your thought about
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea onChange={handleNoteChange} ref={NoteAreaRef} />
+            </CardContent>
+            <CardFooter>
+              <div className="flex w-full items-center justify-between gap-4">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setSaveToNotes((prev) => !prev)}
+                >
+                  Save to my note
+                </Button>
+                <div className="item-center flex gap-1">
+                  <Checkbox
+                    id="cb"
+                    checked={hide}
+                    onCheckedChange={() => setHide((prev) => !prev)}
+                  />
+                  <Label htmlFor="cb">hide my name</Label>
+                </div>
+                <Button
+                  size="sm"
+                  variant="roundedOutline"
+                  onClick={() => setSaveToPublic((prev) => !prev)}
+                >
+                  Post to public
+                </Button>
               </div>
-              <Button
-                size={'sm'}
-                variant={'roundedOutline'}
-                onClick={() => setSaveToPublic((prev) => !prev)}
-              >
-                Post to public
-              </Button>
-            </div>
-          </CardFooter>
-        </Card>
-        <div
-          className=" absolute  -top-12 left-48 z-0 h-0 w-20
-         border-b-[75px] border-l-[68px]
-  border-r-[68px] border-b-gray-700
-  border-l-transparent border-r-transparent"
-        ></div>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   )
