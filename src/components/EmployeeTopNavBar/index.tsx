@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 import MenuDrawer from '../MenuDrawer'
 import router from 'next/router'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 const unallowedRoutes = ['/notes', '/emp/profile-settings']
 
@@ -21,7 +22,9 @@ export function EmployeeTopNavBar() {
           onClick={() => router.back()}
         />
       )}
-      <button>Feedback</button>
+      <Link href="/feedback">
+        <button>Feedback</button>
+      </Link>
     </nav>
   )
 }

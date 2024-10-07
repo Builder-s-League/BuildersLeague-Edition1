@@ -134,9 +134,11 @@ export default function Settings() {
             </Button>
           </div>
           <div className="mb-8 mt-10">
-            <Button className="mt-2 flex w-32 flex-col" variant="secondary">
-              Feedback
-            </Button>
+            <Link href="/hr/feedback">
+              <Button className="mt-2 flex w-32 flex-col" variant="secondary">
+                Feedback
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
