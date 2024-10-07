@@ -20,11 +20,10 @@ export function EmployeeTopNavBar() {
         <ArrowLeftIcon className="cursor-pointer" onClick={router.back} />
       )}
       <Image
-        src="/cobh_logo/COBH_Logo_Large.svg" // Update with your image path
-        alt="Description of image" // Provide an alt text for accessibility
-        width={300} // Specify width
-        height={300} // Specify height
-        className="object-contain" // Optional: adjust image fit
+        src="/cobh_logo/COBH_Logo_Large.svg"
+        alt="Community of Big Hearts Logo"
+        width={300}
+        height={300}
       />
     </nav>
   )
