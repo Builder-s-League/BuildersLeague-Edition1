@@ -10,10 +10,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import Link from 'next/link'
@@ -31,13 +28,16 @@ export default function MenuDrawer() {
       <DrawerContent>
         <div className="flex h-full w-full flex-col">
           <DrawerHeader>
-            <DrawerClose asChild>
-              <button>
-                <CloseIcon className="h-8 w-8" aria-hidden="true" />
-              </button>
-            </DrawerClose>
+            <div className="flex w-full items-center justify-between">
+              <h2 className="text-xl font-bold">Course Topics</h2>
+              <DrawerClose asChild>
+                <button>
+                  <CloseIcon className="h-8 w-8" aria-hidden="true" />
+                </button>
+              </DrawerClose>
+            </div>
           </DrawerHeader>
-          <div className="flex-1 overflow-y-auto ">
+          <div className="flex-1 overflow-y-auto">
             {topics.map((topic) => (
               <div
                 className="flex justify-between gap-2 border border-b"
