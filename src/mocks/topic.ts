@@ -3,34 +3,58 @@ import { TopicShort } from '@/types/topic'
 export const mockTopics: TopicShort[] = [
   {
     id: '670300d48a63d8bfe235b6ba',
-    title: 'Introduction to React',
+    title: 'Reconciliation Historical Contexts',
     description:
-      'Learn the basics of React, including components, props, and state.',
+      'Explores the key historical events and factors that have shaped the current landscape of reconciliation efforts.',
     contentsQuantity: 10,
-    percentage: 75,
+    progress: 100,
   },
   {
     id: '2',
-    title: 'Advanced JavaScript Concepts',
+    title: 'Empathy in Reconciliation',
     description:
-      'Dive deep into closures, prototypes, and asynchronous programming.',
+      'Highlights the role of empathy in fostering understanding and healing between divided communities during reconciliation.',
     contentsQuantity: 15,
-    percentage: 60,
+    progress: 80,
   },
   {
     id: '3',
-    title: 'CSS Grid and Flexbox',
+    title: 'Barriers to Reconciliation',
     description:
-      'Master modern CSS layout techniques for responsive web design.',
+      'Identifies the challenges and obstacles that hinder the process of reconciliation between different groups.',
     contentsQuantity: 8,
-    percentage: 90,
+    progress: 10,
   },
   {
     id: '4',
-    title: 'TypeScript Fundamentals',
+    title: 'Trauma and Reconciliation',
     description:
-      'Get started with TypeScript and learn how to use static typing in your projects.',
+      'Examines the impact of trauma on individuals and communities and its influence on the reconciliation process.',
     contentsQuantity: 12,
-    percentage: 40,
+    progress: 0,
+  },
+  {
+    id: '5',
+    title: 'Building Trust',
+    description:
+      'Examines the impact of trauma on individuals and communities and its influence on the reconciliation process.',
+    contentsQuantity: 12,
+    progress: 0,
+  },
+  {
+    id: '6',
+    title: 'Cultural Reconciliation Challenges',
+    description:
+      'Explores the difficulties that arise from cultural differences when attempting to reconcile diverse groups.',
+    contentsQuantity: 12,
+    progress: 0,
+  },
+  {
+    id: '7',
+    title: 'Youth Engagement',
+    description:
+      'Discusses the critical role of youth involvement in driving and sustaining reconciliation efforts for future generations.',
+    contentsQuantity: 12,
+    progress: 0,
   },
 ]

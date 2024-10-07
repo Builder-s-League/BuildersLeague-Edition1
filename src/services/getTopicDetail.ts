@@ -1,5 +1,6 @@
 'use server'
 
+import { mockTopics } from '@/mocks/topic'
 import { Topic } from '@/types/topic'
 import { API_URL } from '@/utils/constants'
 
@@ -13,7 +14,9 @@ export const getTopicDetail = async ({
       revalidate: 600,
     },
   })
+
   if (!response.ok) {
+    console.log(response)
     throw new Error(`Failed to fetch data: ${response.statusText}`)
   }
   return await response.json()

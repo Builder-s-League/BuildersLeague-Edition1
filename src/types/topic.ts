@@ -29,5 +29,5 @@ export type TopicShort = {
   title: string
   description: string
   contentsQuantity: number
-  percentage: number
+  progress: number
 }
