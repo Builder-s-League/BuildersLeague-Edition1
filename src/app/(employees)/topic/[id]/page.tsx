@@ -1,22 +1,5 @@
-'use client'
-
-import LinearProgressBar from '@/components/LinearProgressBar'
-import TopicContentTable from '@/components/TopicContentTableList'
-import MenuDrawer from '@/components/MenuDrawer'
-import TopicDetailItem from '@/components/TopicDetailItem'
-import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { mockTopic as topicMock } from '@/mocks/topic'
-import { Topic } from '@/types/topic'
-import { useState } from 'react'
+import { getTopicDetail } from '@/services/getTopicDetail'
+import TopicDetailPageContent from './_page'
 
 interface TopicDetailPageProps {
   params: {
@@ -24,30 +7,10 @@ interface TopicDetailPageProps {
   }
 }
 
-export default function TopicDetailPage({ params }: TopicDetailPageProps) {
-  const [topic, setTopic] = useState<Topic>(topicMock)
+export default async function TopicDetailPage({
+  params,
+}: TopicDetailPageProps) {
+  const response = await getTopicDetail({ id: params.id })
 
-  const handleCheckboxChange = (id: number) => {
-    const updatedContents = topic.contents.map((content) =>
-      content.id === id ? { ...content, status: !content.status } : content,
-    )
-    const completedTasks = updatedContents.filter(
-      (content) => content.status,
-    ).length
-    const progress = Math.round((completedTasks / updatedContents.length) * 100)
-    setTopic({ ...topic, contents: updatedContents, progress })
-  }
-
-  return (
-    <div className="flex w-full flex-col">
-      <div className="flex w-full flex-col items-center">
-        <LinearProgressBar value={topic.progress} max={100} />
-        <p>{topic.progress}%</p>
-      </div>
-      <TopicContentTable
-        contents={topic.contents}
-        onCheckboxChange={handleCheckboxChange}
-      />
-    </div>
-  )
+  return <TopicDetailPageContent topic={response} />
 }
