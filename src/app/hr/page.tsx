@@ -3,9 +3,9 @@ import { ArrowRight } from 'lucide-react'
 
 export default function HRPage() {
   const navItems = [
-    { name: 'Login', href: 'cbh/about' },
-    { name: 'Schedule', href: 'cbh/login' },
-    { name: 'Settings', href: 'cbh/organization-dashboard' },
+    { name: 'Login', href: 'hr/login' },
+    { name: 'Schedule', href: 'hr/schedule' },
+    { name: 'Settings', href: 'hr/settings' },
   ]
 
   return (

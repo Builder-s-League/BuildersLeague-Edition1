@@ -5,7 +5,7 @@ import { BookOpen, Notebook, Settings } from 'lucide-react'
 
 export default function EmployeeNavigation() {
   const navItems = [
-    { name: 'Resources', href: '/emp/resources', icon: BookOpen },
+    { name: 'Resources', href: '/emp/', icon: BookOpen },
     { name: 'Notes', href: '/emp/notes', icon: Notebook },
     { name: 'Settings', href: '/emp/profile-settings', icon: Settings },
   ]
