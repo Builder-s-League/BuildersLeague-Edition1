@@ -52,7 +52,11 @@ const Description = ({
   const contentRef = useRef(null)
 
   return (
-    <div ref={contentRef}>
+    <div
+      ref={contentRef}
+      onMouseDown={() => setActivateNoteArea((prev: number) => prev + 1)}
+      onMouseUp={() => setActivateNoteArea((prev: number) => prev + 1)}
+    >
       <p>
         This is the resource article content. Select any piece of text to see
         the tooltip. This is the resource article content. Select any piece of

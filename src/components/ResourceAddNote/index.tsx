@@ -6,14 +6,12 @@ import { Label } from '@/components/ui/label'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import { useEffect, useRef, useState } from 'react'
 import { Note } from '@/schemas/notes'
-import { supabase } from '../../../supabase'
 
 export const ResourceAddNote = ({
   activateNoteArea,
