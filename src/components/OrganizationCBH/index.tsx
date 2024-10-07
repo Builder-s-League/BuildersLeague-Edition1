@@ -4,21 +4,33 @@ import { buttonVariants } from '@/components/ui/button'
 import { OrganizationType } from './type'
 
 type Props = {
-  idx: number
   org: OrganizationType
 }
 
-export default function OrganizationCBH({ idx, org }: Props) {
+export default function OrganizationCBH({ org }: Props) {
   return (
-    <div key={idx} className="mb-4 grid grid-cols-4 gap-4 p-4">
-      <div className="col-span-3 content-center rounded border text-center text-lg">
-        {org.name}
+    <div key={org.id} className="mb-4 grid grid-cols-4 gap-4">
+      <div className="relative col-span-3 flex flex-col justify-between rounded border p-4">
+        <span className="absolute inset-0 flex items-center justify-center text-lg">
+          {org.name}
+        </span>
+        <span
+          className={`mt-auto self-end text-sm ${org.isactive ? 'text-green-500' : 'text-gray-500'}`}
+        >
+          {org.isactive ? 'active' : 'inactive'}
+        </span>
       </div>
       <div className="flex flex-col gap-2">
-        <Link href="#" className={buttonVariants({ variant: 'default' })}>
+        <Link
+          href={`/cbh/organization-dashboard/edit/${org.id}`}
+          className={buttonVariants({ variant: 'default' })}
+        >
           Edit Org
         </Link>
-        <Link href="#" className={buttonVariants({ variant: 'secondary' })}>
+        <Link
+          href="/cbh/employee"
+          className={buttonVariants({ variant: 'secondary' })}
+        >
           Edit Members
         </Link>
       </div>

@@ -5,11 +5,11 @@ function HRNavBar() {
   return (
     <nav className="flex w-full items-center justify-between bg-gray-800 p-4">
       <div className="flex space-x-4">
-        <NavbarButton label="Home (UGC)" link="#" />
-        <NavbarButton label="Employees" link="#" />
-        <NavbarButton label="Settings" link="#" />
+        <NavbarButton label="Home (UGC)" link="/" />
+        <NavbarButton label="Employees" link="/emp" />
+        <NavbarButton label="Settings" link="/hr/settings" />
       </div>
-      <NavbarButton label="log in/log out" link="#" />
+      <NavbarButton label="log in/log out" link="/hr/login" />
     </nav>
   )
 }

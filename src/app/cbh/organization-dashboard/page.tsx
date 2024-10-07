@@ -1,53 +1,109 @@
 'use client'
-import React from 'react'
-import { redirect } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
 import OrganizationCBH from '@/components/OrganizationCBH'
 import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { buttonVariants } from '@/components/ui/button'
-
-const orgData = [
-  {
-    name: 'Org 1',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-  {
-    name: 'Org 2',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-  {
-    name: 'Org 3',
-    address: 'Adresss 1',
-    contactInfo: '123-123-1234',
-    hrName: 'John Doe',
-    hrEmail: 'john.doe@gmail.com',
-  },
-]
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
 
 export default function OrgDashboard() {
-  const allowedUser = 'CBH'
-  const currentUser = 'CBH'
-  if (currentUser != allowedUser) {
-    redirect('/')
-  }
+  const [orgData, setOrgData] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [nameFilter, setNameFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
   const path = usePathname()
+  const supabase = createBrowserClient()
+
+  useEffect(() => {
+    async function fetchOrganizations() {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('id, name, email, contact_info, isactive')
+          .eq('role', 1)
+
+        if (error) throw error
+
+        setOrgData(data || [])
+      } catch (err) {
+        console.error('Error fetching organizations:', err)
+        setError('Failed to fetch organizations')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchOrganizations()
+  }, [])
+
+  const filteredOrgData = orgData.filter((org) => {
+    const nameMatch = org.name.toLowerCase().includes(nameFilter.toLowerCase())
+    const statusMatch =
+      statusFilter === 'all' ||
+      (statusFilter === 'active' && org.isactive) ||
+      (statusFilter === 'inactive' && !org.isactive)
+    return nameMatch && statusMatch
+  })
+
+  const handleExport = () => {
+    const csvContent = [
+      ['Name', 'Email', 'Contact Info', 'Status'],
+      ...filteredOrgData.map((org) => [
+        org.name,
+        org.email,
+        org.contact_info,
+        org.isactive ? 'Active' : 'Inactive',
+      ]),
+    ]
+      .map((row) => row.join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'organizations.csv')
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  }
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
 
   return (
     <div className="container mx-auto p-6">
-      <div className="mb-3 grid grid-flow-col grid-cols-3 gap-4">
+      <div className="mb-3 grid grid-cols-3 gap-4">
         <Input
           type="text"
-          className="col-span-2"
-          placeholder="Search organization..."
+          placeholder="Filter by name..."
+          value={nameFilter}
+          onChange={(e) => setNameFilter(e.target.value)}
         />
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
         <div className="grid grid-cols-2 gap-2">
           <Link
             href={`${path}/add`}
@@ -55,14 +111,17 @@ export default function OrgDashboard() {
           >
             Add
           </Link>
-          <Link href="#" className={buttonVariants({ variant: 'secondary' })}>
+          <Button
+            onClick={handleExport}
+            className={buttonVariants({ variant: 'secondary' })}
+          >
             Export
-          </Link>
+          </Button>
         </div>
       </div>
 
-      {orgData.map((org, idx) => (
-        <OrganizationCBH key={idx} idx={idx} org={org} />
+      {filteredOrgData.map((org, idx) => (
+        <OrganizationCBH key={idx} org={org} />
       ))}
 
       <OrganizationCBHFooter />

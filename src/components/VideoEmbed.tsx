@@ -12,7 +12,7 @@ const VideoEmbed: React.FC<VideoEmbedProps> = ({ videoId, title, onClose }) => {
       <div className="aspect-video w-full rounded border border-white p-4">
         <iframe
           className="h-full w-full"
-          src={`https://www.youtube.com/embed/${videoId}`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
           title={title}
           allowFullScreen
         ></iframe>

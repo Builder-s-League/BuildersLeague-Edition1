@@ -1,7 +1,7 @@
 export type OrganizationType = {
+  id: number
   name: string
-  address: string
-  contactInfo: string
-  hrName: string
-  hrEmail: string
+  email: string
+  contact_info: string
+  isactive: boolean
 }
