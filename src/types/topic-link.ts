@@ -1,5 +1,5 @@
 export type TopicLink = {
-  id: number
+  id: number | string
   title: string
   progress: number
 }

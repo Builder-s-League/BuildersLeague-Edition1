@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
   }
 
   const apiUrl = process.env.CMS_API_URL
+
   const endpoint = `/topics/${id}?locale=undefined&draft=false&depth=4`
   const apiKey = process.env.CMS_API_KEY
 
@@ -19,6 +20,8 @@ export async function GET(request: NextRequest) {
         Authorization: `users API-Key ${apiKey}`,
       },
     })
+
+    debugger
     if (!response.ok) {
       throw new Error(`Failed to fetch data: ${response.statusText}`)
     }
