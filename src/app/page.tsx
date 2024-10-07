@@ -21,6 +21,7 @@ export default async function Navigation() {
     { name: 'CBH', path: '/cbh/login' },
     { name: 'HR', path: '/hr/login' },
     { name: 'Employees', path: '/emp/feed' },
+    { name: 'About', path: '/about' },
   ]
 
   return (

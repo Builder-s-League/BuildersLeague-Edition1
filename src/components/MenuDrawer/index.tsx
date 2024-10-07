@@ -44,16 +44,18 @@ export default function MenuDrawer() {
                 className="flex justify-between gap-2 border border-b"
                 key={topic.id}
               >
-                <Link
-                  href={`/emp/topic/${topic.id}`}
-                  className="flex w-full items-center justify-between px-5 py-8"
-                >
-                  <p className="flex-1 pr-5">{topic.title}</p>
-                  <div className="flex items-center gap-2">
-                    <p className=" ">{topic.progress}%</p>
-                    <ArrowRight className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                </Link>
+                <DrawerClose asChild>
+                  <Link
+                    href={`/emp/topic/${topic.id}`}
+                    className="flex w-full items-center justify-between px-5 py-8"
+                  >
+                    <p className="flex-1 pr-5">{topic.title}</p>
+                    <div className="flex items-center gap-2">
+                      <p className=" ">{topic.progress}%</p>
+                      <ArrowRight className="h-6 w-6" aria-hidden="true" />
+                    </div>
+                  </Link>
+                </DrawerClose>
               </div>
             ))}
           </div>

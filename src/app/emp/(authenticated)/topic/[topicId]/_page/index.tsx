@@ -27,7 +27,7 @@ export default function TopicDetailPageContent({
 
   return (
     <div className="flex w-full flex-col">
-      <div className="h-40 w-full">
+      <div className="h-60 w-full">
         <Image
           src={topicState.image.url}
           alt={topicState.image.alt}

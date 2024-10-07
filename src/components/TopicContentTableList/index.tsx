@@ -39,7 +39,7 @@ const TopicContentTable: React.FC<TopicContentTableProps> = ({
             <TableCell className="border-b border-gray-200 text-left">
               <Checkbox
                 checked={false}
-                onClick={() => onCheckboxChange(content.id)}
+                // onClick={() => onCheckboxChange(content.id)}
               />
             </TableCell>
             <TableCell className="border-b border-gray-200 text-left font-medium">
