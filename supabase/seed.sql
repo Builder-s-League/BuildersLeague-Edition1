@@ -42,10 +42,10 @@ VALUES
   ('organization_word_2', 2, NOW(), NOW());
 
 -- Inserting sample data into Survey table
-INSERT INTO Survey (link, organization_id, created_at, updated_at)
+INSERT INTO Survey (name, link, organization_id, created_at, updated_at)
 VALUES 
-  ('https://example.com/survey1', 2, NOW(), NOW()),
-  ('https://example.com/survey2', 2, NOW(), NOW());
+  ('Survey 1', 'https://example.com/survey1', 2, NOW(), NOW()),
+  ('Survey 2', 'https://example.com/survey2', 2, NOW(), NOW());
 
 -- Inserting sample data into Survey_Organizations table
 INSERT INTO Survey_Organizations (parent_id, organization_id, created_at, updated_at)
