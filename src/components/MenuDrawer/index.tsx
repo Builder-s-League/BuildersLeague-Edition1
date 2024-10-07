@@ -18,7 +18,6 @@ import { mockedTypeLinks } from '@/mocks/type-links'
 
 export default function MenuDrawer() {
   const topics = mockedTypeLinks
-
   return (
     <Drawer direction="left">
       <DrawerTrigger asChild>

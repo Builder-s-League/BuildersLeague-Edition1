@@ -2,7 +2,7 @@ import { TopicLink } from '@/types/topic-link'
 
 export const mockedTypeLinks: TopicLink[] = [
   {
-    id: '670300d48a63d8bfe235b6ba',
+    id: 1,
     title: 'Reconciliation Historical Contexts',
     progress: 100,
   },

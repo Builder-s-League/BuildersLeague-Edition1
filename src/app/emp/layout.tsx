@@ -12,7 +12,7 @@ export default function EmployeeLayout({
   return (
     <div className="flex h-screen w-full flex-col">
       <EmployeeTopNavBar />
-      <div className=" pb-40">{children}</div>
+      <div className="pb-40">{children}</div>
       <EmployeeBottomNavBar />
     </div>
   )
