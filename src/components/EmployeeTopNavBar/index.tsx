@@ -3,6 +3,7 @@
 import { ArrowLeftIcon } from 'lucide-react'
 import MenuDrawer from '../MenuDrawer'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
@@ -18,7 +19,13 @@ export function EmployeeTopNavBar() {
       ) : (
         <ArrowLeftIcon className="cursor-pointer" onClick={router.back} />
       )}
-      <button>Feedback</button>
+      <Image
+        src="/cobh_logo/COBH_Logo_Large.svg" // Update with your image path
+        alt="Description of image" // Provide an alt text for accessibility
+        width={300} // Specify width
+        height={300} // Specify height
+        className="object-contain" // Optional: adjust image fit
+      />
     </nav>
   )
 }
