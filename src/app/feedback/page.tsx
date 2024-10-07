@@ -1,8 +1,16 @@
-'use client'
-import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
+import Link from 'next/link'
+import { Upload } from 'lucide-react'
 
-export default function Feedback() {
-  const router = useRouter()
+export default function Settings() {
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-black p-6">
       <div className="w-full max-w-md space-y-6 rounded-lg p-8 shadow-lg">

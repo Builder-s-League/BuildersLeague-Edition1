@@ -5,6 +5,7 @@ import MenuDrawer from '../MenuDrawer'
 import router from 'next/router'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
