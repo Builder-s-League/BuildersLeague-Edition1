@@ -36,14 +36,26 @@ export default function TopicDetailPageContent({
           className="block h-full w-full object-cover"
         />
       </div>
-      <div className="flex w-full flex-col items-center">
-        <LinearProgressBar value={topicState.progress} max={100} />
-        <p>{topicState.progress}%</p>
-      </div>
-      <TopicContentTable
-        contents={topicState.content}
-        onCheckboxChange={handleCheckboxChange}
-      />
+      <section className="mb-4 p-4 text-left">
+        <h1 className="mb-4 text-2xl font-bold">{topicState.title}</h1>
+        <p className="text-muted-foreground">{topicState.description}</p>
+      </section>
+      <section className="mb-4 flex w-full flex-col px-4">
+        <h2 className="mb-4 text-lg font-bold">Progress</h2>
+        <div className="flex w-full flex-col">
+          <LinearProgressBar value={topicState.progress} max={100} />
+          <p className="text-right text-muted-foreground">
+            {topicState.progress}%
+          </p>
+        </div>
+      </section>
+      <section className="flex w-full flex-col">
+        <h2 className="mb-4 px-4 text-lg font-bold">Contents</h2>
+        <TopicContentTable
+          contents={topicState.content}
+          onCheckboxChange={handleCheckboxChange}
+        />
+      </section>
     </div>
   )
 }
