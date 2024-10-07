@@ -72,7 +72,7 @@ const CBHNavBar: React.FC = () => {
               <NavItem key={item.label} {...item} />
             ))}
           </div>
-          <NavItem label="Log in/out" link="/cbh/login" icon={LogIn} />
+          <NavItem label="Log in/out" link="/" icon={LogIn} />
         </div>
         {isMenuOpen && (
           <div className="mt-4 flex flex-col space-y-2 lg:hidden">
