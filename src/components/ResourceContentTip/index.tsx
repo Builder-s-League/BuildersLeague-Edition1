@@ -3,11 +3,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 
-interface TooltipProps {
+export default function ResourceContentTooltip({
+  contentRef,
+  setActivateNoteArea,
+}: {
   contentRef: React.RefObject<HTMLDivElement>
-}
-
-export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
+  setActivateNoteArea: any
+}) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
@@ -18,7 +20,27 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
     navigator.clipboard.writeText(selectedText)
     alert('Copied to clipboard!')
   }
+  useEffect(() => {
+    if (selectedText != '') {
+      localStorage.setItem('highlightPosition', JSON.stringify(tooltipPosition))
+    } else {
+      localStorage.setItem(
+        'highlightPosition',
+        JSON.stringify({ top: 0, left: 0 }),
+      )
+      setActivateNoteArea((prev: any) => prev + 1)
+    }
+  }, [tooltipPosition])
+  useEffect(() => {
+    // if (tooltipVisible == false) {
+    localStorage.setItem(
+      'highlightPosition',
+      JSON.stringify({ top: 0, left: 0 }),
+    )
+    // }
+  }, [tooltipVisible])
 
+  useEffect(() => {}, [selectedText])
   const handleTextSelection = useCallback(
     (event: MouseEvent) => {
       const selection = window.getSelection()
@@ -57,6 +79,13 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
         setTooltipVisible(true)
       } else {
         setTooltipVisible(false)
+        localStorage.setItem(
+          'highlightPosition',
+          JSON.stringify({ top: 0, left: 0 }),
+        )
+        if (selectedText != '') {
+          setActivateNoteArea((prev: any) => prev + 1)
+        }
       }
     },
     [contentRef],
@@ -87,7 +116,12 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
           <Button variant="outline" className="mr-2" size="sm">
             Highlight
           </Button>
-          <Button variant="outline" className="mr-2" size="sm">
+          <Button
+            variant="outline"
+            className="mr-2"
+            size="sm"
+            onClick={() => setActivateNoteArea((prev: number) => prev + 1)}
+          >
             Make a Note
           </Button>
           <Button onClick={handleCopy} size="sm">

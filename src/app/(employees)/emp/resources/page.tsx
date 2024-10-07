@@ -3,31 +3,42 @@ import React, { useState, useEffect, useRef } from 'react'
 import MenuDrawer from '@/components/MenuDrawer'
 import Image from 'next/image'
 import ResourceContentTooltip from '@/components/ResourceContentTip'
+import { ResourceAddNote } from '@/components/ResourceAddNote'
 
 type Filetype = 'image' | 'video' | 'audio'
 
 export default function ResourcePage() {
   const [search, setSearch] = useState('')
   const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
-
+  const [activateNoteArea, setActivateNoteArea] = useState(1)
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
 
   return (
-    <div className="flex w-full flex-col gap-10 p-10">
+    <div className="border-lg border-light flex w-full flex-col gap-10 border p-10 ">
       <MenuDrawer />
-      <Content selectedFileType={selectedFileType} />
+      <Content
+        selectedFileType={selectedFileType}
+        setActivateNoteArea={setActivateNoteArea}
+      />
+      <ResourceAddNote activateNoteArea={activateNoteArea} />
     </div>
   )
 }
 
-const Content = ({ selectedFileType }: { selectedFileType: Filetype }) => {
+const Content = ({
+  selectedFileType,
+  setActivateNoteArea,
+}: {
+  setActivateNoteArea: any
+  selectedFileType: Filetype
+}) => {
   return (
-    <div className="flex flex-col items-center gap-10">
+    <div className=" flex max-w-[100vh] flex-col items-center gap-10">
       <Title title="Residential school history" />
       <PlayAudio text={demoText} />
-      <Description text={demoText} />
+      <Description text={demoText} setActivateNoteArea={setActivateNoteArea} />
       <File type={selectedFileType} />
     </div>
   )
@@ -36,6 +47,34 @@ const Content = ({ selectedFileType }: { selectedFileType: Filetype }) => {
 const demoText =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry...'
 
+const Description = ({
+  text,
+  setActivateNoteArea,
+}: {
+  setActivateNoteArea: any
+  text: string
+}) => {
+  const contentRef = useRef(null)
+
+  return (
+    <div ref={contentRef}>
+      <p>
+        This is the resource article content. Select any piece of text to see
+        the tooltip. This is the resource article content. Select any piece of
+        text to see the tooltip. This is the resource article content. Select
+        any piece of text to see the tooltip. This is the resource article
+        content. Select any piece of text to see the tooltip. This is the
+        resource article content. Select any piece of text to see the tooltip.
+        This is the resource article content. Select any piece of text to see
+        the tooltip.
+      </p>
+      <ResourceContentTooltip
+        contentRef={contentRef}
+        setActivateNoteArea={setActivateNoteArea}
+      />
+    </div>
+  )
+}
 const PlayAudio = ({ text }: { text: string }) => {
   const [playing, setPlaying] = useState<boolean>(false)
 
@@ -53,7 +92,7 @@ const PlayAudio = ({ text }: { text: string }) => {
 
   return (
     <div
-      className="relative flex h-10 w-1/3 justify-between rounded-xl border p-2"
+      className="relative flex h-10 w-1/2 justify-between rounded-xl border p-2"
       onClick={handleAudio}
     >
       <div>{playing ? 'Stop' : 'Play'} audio</div>
@@ -86,20 +125,6 @@ const AudioIcon = ({ playing }: { playing: boolean }) => (
     )}
   </svg>
 )
-
-const Description = ({ text }: { text: string }) => {
-  const contentRef = useRef(null)
-
-  return (
-    <div ref={contentRef}>
-      <p>
-        This is the resource article content. Select any piece of text to see
-        the tooltip.
-      </p>
-      <ResourceContentTooltip contentRef={contentRef} />
-    </div>
-  )
-}
 
 const File = ({ type }: { type: Filetype }) => {
   switch (type) {
