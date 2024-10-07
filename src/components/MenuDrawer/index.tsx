@@ -45,7 +45,7 @@ export default function MenuDrawer() {
               key={topic.id}
             >
               <Link
-                href={`/topic/${topic.id}`}
+                href={`/emp/topic/${topic.id}`}
                 className="p- flex w-full items-center justify-between px-5 py-3 text-slate-300 hover:bg-gray-200 hover:text-background"
               >
                 <p>{topic.title}</p>

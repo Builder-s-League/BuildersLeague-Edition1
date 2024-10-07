@@ -6,7 +6,7 @@ import router from 'next/router'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-const unallowedRoutes = ['/notes', '/emp/profile-settings']
+const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
 export function EmployeeTopNavBar() {
   const pathname = usePathname()
