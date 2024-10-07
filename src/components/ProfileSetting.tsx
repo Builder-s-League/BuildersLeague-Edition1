@@ -1,19 +1,14 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Camera, Key, HelpCircle, LogOut, User } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
+import Image from 'next/image'
+import { PersonIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -119,117 +114,104 @@ export const ProfileSetting = () => {
   }
 
   return (
-    <Card className="mx-auto mt-12 max-w-2xl">
-      <CardHeader>
-        <CardTitle className="text-center text-2xl font-bold">
-          Profile Settings
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" value="John Doe" readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nickname">Nickname</Label>
-              <Input id="nickname" value="John" readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" value="john.doe@example.com" readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="dob">Date of Birth</Label>
-              <Input id="dob" value="January 1, 1999" readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
-              <Input id="address" value="123 This St" readOnly />
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-4">
-            <div className="relative h-32 w-32 overflow-hidden rounded-full bg-gray-200">
-              {fileContent ? (
-                <img
+    <>
+      {isModalOpen && (
+        <ImagePreviewModal
+          imageURL={previewImageURL}
+          onReset={onModalClose}
+          onConfirm={onConfirm}
+        />
+      )}
+      <div className="p-4">
+        <header className="space-y-2">
+          <div className="mb-4 flex items-center gap-4">
+            {fileContent ? (
+              <div className="overflow-hidden rounded-full">
+                <Image
                   src={fileContent}
-                  alt="Profile picture"
-                  className="h-full w-full object-cover"
+                  alt="Profile Image"
+                  width={96}
+                  height={96}
+                  className="rounded-full"
+                  layout="fixed"
+                  objectFit="cover"
+                  quality={100}
                 />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <User className="h-16 w-16 text-gray-400" />
-                </div>
-              )}
-            </div>
-            <Label htmlFor="picture" className="cursor-pointer">
-              <div className="flex items-center space-x-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium">
-                <Camera className="h-4 w-4" />
-                <span>Change Picture</span>
               </div>
-              <Input
-                id="picture"
+            ) : (
+              <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gray-100">
+                <PersonIcon className="h-20 w-20 text-gray-300" />
+              </div>
+            )}
+            <div className="space-y-1">
+              <h1 className="text-2xl font-bold">John Doe</h1>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  (
+                    document.querySelector(
+                      'input[type="file"]',
+                    ) as HTMLInputElement
+                  )?.click()
+                }
+              >
+                Change Photo
+              </Button>
+              <input
                 type="file"
                 accept="image/*"
                 onChange={profileChangeHandler}
-                className="sr-only"
-              />
-            </Label>
-          </div>
-        </div>
-        <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <Button variant="outline" className="flex items-center space-x-2">
-            <Key className="h-4 w-4" />
-            <span>Change Password</span>
-          </Button>
-          <Button variant="outline" className="flex items-center space-x-2">
-            <HelpCircle className="h-4 w-4" />
-            <span>Help</span>
-          </Button>
-          <Button variant="outline" className="flex items-center space-x-2">
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-          </Button>
-        </div>
-        <div className="mt-6 flex justify-center space-x-2">
-          <Button variant="outline" size="sm">
-            F
-          </Button>
-          <Button variant="outline" size="sm">
-            C
-          </Button>
-          <Button variant="outline" size="sm">
-            N
-          </Button>
-          <Button variant="outline" size="sm">
-            P
-          </Button>
-        </div>
-      </CardContent>
-
-      <Dialog open={isModalOpen} onOpenChange={setModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Profile Picture</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col items-center space-y-4">
-            <div className="h-48 w-48 overflow-hidden rounded-full">
-              <img
-                src={previewImageURL}
-                alt="Preview"
-                className="h-full w-full object-cover"
+                className="hidden"
               />
             </div>
-            <div className="flex space-x-4">
-              <Button onClick={onConfirm}>Confirm</Button>
-              <Button variant="outline" onClick={onModalClose}>
-                Cancel
-              </Button>
-            </div>
           </div>
-        </DialogContent>
-      </Dialog>
-    </Card>
+        </header>
+        <div className="space-y-8">
+          <Card>
+            <CardContent className="flex flex-col gap-4 p-4">
+              <div>
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" defaultValue="John Doe" />
+              </div>
+              <div>
+                <Label htmlFor="nickname">Nickname</Label>
+                <Input id="nickname" defaultValue="John" />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" defaultValue="john.doe@example.com" />
+              </div>
+              <div>
+                <Label htmlFor="dob">DOB</Label>
+                <Input id="dob" defaultValue="January 1, 1999" />
+              </div>
+              <div>
+                <Label htmlFor="address">Address</Label>
+                <Input id="address" defaultValue="123 This St" />
+              </div>
+              <div className="mt-4 flex justify-end">
+                <Button className="w-full">Update Profile</Button>
+              </div>
+              <div className=" flex flex-col gap-4">
+                <Link href="/change-password" className="w-full">
+                  <Button variant="outline" className="w-full">
+                    Change Password
+                  </Button>
+                </Link>
+                <Link href="/help" className="w-full">
+                  <Button variant="outline" className="w-full">
+                    Help
+                  </Button>
+                </Link>
+                <Button variant="destructive" className="w-full">
+                  Logout
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </>
   )
 }

@@ -2,7 +2,6 @@ import { GeistSans } from 'geist/font/sans'
 import NextTopLoader from 'nextjs-toploader'
 import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ReactQueryProvider from '@/providers/ReactQueryProvider'
 import dotenv from 'dotenv'
 

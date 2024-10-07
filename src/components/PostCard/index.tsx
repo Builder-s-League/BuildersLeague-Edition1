@@ -51,7 +51,7 @@ export default function PostCard({ post }: PostCardProps) {
       <div className="flex items-center justify-between">
         <p className="text-gray-400">{post.likes} likes</p>
         <div className="flex gap-2">
-          <Button size="sm">
+          <Button size="sm" variant="outline">
             <div className="flex items-center gap-1">
               <ThumbsUp size={16} />
               Like
