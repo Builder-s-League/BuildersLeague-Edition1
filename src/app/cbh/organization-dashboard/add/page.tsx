@@ -15,7 +15,7 @@ export default function AddOrganization() {
     name: '',
     contact_info: '',
     email: '',
-    isactive: false, // Default value set to false
+    isactive: true, // Default value set to true
     password: '',
     role: 1, // Assuming role 1 is for organizations
   })

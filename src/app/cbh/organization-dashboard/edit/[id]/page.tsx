@@ -59,7 +59,7 @@ export default function EditOrganization() {
   }
 
   const handleSwitchChange = (checked: boolean) => {
-    setOrganization((prev) => ({ ...prev, isactive: checked }))
+    setOrganization((prev) => ({ ...prev, isactive: !checked }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -189,7 +189,7 @@ export default function EditOrganization() {
           <div className="flex items-center space-x-2">
             <Switch
               id="isactive"
-              checked={organization.isactive}
+              checked={!organization.isactive}
               onCheckedChange={handleSwitchChange}
             />
             <Label htmlFor="isactive">Active / Inactive</Label>
