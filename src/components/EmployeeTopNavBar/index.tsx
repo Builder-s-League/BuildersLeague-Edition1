@@ -5,7 +5,7 @@ import MenuDrawer from '../MenuDrawer'
 import router from 'next/router'
 import { usePathname } from 'next/navigation'
 
-const unallowedRoutes = ['/notes', '/emp/profile-settings']
+const unallowedRoutes = ['/emp/notes', '/emp/profile-settings']
 
 export function EmployeeTopNavBar() {
   const pathname = usePathname()
