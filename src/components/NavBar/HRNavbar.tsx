@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Home, Users, Settings, LogIn } from 'lucide-react'
+import { Home, Users, Settings, LogIn, Calendar } from 'lucide-react'
 
 // Define an interface for NavItem props
 interface NavItemProps {
@@ -25,6 +25,7 @@ const HRNavBar: React.FC = () => {
   const navItems = [
     { label: 'Home (UGC)', link: '/hr', icon: Home },
     { label: 'Employees', link: '/hr/employee', icon: Users },
+    { label: 'Schedule', link: '/hr/schedule', icon: Calendar },
     { label: 'Settings', link: '/hr/settings', icon: Settings },
   ]
 
