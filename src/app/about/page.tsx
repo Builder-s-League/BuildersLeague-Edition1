@@ -1,52 +1,41 @@
 'use client'
-
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ArrowLeft, HelpCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import Image from 'next/image'
+import { useEffect } from 'react'
 
 export default function AboutPage() {
-  const router = useRouter()
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.async = true
+    script.src = '//www.instagram.com/embed.js'
+    document.body.appendChild(script)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-background p-8 text-foreground">
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-8 flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => router.back()}
-            className="rounded-full"
-            aria-label="Go back"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </div>
+    <div className="flex min-h-screen w-full flex-col bg-white p-8">
+      <div className="flex flex-col items-center space-y-6">
+        <Image
+          src="/cobh_logo/COBH_Logo_Large.svg"
+          alt="Community of Big Hearts Logo"
+          width={400}
+          height={400}
+        />
 
-        <Card>
-          <CardHeader className="bg-muted pb-6">
-            <CardTitle className="text-center text-3xl font-bold">
-              About
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <p className="mb-6 text-center text-lg leading-relaxed">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-              architecto laborum mollitia debitis rerum totam, aperiam
-              blanditiis, ducimus repellat, neque non obcaecati aliquam quisquam
-              dolores. Totam quod cupiditate non quis?
-            </p>
-            <div className="flex justify-center">
-              <Link href="/setting/app-tour" passHref>
-                <Button variant="outline">
-                  <HelpCircle className="mr-2 h-4 w-4" />
-                  Help / App Tour
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <section className="mt-8 w-full max-w-2xl">
+          <div className="flex aspect-video items-center justify-center rounded-lg">
+            <blockquote
+              className="instagram-media"
+              data-instgrm-captioned
+              data-instgrm-permalink="https://www.instagram.com/p/C-V_wdGx9gc/"
+              data-instgrm-version="14"
+              style={{ width: '100%' }}
+            >
+              <a href="https://www.instagram.com/p/C-V_wdGx9gc/">
+                View this post on Instagram
+              </a>
+            </blockquote>
+          </div>
+        </section>
       </div>
     </div>
   )
