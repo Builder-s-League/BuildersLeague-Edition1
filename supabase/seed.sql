@@ -46,3 +46,7 @@ INSERT INTO Survey (link, organization_id, created_at, updated_at)
 VALUES 
   ('https://example.com/survey1', 2, NOW(), NOW()),
   ('https://example.com/survey2', 2, NOW(), NOW());
+
+INSERT INTO Users (name, email, contact_info, password, admin_id, created_at, updated_at, isActive, role)
+VALUES 
+  ('test account info', 'account@email.com', '123-456-7890', 'supersecurepassword', NULL, NOW(), NOW(), TRUE, 0);

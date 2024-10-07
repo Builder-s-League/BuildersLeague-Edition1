@@ -2,11 +2,10 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
 
-export default async function Index() {
+export default async function Navigation() {
   const cookieStore = cookies()
 
   const canInitSupabaseClient = () => {
-    // This function is for Supabase initialization check.
     try {
       createServerClient(cookieStore)
       return true
@@ -18,43 +17,29 @@ export default async function Index() {
 
   const isSupabaseConnected = canInitSupabaseClient()
 
-  return (
-    <div className="flex h-screen flex-col items-center justify-center">
-      <h1 className="mb-8 text-2xl font-bold">Navigation</h1>
-      <div className="flex gap-4">
-        <Link href="/cbh">
-          <button className="rounded bg-blue-500 px-4 py-2 text-white">
-            CBH
-          </button>
-        </Link>
-        <Link href="/hr">
-          <button className="rounded bg-green-500 px-4 py-2 text-white">
-            HR
-          </button>
-        </Link>
-        <Link href="/emp">
-          <button className="rounded bg-red-500 px-4 py-2 text-white">
-            Employees
-          </button>
-        </Link>
-        <Link href="/about">
-          <button className="rounded bg-red-500 px-4 py-2 text-white">
-            About
-          </button>
-        </Link>
-        <Link href="/contact-us">
-          <button className="rounded bg-red-500 px-4 py-2 text-white">
-            Contact
-          </button>
-        </Link>
-      </div>
+  const navItems = [
+    { name: 'CBH', path: '/cbh' },
+    { name: 'HR', path: '/hr' },
+    { name: 'Employees', path: '/emp' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact-us' },
+  ]
 
-      {/* Optionally, show Supabase connection status */}
-      {isSupabaseConnected ? (
-        <p className="mt-8 text-green-600">Supabase is connected!</p>
-      ) : (
-        <p className="mt-8 text-red-600">Supabase is not connected.</p>
-      )}
+  return (
+    <div className="flex h-screen flex-col items-center justify-center text-white">
+      <h1 className="mb-8 text-4xl font-bold tracking-tight">Navigation</h1>
+      <nav className="flex flex-wrap justify-center gap-4">
+        {navItems.map((item) => (
+          <Link
+            key={item.name}
+            href={item.path}
+            className="bg-light-gray-800 group relative overflow-hidden rounded-lg px-6 py-3 text-lg font-medium transition-all duration-300 ease-in-out hover:bg-gray-700"
+          >
+            {item.name}
+            <span className="absolute bottom-0 left-0 h-1 w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+          </Link>
+        ))}
+      </nav>
     </div>
   )
 }

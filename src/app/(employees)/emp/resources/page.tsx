@@ -8,13 +8,8 @@ import { ResourceAddNote } from '@/components/ResourceAddNote'
 type Filetype = 'image' | 'video' | 'audio'
 
 export default function ResourcePage() {
-  const [search, setSearch] = useState('')
   const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
   const [activateNoteArea, setActivateNoteArea] = useState(1)
-  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
-
   return (
     <div className="border-lg border-light flex w-full flex-col gap-10 border p-10 ">
       <MenuDrawer />

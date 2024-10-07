@@ -20,7 +20,7 @@ export default function AboutPage() {
           ducimus repellat, neque non obcaecati aliquam quisquam dolores. Totam
           quod cupiditate non quis?
         </p>
-        <Link href="/tour">
+        <Link href="/setting/app-tour">
           <button className="rounded border border-white px-4 py-2 transition-colors hover:bg-white hover:text-black">
             Help / App Tour
           </button>
@@ -28,7 +28,7 @@ export default function AboutPage() {
         {showVideo && (
           <div className="w-full max-w-6xl">
             <VideoEmbed
-              videoId="your-video-id"
+              videoId="oHg5SJYRHA0"
               title="App Tour Video"
               onClose={() => setShowVideo(false)}
             />

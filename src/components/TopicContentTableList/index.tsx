@@ -12,7 +12,7 @@ import { Content } from '@/types/content'
 
 interface TopicContentTableProps {
   contents: Content[]
-  onCheckboxChange: (id: number) => void
+  onCheckboxChange: (id: string) => void
 }
 
 const TopicContentTable: React.FC<TopicContentTableProps> = ({
@@ -35,7 +35,7 @@ const TopicContentTable: React.FC<TopicContentTableProps> = ({
             </TableCell>
             <TableCell className="border-b border-gray-200 text-left">
               <Checkbox
-                checked={content.status}
+                checked={false}
                 onClick={() => onCheckboxChange(content.id)}
               />
             </TableCell>

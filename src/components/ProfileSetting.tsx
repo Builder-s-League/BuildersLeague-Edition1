@@ -142,15 +142,9 @@ export const ProfileSetting = () => {
               </div>
             </div>
             <div className="mt-4 flex w-48 flex-col">
-              <button className="my-1 h-8 rounded-lg bg-blue-500 text-white hover:bg-blue-700">
-                Change Password
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-green-500 text-white hover:bg-green-700">
-                Help
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-red-500 text-white hover:bg-red-700">
-                Logout
-              </button>
+              <button>Change Password</button>
+              <button>Help</button>
+              <button>Logout</button>
             </div>
           </div>
           <div className="group m-4 flex h-[10rem] cursor-pointer flex-col items-center rounded-lg  p-4">

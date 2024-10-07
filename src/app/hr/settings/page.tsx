@@ -1,8 +1,10 @@
 'use client'
-import { Button } from '@/components/ui/button'
+
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Settings() {
   const [isPTag, setPtag] = useState(true)
@@ -38,32 +40,20 @@ export default function Settings() {
     setUpdate(true)
   }
 
+  const path = usePathname()
+
   return (
-    <div className="flex w-1/2 flex-col border border-white">
-      <div className="flex w-full flex-row ">
-        <div className="inline-flex w-9/12 gap-6">
-          <Button variant="outline" className="w-24">
-            E
-          </Button>
-          <Button variant="outline" className="w-24">
-            UGC
-          </Button>
-          <Button variant="destructive" className="w-24">
-            Settings
-          </Button>
-        </div>
-        <div className="w-1/4">
-          <Button className="py-2/25 flex w-24 flex-col">
-            <Link href="/login">Login/Out</Link>
-          </Button>
-        </div>
-      </div>
+    <div className="max-w mx-auto gap-1 rounded-lg p-6 shadow-md">
+      <h1 className="mb-3 text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
+        Settings
+      </h1>
       <div className="flex justify-evenly">
-        <div className="flex w-80 flex-col items-center py-8">
+        <div className="flex w-80 flex-col items-start py-8">
           <Fragment>
             {isPTag ? (
-              <p className="m-1 inline-flex w-3/4 items-center">
-                Organization name: {organizationNameUpdate}
+              <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
+                <span className="font-bold">Organization name:</span>{' '}
+                {organizationNameUpdate}
               </p>
             ) : (
               <Input
@@ -77,8 +67,8 @@ export default function Settings() {
           </Fragment>
           <Fragment>
             {isPTag ? (
-              <p className="m-1 inline-flex w-3/4 items-center">
-                Email: {emailUpdate}
+              <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
+                <span className="font-bold">Email:</span> {emailUpdate}
               </p>
             ) : (
               <Input
@@ -92,8 +82,8 @@ export default function Settings() {
           </Fragment>
           <Fragment>
             {isPTag ? (
-              <p className="m-1 inline-flex w-3/4 items-center">
-                Phone number: {phoneUpdate}
+              <p className="mb-2 max-w-2xl text-lg font-light text-foreground">
+                <span className="font-bold">Phone Number:</span> {phoneUpdate}
               </p>
             ) : (
               <Input
@@ -108,7 +98,7 @@ export default function Settings() {
           <Fragment>
             {isUpdate ? (
               <Button
-                className="m-1 flex w-44 flex-col"
+                className="w-50 m-1 flex flex-col"
                 variant="outline"
                 onClick={handleCLick}
               >
@@ -137,14 +127,14 @@ export default function Settings() {
         <div>
           <div>
             <Button className="mt-7 flex w-32 flex-col" variant="secondary">
-              Test account info
+              Test Account Info
             </Button>
             <Button className="mt-2 flex w-32 flex-col" variant="secondary">
               Contact us
             </Button>
           </div>
           <div className="mb-8 mt-10">
-            <Button className="flex w-20 flex-col" variant="secondary">
+            <Button className="mt-2 flex w-32 flex-col" variant="secondary">
               Feedback
             </Button>
           </div>
