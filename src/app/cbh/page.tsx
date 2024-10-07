@@ -17,8 +17,6 @@ export default async function CBHNavigation() {
     }
   }
 
-  const isSupabaseConnected = canInitSupabaseClient()
-
   const navItems = [
     { name: 'About', href: 'cbh/about' },
     { name: 'Login', href: 'cbh/login' },
