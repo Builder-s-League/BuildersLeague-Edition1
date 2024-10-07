@@ -29,17 +29,17 @@ const SurveyPage = () => {
 
   //const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>({})
 
-  useEffect(() => {
-    async function fetchSurveys() {
-      const { data, error } = await supabase.from('survey').select('*')
+  const fetchSurveys = async () => {
+    const { data, error } = await supabase.from('survey').select('*')
 
-      if (error) {
-        console.error('Error fetching surveys:', error)
-      } else {
-        setSurveys(data as any)
-      }
+    if (error) {
+      console.error('Error fetching surveys:', error)
+    } else {
+      setSurveys(data as Survey[])
     }
+  }
 
+  useEffect(() => {
     fetchSurveys()
   }, [])
 
@@ -81,6 +81,17 @@ const SurveyPage = () => {
         <span className="cursor-pointer">{content.slice(0, maxLength)}...</span>
       </CellPopup>
     )
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
   }
 
   const handleSelectSurvey = (id: number) => {
@@ -160,6 +171,11 @@ const SurveyPage = () => {
   //   }
   // }, [surveys])
 
+  const handleNewSurveyClose = () => {
+    setIsNewSurveyOpen(false)
+    fetchSurveys()
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold">Survey Dashboard</h1>
@@ -172,7 +188,7 @@ const SurveyPage = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[825px]">
-              <NewSurvey onClose={() => setIsNewSurveyOpen(false)} />
+              <NewSurvey onClose={handleNewSurveyClose} />
             </DialogContent>
           </Dialog>
         </div>
@@ -228,8 +244,8 @@ const SurveyPage = () => {
                     onCheckedChange={() => handleSelectSurvey(survey.id)}
                   />
                 </TableCell>
-                <TableCell>{renderCell(survey.id + '')}</TableCell>
-                <TableCell>{survey.created_at}</TableCell>
+                <TableCell>{renderCell(survey.name)}</TableCell>
+                <TableCell>{formatDate(survey.created_at)}</TableCell>
                 <TableCell>{renderCell(survey.link)}</TableCell>
                 <TableCell>{renderCell(survey.organization_id + '')}</TableCell>
                 <TableCell>
