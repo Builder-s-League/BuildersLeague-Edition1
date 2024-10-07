@@ -3,11 +3,22 @@ import NewSurvey from '@/components/NewSurvey'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import React, { useState, useMemo, useEffect } from 'react'
-import { Search, Check, X } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import CellPopup from '@/components/CellPopup'
 import { createBrowserClient } from '@/utils/supabase'
 import { Survey } from '@/types/survey'
+import { Switch } from '@/components/ui/switch'
+import { Input } from '@/components/ui/input'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const SurveyPage = () => {
   const [isNewSurveyOpen, setIsNewSurveyOpen] = useState(false)
@@ -16,9 +27,7 @@ const SurveyPage = () => {
   const supabase = createBrowserClient()
   const itemsPerPage = 5
 
-  const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>(
-    {},
-  )
+  //const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
     async function fetchSurveys() {
@@ -37,8 +46,6 @@ const SurveyPage = () => {
   const [selectedSurveys, setSelectedSurveys] = useState<number[]>([])
 
   const handleStatusChange = async (id: number, status: boolean) => {
-    setSurveyStatuses((prev) => ({ ...prev, [id]: status }))
-
     const { error } = await supabase
       .from('survey')
       .update({ status: status })
@@ -46,8 +53,12 @@ const SurveyPage = () => {
 
     if (error) {
       console.error('Error updating survey status:', error)
-      // Revert the local state if the update failed
-      setSurveyStatuses((prev) => ({ ...prev, [id]: !status }))
+    } else {
+      setSurveys((prevSurveys) =>
+        prevSurveys.map((survey) =>
+          survey.id === id ? { ...survey, status } : survey,
+        ),
+      )
     }
   }
 
@@ -80,8 +91,8 @@ const SurveyPage = () => {
     )
   }
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
       setSelectedSurveys(paginatedSurveys.map((survey) => survey.id))
     } else {
       setSelectedSurveys([])
@@ -123,19 +134,31 @@ const SurveyPage = () => {
       return
     }
 
-    setSelectedSurveys([])
+    const { error } = await supabase
+      .from('survey')
+      .delete()
+      .in('id', selectedSurveys)
+
+    if (error) {
+      console.error('Error deleting surveys:', error)
+    } else {
+      setSurveys((prevSurveys) =>
+        prevSurveys.filter((survey) => !selectedSurveys.includes(survey.id)),
+      )
+      setSelectedSurveys([])
+    }
   }
 
-  useEffect(() => {
-    if (surveys.length > 0) {
-      setSurveyStatuses(
-        surveys.reduce(
-          (acc, survey) => ({ ...acc, [survey.id]: survey.status }),
-          {},
-        ),
-      )
-    }
-  }, [surveys])
+  // useEffect(() => {
+  //   if (surveys.length > 0) {
+  //     setSurveyStatuses(
+  //       surveys.reduce(
+  //         (acc, survey) => ({ ...acc, [survey.id]: survey.status }),
+  //         {},
+  //       ),
+  //     )
+  //   }
+  // }, [surveys])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -144,10 +167,7 @@ const SurveyPage = () => {
         <div className="mb-4">
           <Dialog open={isNewSurveyOpen} onOpenChange={setIsNewSurveyOpen}>
             <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-full bg-green-500 text-white sm:w-auto"
-              >
+              <Button variant="default" className="w-full sm:w-auto">
                 + Survey
               </Button>
             </DialogTrigger>
@@ -159,10 +179,10 @@ const SurveyPage = () => {
         <div className="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex w-full items-center">
             <div className="relative flex-grow">
-              <input
+              <Input
                 type="text"
                 placeholder="Search for content..."
-                className="w-full rounded-md border py-2 pl-3 pr-10 dark:bg-gray-700"
+                className="w-full pr-10"
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -175,89 +195,55 @@ const SurveyPage = () => {
             >
               Export selected
             </Button>
-            <Button
-              variant="outline"
-              className="bg-red-500 text-white"
-              onClick={deleteSelectedSurveys}
-            >
+            <Button variant="destructive" onClick={deleteSelectedSurveys}>
               Delete selected
             </Button>
           </div>
         </div>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b text-left">
-              <th className="pb-2">
-                <input
-                  type="checkbox"
-                  onChange={handleSelectAll}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[50px]">
+                <Checkbox
                   checked={
                     selectedSurveys.length === paginatedSurveys.length &&
                     paginatedSurveys.length > 0
                   }
+                  onCheckedChange={handleSelectAll}
                 />
-              </th>
-              <th className="pb-2">Survey</th>
-              <th className="pb-2">Date</th>
-              <th className="pb-2">Link to Survey</th>
-              <th className="pb-2">Target Org</th>
-              <th className="pb-2">Activate/Deactivate</th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHead>
+              <TableHead>Survey</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Link to Survey</TableHead>
+              <TableHead>Target Org</TableHead>
+              <TableHead>Activate/Deactivate</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {paginatedSurveys.map((survey) => (
-              <tr key={survey.id} className="border-b">
-                <td className="py-2">
-                  <input
-                    type="checkbox"
+              <TableRow key={survey.id}>
+                <TableCell>
+                  <Checkbox
                     checked={selectedSurveys.includes(survey.id)}
-                    onChange={() => handleSelectSurvey(survey.id)}
+                    onCheckedChange={() => handleSelectSurvey(survey.id)}
                   />
-                </td>
-                <td className="py-2">{renderCell(survey.id + '')}</td>
-                <td className="py-2">{survey.created_at}</td>
-                <td className="py-2">{renderCell(survey.link)}</td>
-                <td className="py-2">
-                  {renderCell(survey.organization_id + '')}
-                </td>
-                <td className="py-2">
-                  <div className="flex items-center space-x-2">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        className="hidden"
-                        checked={surveyStatuses[survey.id]}
-                        onChange={() => handleStatusChange(survey.id, true)}
-                      />
-                      <span
-                        className={`flex h-6 w-6 cursor-pointer items-center justify-center ${surveyStatuses[survey.id] ? 'bg-green-500' : 'bg-gray-200'}`}
-                      >
-                        <Check
-                          className={`h-4 w-4 ${surveyStatuses[survey.id] ? 'text-white' : 'text-transparent'}`}
-                        />
-                      </span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        className="hidden"
-                        checked={!surveyStatuses[survey.id]}
-                        onChange={() => handleStatusChange(survey.id, false)}
-                      />
-                      <span
-                        className={`flex h-6 w-6 cursor-pointer items-center justify-center ${!surveyStatuses[survey.id] ? 'bg-red-500' : 'bg-gray-200'}`}
-                      >
-                        <X
-                          className={`h-4 w-4 ${!surveyStatuses[survey.id] ? 'text-white' : 'text-transparent'}`}
-                        />
-                      </span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
+                </TableCell>
+                <TableCell>{renderCell(survey.id + '')}</TableCell>
+                <TableCell>{survey.created_at}</TableCell>
+                <TableCell>{renderCell(survey.link)}</TableCell>
+                <TableCell>{renderCell(survey.organization_id + '')}</TableCell>
+                <TableCell>
+                  <Switch
+                    checked={survey.status}
+                    onCheckedChange={(checked) =>
+                      handleStatusChange(survey.id, checked)
+                    }
+                  />
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
         <div className="mt-4 flex justify-center">
           <nav className="inline-flex">
             <Button
