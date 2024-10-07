@@ -51,7 +51,7 @@ const CBHNavBar: React.FC = () => {
       link: '/cbh/organization-dashboard',
       icon: Building2,
     },
-    { label: 'Report', link: '/cbh', icon: FileText },
+    { label: 'Report', link: '/cbh/report', icon: FileText },
     { label: 'Feedback', link: '/cbh', icon: MessageSquare },
     { label: 'Schedule', link: '/cbh', icon: Calendar },
     { label: 'Survey', link: '/cbh/survey-dash', icon: ClipboardList },
