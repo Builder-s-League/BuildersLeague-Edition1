@@ -29,7 +29,7 @@ const HRNavBar: React.FC = () => {
   ]
 
   return (
-    <nav className="sticky top-0 z-10 w-full shadow-md">
+    <nav className="sticky top-0 z-10 w-full bg-white shadow-md">
       <div className="container mx-auto flex items-center justify-between p-4">
         <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
           {navItems.map((item) => (
