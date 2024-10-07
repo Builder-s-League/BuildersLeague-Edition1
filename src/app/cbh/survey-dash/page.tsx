@@ -3,42 +3,63 @@ import NewSurvey from '@/components/NewSurvey'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import React, { useState, useMemo, useEffect } from 'react'
-import { Search, Check, X } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import CellPopup from '@/components/CellPopup'
 import { createBrowserClient } from '@/utils/supabase'
 import { Survey } from '@/types/survey'
+import { Switch } from '@/components/ui/switch'
+import { Input } from '@/components/ui/input'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const SurveyPage = () => {
   const [isNewSurveyOpen, setIsNewSurveyOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [surveys, setSurveys] = useState<Survey[]>([])
+  const [nameFilter, setNameFilter] = useState('')
+  const [allSurveys, setAllSurveys] = useState<Survey[]>([])
+  //const [surveys, setSurveys] = useState<Survey[]>([])
   const supabase = createBrowserClient()
   const itemsPerPage = 5
 
-  const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>(
-    {},
-  )
+  //const [surveyStatuses, setSurveyStatuses] = useState<Record<number, boolean>>({})
+
+  const fetchSurveys = async () => {
+    const { data, error } = await supabase.from('survey').select(`
+        *,
+        survey_organizations (
+          organization_id,
+          users (name)
+        )
+      `)
+
+    if (error) {
+      console.error('Error fetching surveys:', error)
+    } else {
+      setAllSurveys(data as Survey[])
+    }
+  }
 
   useEffect(() => {
-    async function fetchSurveys() {
-      const { data, error } = await supabase.from('survey').select('*')
-
-      if (error) {
-        console.error('Error fetching surveys:', error)
-      } else {
-        setSurveys(data as any)
-      }
-    }
-
     fetchSurveys()
   }, [])
 
   const [selectedSurveys, setSelectedSurveys] = useState<number[]>([])
 
-  const handleStatusChange = async (id: number, status: boolean) => {
-    setSurveyStatuses((prev) => ({ ...prev, [id]: status }))
+  const surveys = useMemo(() => {
+    return allSurveys.filter((survey) =>
+      survey.name.toLowerCase().includes(nameFilter.toLowerCase()),
+    )
+  }, [allSurveys, nameFilter])
 
+  const handleStatusChange = async (id: number, status: boolean) => {
     const { error } = await supabase
       .from('survey')
       .update({ status: status })
@@ -46,8 +67,12 @@ const SurveyPage = () => {
 
     if (error) {
       console.error('Error updating survey status:', error)
-      // Revert the local state if the update failed
-      setSurveyStatuses((prev) => ({ ...prev, [id]: !status }))
+    } else {
+      setAllSurveys((prevSurveys) =>
+        prevSurveys.map((survey) =>
+          survey.id === id ? { ...survey, status } : survey,
+        ),
+      )
     }
   }
 
@@ -72,6 +97,17 @@ const SurveyPage = () => {
     )
   }
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
   const handleSelectSurvey = (id: number) => {
     setSelectedSurveys((prev) =>
       prev.includes(id)
@@ -80,9 +116,15 @@ const SurveyPage = () => {
     )
   }
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setSelectedSurveys(paginatedSurveys.map((survey) => survey.id))
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedSurveys((prev) => {
+        const newSelection = new Set([
+          ...prev,
+          ...paginatedSurveys.map((survey) => survey.id),
+        ])
+        return Array.from(newSelection)
+      })
     } else {
       setSelectedSurveys([])
     }
@@ -92,17 +134,31 @@ const SurveyPage = () => {
     const selectedSurveyData = surveys.filter((survey) =>
       selectedSurveys.includes(survey.id),
     )
+
+    const escapeCSV = (field: string | number | boolean) => {
+      const stringField = String(field)
+      if (
+        stringField.includes(',') ||
+        stringField.includes('"') ||
+        stringField.includes('\n')
+      ) {
+        return `"${stringField.replace(/"/g, '""')}"`
+      }
+      return stringField
+    }
+
     const csvContent = [
       ['ID', 'Name', 'Date', 'Link', 'Target Org', 'Active'],
       ...selectedSurveyData.map((survey) => [
         survey.id,
-        survey.created_at,
-        survey.link,
-        survey.organization_id,
+        escapeCSV(survey.name),
+        formatDate(survey.created_at),
+        escapeCSV(survey.link),
+        escapeCSV(formatOrganizations(survey)),
         survey.status,
       ]),
     ]
-      .map((row) => row.join(','))
+      .map((row) => row.map(escapeCSV).join(','))
       .join('\n')
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
@@ -123,19 +179,47 @@ const SurveyPage = () => {
       return
     }
 
-    setSelectedSurveys([])
-  }
+    const selectedFilteredSurveyIds = surveys
+      .filter((survey) => selectedSurveys.includes(survey.id))
+      .map((survey) => survey.id)
 
-  useEffect(() => {
-    if (surveys.length > 0) {
-      setSurveyStatuses(
-        surveys.reduce(
-          (acc, survey) => ({ ...acc, [survey.id]: survey.status }),
-          {},
+    const { error } = await supabase
+      .from('survey')
+      .delete()
+      .in('id', selectedFilteredSurveyIds)
+
+    if (error) {
+      console.error('Error deleting surveys:', error)
+    } else {
+      setAllSurveys((prevSurveys) =>
+        prevSurveys.filter(
+          (survey) => !selectedFilteredSurveyIds.includes(survey.id),
         ),
       )
+      setSelectedSurveys([])
     }
-  }, [surveys])
+  }
+
+  // useEffect(() => {
+  //   if (surveys.length > 0) {
+  //     setSurveyStatuses(
+  //       surveys.reduce(
+  //         (acc, survey) => ({ ...acc, [survey.id]: survey.status }),
+  //         {},
+  //       ),
+  //     )
+  //   }
+  // }, [surveys])
+
+  const handleNewSurveyClose = () => {
+    setIsNewSurveyOpen(false)
+    fetchSurveys()
+  }
+
+  const formatOrganizations = (survey: Survey) => {
+    const orgNames = survey.survey_organizations.map((so) => so.users.name)
+    return orgNames.join(', ')
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -144,25 +228,27 @@ const SurveyPage = () => {
         <div className="mb-4">
           <Dialog open={isNewSurveyOpen} onOpenChange={setIsNewSurveyOpen}>
             <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-full bg-green-500 text-white sm:w-auto"
-              >
+              <Button variant="default" className="w-full sm:w-auto">
                 + Survey
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[825px]">
-              <NewSurvey onClose={() => setIsNewSurveyOpen(false)} />
+              <NewSurvey onClose={handleNewSurveyClose} />
             </DialogContent>
           </Dialog>
         </div>
         <div className="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex w-full items-center">
             <div className="relative flex-grow">
-              <input
+              <Input
                 type="text"
                 placeholder="Search for content..."
-                className="w-full rounded-md border py-2 pl-3 pr-10 dark:bg-gray-700"
+                className="w-full pr-10"
+                value={nameFilter}
+                onChange={(e) => {
+                  setNameFilter(e.target.value)
+                  setCurrentPage(1)
+                }}
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -175,89 +261,56 @@ const SurveyPage = () => {
             >
               Export selected
             </Button>
-            <Button
-              variant="outline"
-              className="bg-red-500 text-white"
-              onClick={deleteSelectedSurveys}
-            >
+            <Button variant="destructive" onClick={deleteSelectedSurveys}>
               Delete selected
             </Button>
           </div>
         </div>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b text-left">
-              <th className="pb-2">
-                <input
-                  type="checkbox"
-                  onChange={handleSelectAll}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[50px]">
+                <Checkbox
                   checked={
-                    selectedSurveys.length === paginatedSurveys.length &&
-                    paginatedSurveys.length > 0
+                    paginatedSurveys.every((survey) =>
+                      selectedSurveys.includes(survey.id),
+                    ) && paginatedSurveys.length > 0
                   }
+                  onCheckedChange={handleSelectAll}
                 />
-              </th>
-              <th className="pb-2">Survey</th>
-              <th className="pb-2">Date</th>
-              <th className="pb-2">Link to Survey</th>
-              <th className="pb-2">Target Org</th>
-              <th className="pb-2">Activate/Deactivate</th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHead>
+              <TableHead>Survey</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Link to Survey</TableHead>
+              <TableHead>Target Org</TableHead>
+              <TableHead>Activate/Deactivate</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {paginatedSurveys.map((survey) => (
-              <tr key={survey.id} className="border-b">
-                <td className="py-2">
-                  <input
-                    type="checkbox"
+              <TableRow key={survey.id}>
+                <TableCell>
+                  <Checkbox
                     checked={selectedSurveys.includes(survey.id)}
-                    onChange={() => handleSelectSurvey(survey.id)}
+                    onCheckedChange={() => handleSelectSurvey(survey.id)}
                   />
-                </td>
-                <td className="py-2">{renderCell(survey.id + '')}</td>
-                <td className="py-2">{survey.created_at}</td>
-                <td className="py-2">{renderCell(survey.link)}</td>
-                <td className="py-2">
-                  {renderCell(survey.organization_id + '')}
-                </td>
-                <td className="py-2">
-                  <div className="flex items-center space-x-2">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        className="hidden"
-                        checked={surveyStatuses[survey.id]}
-                        onChange={() => handleStatusChange(survey.id, true)}
-                      />
-                      <span
-                        className={`flex h-6 w-6 cursor-pointer items-center justify-center ${surveyStatuses[survey.id] ? 'bg-green-500' : 'bg-gray-200'}`}
-                      >
-                        <Check
-                          className={`h-4 w-4 ${surveyStatuses[survey.id] ? 'text-white' : 'text-transparent'}`}
-                        />
-                      </span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        className="hidden"
-                        checked={!surveyStatuses[survey.id]}
-                        onChange={() => handleStatusChange(survey.id, false)}
-                      />
-                      <span
-                        className={`flex h-6 w-6 cursor-pointer items-center justify-center ${!surveyStatuses[survey.id] ? 'bg-red-500' : 'bg-gray-200'}`}
-                      >
-                        <X
-                          className={`h-4 w-4 ${!surveyStatuses[survey.id] ? 'text-white' : 'text-transparent'}`}
-                        />
-                      </span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
+                </TableCell>
+                <TableCell>{renderCell(survey.name)}</TableCell>
+                <TableCell>{formatDate(survey.created_at)}</TableCell>
+                <TableCell>{renderCell(survey.link)}</TableCell>
+                <TableCell>{renderCell(formatOrganizations(survey))}</TableCell>
+                <TableCell>
+                  <Switch
+                    checked={!survey.status}
+                    onCheckedChange={(checked) =>
+                      handleStatusChange(survey.id, !checked)
+                    }
+                  />
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
         <div className="mt-4 flex justify-center">
           <nav className="inline-flex">
             <Button

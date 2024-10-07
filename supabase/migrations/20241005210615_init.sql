@@ -98,9 +98,19 @@ CREATE TABLE Organization_Banned_Words (
 
 CREATE TABLE Survey (
     id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
     link VARCHAR(255),
     organization_id INT REFERENCES Users (id),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
     status BOOLEAN
 );
+
+CREATE TABLE Survey_Organizations (
+    id SERIAL PRIMARY KEY,
+    parent_id INT REFERENCES Survey(id) ON DELETE CASCADE,
+    organization_id INT REFERENCES Users(id),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
