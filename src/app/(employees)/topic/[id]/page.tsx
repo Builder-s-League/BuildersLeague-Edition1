@@ -2,6 +2,7 @@
 
 import LinearProgressBar from '@/components/LinearProgressBar'
 import TopicContentTable from '@/components/TopicContentTableList'
+import MenuDrawer from '@/components/MenuDrawer'
 import TopicDetailItem from '@/components/TopicDetailItem'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -39,12 +40,6 @@ export default function TopicDetailPage({ params }: TopicDetailPageProps) {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="h-40">
-        <nav className="flex w-full flex-row justify-between">
-          <button>Hamburguer</button>
-          <button>Feedback</button>
-        </nav>
-      </div>
       <div className="flex w-full flex-col items-center">
         <LinearProgressBar value={topic.progress} max={100} />
         <p>{topic.progress}%</p>

@@ -8,6 +8,7 @@ export const mockTopic: Topic = {
       id: 1,
       title: 'Article',
       status: true,
+      header_image: '/header-twitter-image.png',
     },
     {
       id: 2,

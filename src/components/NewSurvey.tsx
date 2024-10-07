@@ -6,7 +6,10 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold">New Survey</h1>
-      <button className="rounded-lg bg-gray-200 p-2 shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+      <button
+        className="rounded-lg bg-gray-200 p-2 shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        onClick={onClose}
+      >
         Back
       </button>
 
