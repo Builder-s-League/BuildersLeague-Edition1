@@ -15,10 +15,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
 
       <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
         <div>
-          <label
-            htmlFor="survey-name"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-name" className="block text-sm font-medium">
             Survey Name
           </label>
           <input
@@ -31,10 +28,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div>
-          <label
-            htmlFor="survey-link"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-link" className="block text-sm font-medium">
             Link to Survey
           </label>
           <input
@@ -47,10 +41,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div className="flex flex-col">
-          <label
-            htmlFor="survey-date"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-date" className="block text-sm font-medium">
             Survey Date
           </label>
           <div className="flex space-x-4">
@@ -68,9 +59,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div>
-          <span className="block text-sm font-medium text-white">
-            Target Org
-          </span>
+          <span className="block text-sm font-medium">Target Org</span>
           <div className="mt-2 space-y-2">
             <label className="flex items-center">
               <input type="checkbox" checked className="mr-2" /> *
