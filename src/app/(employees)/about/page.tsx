@@ -28,7 +28,7 @@ export default function AboutPage() {
         {showVideo && (
           <div className="w-full max-w-6xl">
             <VideoEmbed
-              videoId="your-video-id"
+              videoId="oHg5SJYRHA0"
               title="App Tour Video"
               onClose={() => setShowVideo(false)}
             />
