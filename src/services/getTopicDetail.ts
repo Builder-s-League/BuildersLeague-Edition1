@@ -10,7 +10,9 @@ export const getTopicDetail = async ({
   id: string
 }): Promise<Topic> => {
   const response = await fetch(`${API_URL}/api/topic?id=${id}`, {
-    cache: 'no-cache',
+    next: {
+      revalidate: 600,
+    },
   })
 
   if (!response.ok) {
