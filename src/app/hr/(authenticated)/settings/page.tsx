@@ -1,10 +1,9 @@
 'use client'
 
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import Link from 'next/link'
-import { Fragment, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { Fragment, useState } from 'react'
 
 export default function Settings() {
   const [isPTag, setPtag] = useState(true)

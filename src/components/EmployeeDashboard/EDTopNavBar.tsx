@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PageButton from '@/components/EmployeeDashboard/PageButton'
+import { ExportCSV } from './ExportButton'
 
 export default function EDTopNavBar() {
   return (
@@ -23,18 +24,12 @@ export default function EDTopNavBar() {
                 label="Import"
                 link="/cbh/employee/import"
               />
-              <PageButton
-                className="self-end"
-                label="Export"
-                link="/cbh/employee/export"
-              />
+              <ExportCSV />
             </div>
             <PageButton label="Email to all" link="/email" />
           </div>
         </div>
       </div>
     </>
-
-    /*BUGFIX*/
   )
 }
