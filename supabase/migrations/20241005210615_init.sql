@@ -63,13 +63,21 @@ CREATE TABLE Feedbacks (
 );
 
 CREATE TABLE Schedules (
-    id SERIAL PRIMARY KEY,
-    topic_id INT,
-    organization_id INT REFERENCES Users (id),
-    cbh_admin_id INT REFERENCES Users (id),
-    schedule_at TIMESTAMP,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+  id SERIAL PRIMARY KEY,
+  topic_id VARCHAR(255),
+  -- organization_id INT REFERENCES Users(id),
+  cbh_admin_id INT REFERENCES Users(id),
+  schedule_at TIMESTAMP,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+
+CREATE TABLE Schedule_Organizations (
+  id SERIAL PRIMARY KEY,
+  parent_id INT REFERENCES Schedules(id) ON DELETE CASCADE,
+  organization_id INT REFERENCES Users(id),
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
 );
 
 CREATE TABLE CBH_banned_words (
