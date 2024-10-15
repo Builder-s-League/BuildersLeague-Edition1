@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
+import { ArrowRight } from 'lucide-react'
+import CBHNavBar from '@/components/NavBar/CBHNavbar'
 
-export default async function Index() {
+export default async function CBHNavigation() {
   const cookieStore = cookies()
 
   const canInitSupabaseClient = () => {
@@ -16,39 +18,37 @@ export default async function Index() {
     }
   }
 
-  const isSupabaseConnected = canInitSupabaseClient()
+  const navItems = [
+    { name: 'About', href: 'cbh/about' },
+    { name: 'Login', href: 'cbh/login' },
+    { name: 'Organization Dashboard', href: 'cbh/organization-dashboard' },
+    { name: 'Settings', href: 'cbh/setting' },
+    { name: 'Survey Dashboard', href: 'cbh/survey-dash' },
+  ]
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
-      <h1 className="mb-8 text-2xl font-bold">Navigation</h1>
-      <div className="flex gap-4">
-        <Link href="cbh/about">
-          <button className="bg-blue-500 px-4 py-2 text-white">About</button>
-        </Link>
-        <Link href="cbh/login">
-          <button className="bg-blue-500 px-4 py-2 text-white">Login</button>
-        </Link>
-        <Link href="cbh/organization-dashboard">
-          <button className="bg-blue-500 px-4 py-2 text-white">
-            Organization Dashboard
-          </button>
-        </Link>
-        <Link href="cbh/setting">
-          <button className="bg-blue-500 px-4 py-2 text-white">Settings</button>
-        </Link>
-        <Link href="cbh/survey-dash">
-          <button className="bg-blue-500 px-4 py-2 text-white">
-            Survey Dashboard
-          </button>
-        </Link>
+    <>
+      {/* DON'T DELETE! MUST KEEP THIS COMPONENT FOR THE DEMO */}
+      <CBHNavBar />
+      {/* DON'T DELETE! MUST KEEP THIS COMPONENT FOR THE DEMO */}
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b ">
+        <h1 className="mb-8 text-4xl font-bold tracking-tight">
+          CBH Navigation
+        </h1>
+        <nav className="flex flex-col flex-wrap justify-center gap-4 md:flex-row">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="group relative flex items-center overflow-hidden rounded-lg border px-6 py-3 text-lg font-medium transition-all duration-300 ease-in-out "
+            >
+              {item.name}
+              <ArrowRight className="ml-2 h-5 w-5 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:opacity-100" />
+              <span className="absolute bottom-0 left-0 h-1 w-0 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </Link>
+          ))}
+        </nav>
       </div>
-
-      {/* Optionally, show Supabase connection status */}
-      {isSupabaseConnected ? (
-        <p className="mt-8 text-green-600">Supabase is connected!</p>
-      ) : (
-        <p className="mt-8 text-red-600">Supabase is not connected.</p>
-      )}
-    </div>
+    </>
   )
 }

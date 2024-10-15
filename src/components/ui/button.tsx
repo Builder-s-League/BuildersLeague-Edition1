@@ -22,6 +22,8 @@ const buttonVariants = cva(
         green:
           'text-green-500 border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         red: 'text-red-500 border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        roundedOutline:
+          'rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground text-sm',
       },
       size: {
         default: 'h-10 px-4 py-2',
