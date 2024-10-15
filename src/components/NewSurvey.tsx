@@ -6,16 +6,16 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-6 text-3xl font-bold">New Survey</h1>
-      <button className="rounded-lg bg-gray-200 p-2 shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+      <button
+        className="rounded-lg bg-gray-200 p-2 shadow-md hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        onClick={onClose}
+      >
         Back
       </button>
 
       <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
         <div>
-          <label
-            htmlFor="survey-name"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-name" className="block text-sm font-medium">
             Survey Name
           </label>
           <input
@@ -28,10 +28,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div>
-          <label
-            htmlFor="survey-link"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-link" className="block text-sm font-medium">
             Link to Survey
           </label>
           <input
@@ -44,10 +41,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div className="flex flex-col">
-          <label
-            htmlFor="survey-date"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="survey-date" className="block text-sm font-medium">
             Survey Date
           </label>
           <div className="flex space-x-4">
@@ -65,9 +59,7 @@ const NewSurvey: React.FC<NewSurveyProps> = ({ onClose }) => {
         </div>
 
         <div>
-          <span className="block text-sm font-medium text-white">
-            Target Org
-          </span>
+          <span className="block text-sm font-medium">Target Org</span>
           <div className="mt-2 space-y-2">
             <label className="flex items-center">
               <input type="checkbox" checked className="mr-2" /> *

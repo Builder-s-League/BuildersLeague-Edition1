@@ -1,10 +1,23 @@
 import LoginForm from '@/components/login-form'
+import { Button } from '@/components/ui/button'
+import { ArrowLeftIcon } from 'lucide-react'
 import Link from 'next/link'
 
-export default function CBHLoginPage() {
+export default function EmployeeLogin() {
   return (
-    <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
-      <LoginForm forgotPasswordRoute={'/cbh/forget-password'} />
+    <div className="flex h-screen w-full flex-col gap-2 p-4 sm:max-w-md ">
+      <Link href="/">
+        <Button variant="outline" size="icon">
+          <ArrowLeftIcon />
+        </Button>
+      </Link>
+
+      <div className="flex h-full flex-col justify-center gap-2">
+        <LoginForm
+          forgotPasswordRoute={'/cbh/forget-password'}
+          routeOnSubmit={'/cbh/about'}
+        />
+      </div>
     </div>
   )
 }

@@ -24,10 +24,10 @@ VALUES
   ('Needs improvement on the latest topic.', 3, NOW(), NOW());
 
 -- Inserting sample data into Schedules table
-INSERT INTO Schedules (topic_id, organization_id, cbh_admin_id, schedule_at, created_at, updated_at)
-VALUES 
-  (1, 2, 1, '2024-10-10 10:00:00', NOW(), NOW()),
-  (2, 2, 1, '2024-10-12 14:00:00', NOW(), NOW());
+-- INSERT INTO Schedules (topic_id, organization_id, cbh_admin_id, schedule_at, created_at, updated_at)
+-- VALUES 
+--   (1, 2, 1, '2024-10-10 10:00:00', NOW(), NOW()),
+--   (2, 2, 1, '2024-10-12 14:00:00', NOW(), NOW());
 
 -- Inserting sample data into CBH_banned_words table
 INSERT INTO CBH_banned_words (banned_word, cbh_admin_id, created_at, updated_at)
