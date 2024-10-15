@@ -1,17 +1,35 @@
 'use client'
-import React, { useState } from 'react'
-import { redirect } from 'next/navigation'
-import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import EDTopNavBar from '@/components/EmployeeDashboard/EDTopNavBar'
+import OrganizationCBHFooter from '@/components/OrganizationCBH/Footer'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { createBrowserClient } from '@/utils/supabase'
+import { useMemo, useState } from 'react'
 
 export default function AddEmployee() {
+  const supabase = useMemo(() => createBrowserClient(), [])
+
+  function generatePassword() {
+    var length = 8,
+      charset =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+      retVal = ''
+    for (var i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n))
+    }
+    return retVal
+  }
+
   const [newEmployee, setNewEmployee] = useState({
     name: '',
     email: '',
-    profilePhoto: '',
-    randomGenPassword: '',
+    contact_info: '',
+    admin_id: 1, // TODO: Get org_id from url
+    created_at: new Date(),
+    updated_at: new Date(),
+    isactive: true,
+    role: 2, // 0 -> admin, 1 -> org , 2 -> user
+    password: generatePassword(),
   })
 
   const handleChange = (e: any) => {
@@ -22,15 +40,24 @@ export default function AddEmployee() {
     }))
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
-    alert(`Employee ${newEmployee.name} added successfully!`)
-    setNewEmployee({
-      name: '',
-      email: '',
-      profilePhoto: '',
-      randomGenPassword: '',
-    })
+    const response = await supabase.from('users').insert(newEmployee)
+    if (response.error) alert(response.error.message)
+    else {
+      alert(`Employee ${newEmployee.name} added successfully!`)
+      setNewEmployee({
+        name: '',
+        email: '',
+        contact_info: '',
+        created_at: new Date(),
+        updated_at: new Date(),
+        isactive: true,
+        role: 2, // 0 -> admin, 1 -> org , 2 -> user
+        admin_id: 1, // TODO: Get org_id from url
+        password: generatePassword(),
+      })
+    }
   }
 
   return (
@@ -58,19 +85,17 @@ export default function AddEmployee() {
             />
             <Input
               type="file"
-              name="profilePhoto"
-              value={newEmployee.profilePhoto}
+              name="contact_info"
+              value={newEmployee.contact_info}
               onChange={handleChange}
               placeholder="Profile Photo"
               required
             />
             <Input
               type="text"
-              name="randomGenPassword"
-              value={newEmployee.randomGenPassword}
-              onChange={handleChange}
+              value={newEmployee.password}
               placeholder="Random Generated Password"
-              required
+              readOnly
             />
 
             <Button

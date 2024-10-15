@@ -1,6 +1,6 @@
+import EmployeeBottomNavBar from '@/components/EmployeeBottomNavBar'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import EmployeeBottomNavBar from '@/components/EmployeeBottomNavBar'
 
 export default function Contact() {
   return (
