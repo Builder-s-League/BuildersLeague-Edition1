@@ -1,0 +1,55 @@
+1 - Add a docker-compose.yml at the root to install local supabase environment
+2 - Create script for Supabase CLI commands (kind of a "prepare" command)
+3 - Create script for deployment-cofigs
+4 - How to setup the CMS? It lacks documentation
+
+
+
+
+
+
+
+
+- Also, here's the full feature list for BLH edition 1 MVP:
+
+Topics should be working. Notes and Social media do not need to be working yet.
+Not even highlight. But, make sure these are hidden in UI so it doesn't confuse the user.
+
+
+Topic Scheduler should be working.
+
+App should be converted to a PWA.
+
+General bug fixing, styling, and app consistency.
+
+
+
+
+- We need to improve upon 3 things:
+
+Make a GitHub Milestone under the issues tab, including all the issues needed for
+milestone 1.
+
+Go through app, and figure out if new issues need to be created to fix certain
+bugs or styling issues. What's working, what's broken?
+
+Site map would be nice, to easily understand routing.
+
+Make better documentation (can even be all in the README, or a series of markdown files.
+You guys can decide). It should include/answer the questions:
+
+   An ERD
+   Architecture: tech stack, how the pieces relate. A simple Excalidraw drawing
+   may be helpful, along with an explanation.
+   Overall explanation of what the app does, and how it works. Specially, what can
+   the MVP of the app do, and what features are part of the full featureset.
+   A new dev should be able to read the docs and understand how to clone the repo 
+   and get it running.
+
+
+A little explanation that this was made in Winnipeg, with Builder's League
+(an ad, basically). Also, a link to OriGatou's linkedin and CBH's Linkedin.
+
+Also, keep in mind that aside from programmers, we have a few people who offered
+to make a test plan, and a graphic designer to make a brand guide overhaul later
+(not for MVP, Salena said she's happy with current visual style).

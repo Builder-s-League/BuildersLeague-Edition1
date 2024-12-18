@@ -12,5 +12,5 @@ export default function LinearProgressBar({
   value,
   max,
 }: LinearProgressBarProps) {
-  return <Progress value={value} max={max} className="m-3 h-8 rounded-none" />
+  return <Progress value={value} max={max} className="h-4 " />
 }

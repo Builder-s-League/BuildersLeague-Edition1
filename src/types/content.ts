@@ -1,6 +1,22 @@
+export type Link = {
+  link: string
+  id: string
+}
+
+export type ChildContent = {
+  text: string
+}
+
 export type Content = {
-  id: number
+  id: string
   title: string
-  status: boolean
-  header_image?: string
+  content: {
+    children: ChildContent[]
+  }[]
+  date: string
+  links?: Link[]
+  image?: string
+  video?: string
+  createdAt: string
+  updatedAt: string
 }

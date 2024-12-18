@@ -3,6 +3,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  images: {
+    domains: ['buildersleague.payloadcms.app'],
+  },
+}
 
 module.exports = withBundleAnalyzer(nextConfig)
