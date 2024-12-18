@@ -43,7 +43,11 @@
 
 ## Clone and run locally
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
+
+   ```bash
+   npx supabase start
+   ```
 
 2. Rename `.env.local.example` to `.env.local` and update the following:
 
@@ -52,7 +56,17 @@
    NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
    ```
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in two distinct ways:
+
+   1 - By accessing the Supabase [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+
+   2 - Or on the start command output in the step 1 if you use it locally.
+
+   If you prefer to run Supabase locally, you can stop all services using this command:
+
+   ```bash
+   npx supabase stop
+   ```
 
 3. You can now run the Next.js local development server:
 
