@@ -96,6 +96,8 @@ Fat Markers Sketches:
 
 3. HR : https://excalidraw.com/#room=7b63764a003c00a48a2e,NmWS8hGd8-NV9kMIN6Dinw
 
+## ERD
+![image](https://github.com/user-attachments/assets/455f25d2-7a7b-4f0c-8159-e7c3ce419783)
 ## Tech Stack
 
 - ⚡️ Next.js 14 (App Router)
