@@ -25,6 +25,7 @@ The CBH app is a Indigenous education resource platform where users are able to 
 # Requirements
 - Node.js >= 18.17.0
 - Docker
+- Payload CMS Repo: https://github.com/Builder-s-League/CMS-Payload.git
 
 # Install and Run
 1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
