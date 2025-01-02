@@ -13,7 +13,7 @@
 
 <p align="center">
   <a href="#Requirements"><strong>Requirements</strong></a> ·
-  <a href="#Install and Run"><strong>Clone and run locally</strong></a> ·
+  <a href="#Install-and-Run"><strong>Clone and run locally</strong></a> ·
   <a href="#documentation"><strong>Documentation</strong></a> ·
   <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
 </p>
