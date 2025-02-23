@@ -31,8 +31,8 @@ export default function Dashboard() {
     <>
       <EDTopNavBar />
 
-      <div>
-        <div className="mt-4 flex w-full flex-col space-y-4">
+      <div className="pb-8">
+        <div className="mt-4 flex w-full flex-col space-y-4 pb-4">
           {employees.map((employee) => (
             <EmployeeCard
               key={employee.id}
