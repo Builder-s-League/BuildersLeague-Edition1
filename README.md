@@ -20,14 +20,17 @@
 <br/>
 
 # Project Overview
-The CBH app is a Indigenous education resource platform where users are able to access to truth & reconciliation knoweldge. Also, it works as a social media platform where users can share their thoughts and ideas about resources. It advocates education, inspiration, and interaction.  
+
+The CBH app is a Indigenous education resource platform where users are able to access to truth & reconciliation knoweldge. Also, it works as a social media platform where users can share their thoughts and ideas about resources. It advocates education, inspiration, and interaction.
 
 # Requirements
+
 - Node.js >= 18.17.0
 - Docker
 - Payload CMS Repo: https://github.com/Builder-s-League/CMS-Payload.git
 
 # Install and Run
+
 1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
 
    ```bash
@@ -64,21 +67,26 @@ The CBH app is a Indigenous education resource platform where users are able to 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
 
 # Documentation
+
 ## Scope
+
 The CBH app is a multi-user platform designed for learning management and collaboration. It supports three user roles with distinct functionalities:
 
 CBH (Service Provider):
+
 - Manages organizations and users, including HR administrators and employees.
 - Creates, updates, and deletes (CUD) course content.
 - Schedules content delivery and manages user-generated content (e.g., public notes and external content links).
 - Collects and reviews user feedback.
 - Designs and sends out surveys to employees.
-  
+
 HR (Client Organizations):
+
 - Manages employees (users) within their organization.
 - Oversees user-generated content, including public notes and external content links.
-  
+
 Users (Employees of the Client Organization):
+
 - Access course content through the Learning Management System (LMS).
 - Create private or public notes linked to specific content.\
 - Share external articles on a shared feed.
@@ -98,7 +106,9 @@ Fat Markers Sketches:
 3. HR : https://excalidraw.com/#room=7b63764a003c00a48a2e,NmWS8hGd8-NV9kMIN6Dinw
 
 ## ERD
+
 ![image](https://github.com/user-attachments/assets/455f25d2-7a7b-4f0c-8159-e7c3ce419783)
+
 ## Tech Stack
 
 - ⚡️ Next.js 14 (App Router)
@@ -121,8 +131,6 @@ Fat Markers Sketches:
 - ✨ Next Top Loader - Render a pleasent top loader on navigation with [nextjs-toploader](https://github.com/TheSGJ/nextjs-toploader)
 - 🔋 Lots Extras - Next Bundle Analyzer, Vercel Analytics, Vercel Geist Font.
 
-
-  
 ## Scripts
 
 - `npm run dev` — Starts the application in development mode at `http://localhost:3000`.
