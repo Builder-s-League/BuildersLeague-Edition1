@@ -24,6 +24,7 @@ export default function EditEmployee() {
     updated_at: new Date(),
     isactive: true,
     role: 2, // 0 -> admin, 1 -> org, 2 -> user
+    password: '', // Add password field
   })
 
   useEffect(() => {
@@ -58,6 +59,10 @@ export default function EditEmployee() {
     e.preventDefault()
     if (isNaN(employeeNumber) || employeeNumber <= 0) {
       alert('Invalid employee number')
+      return
+    }
+    if (/\s/.test(employee.password)) {
+      alert('Password cannot contain spaces')
       return
     }
     const response = await supabase
@@ -106,6 +111,13 @@ export default function EditEmployee() {
               onChange={handleChange}
               placeholder="Contact Information"
               required
+            />
+            <Input
+              type="text" // Change from "password" to "text"
+              name="password"
+              value={employee.password}
+              onChange={handleChange}
+              placeholder="Password"
             />
 
             <Button
