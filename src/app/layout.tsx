@@ -27,6 +27,13 @@ export default function RootLayout({
       className={GeistSans.className}
       style={{ colorScheme: 'light' }}
     >
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/icons/apple-touch-icon.png"
+      />
+
+      <link rel="serviceworker" href="/sw.js" />
       <body className="bg-background text-foreground">
         <NextTopLoader showSpinner={false} height={2} color="#2acf80" />
         <ReactQueryProvider>

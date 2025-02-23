@@ -3,8 +3,11 @@ import { Progress } from '@/components/ui/progress'
 import { mockTopics } from '@/mocks/topic'
 import Link from 'next/link'
 
-export default function Page() {
+export default async function Page() {
   const topics = mockTopics
+  const response = await fetch('http://localhost:3000/api/topics')
+  const data = await response.json()
+  console.log(data)
 
   return (
     <div className="container mx-auto p-4">
