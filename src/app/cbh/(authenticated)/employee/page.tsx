@@ -14,7 +14,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function fetchEmployees() {
-      const { data, error } = await supabase.from('users').select('id, name')
+      const { data, error } = await supabase
+        .from('users')
+        .select('id, name')
+        .order('id', { ascending: true })
       if (error) {
         console.error('Error fetching employees:', error)
       } else if (data) {

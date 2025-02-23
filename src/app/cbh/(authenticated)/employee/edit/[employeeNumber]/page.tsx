@@ -100,10 +100,11 @@ export default function EditEmployee() {
               required
             />
             <Input
-              type="file"
+              type="text"
               name="contact_info"
+              value={employee.contact_info}
               onChange={handleChange}
-              placeholder="Profile Photo"
+              placeholder="Contact Information"
               required
             />
 
