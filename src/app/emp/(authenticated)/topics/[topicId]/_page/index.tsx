@@ -36,7 +36,7 @@ export default function TopicDetailPageContent({
           className="block h-full w-full object-cover"
         />
       </div>
-      {topicState.image.url}
+
       <section className="mb-4 p-4 text-left">
         <h1 className="mb-4 text-2xl font-bold">{topicState.title}</h1>
         <p className="text-muted-foreground">{topicState.description}</p>
