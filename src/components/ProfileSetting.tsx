@@ -61,6 +61,22 @@ export const ProfileSetting = () => {
     }
   }
 
+  // Helper function to validate inputs
+  const validateInputs = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const contactRegex = /^\d{3}-\d{3}-\d{4}$/
+
+    if (!emailRegex.test(profileData.email)) {
+      return 'Please enter a valid email address.'
+    }
+
+    if (!contactRegex.test(profileData.contact_info)) {
+      return 'Please enter a valid contact info in the format xxx-xxx-xxxx.'
+    }
+
+    return null
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
     setProfileData((prev) => ({
@@ -73,6 +89,14 @@ export const ProfileSetting = () => {
     try {
       setIsLoading(true)
       setError(null)
+
+      // Validate email and contact info
+      const validationError = validateInputs()
+      if (validationError) {
+        setError(validationError)
+        setIsLoading(false)
+        return
+      }
 
       // First, check if we have an ID
       if (!profileData.id) {
