@@ -166,3 +166,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Feedback and issues
 
 Please file feedback and issues [here](https://github.com/michaeltroya/supa-next-starter/issues).
+ 
