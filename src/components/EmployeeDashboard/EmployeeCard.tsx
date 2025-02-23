@@ -26,7 +26,10 @@ export default function EmployeeCard({
           Learning Hours: {learningHours}
         </p>
         <div className="mt-2 flex gap-2 space-x-2">
-          <PageButton label="Edit" link="/edit" />
+          <PageButton
+            label="Edit"
+            link={`/cbh/(authenticated)/employee/edit/${employeeNumber}`}
+          />
           <PageButton label="Delete" link="/delete" />
         </div>
       </div>
