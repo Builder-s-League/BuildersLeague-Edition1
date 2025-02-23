@@ -2,12 +2,15 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
-interface TooltipProps {
+export default function ResourceContentTooltip({
+  contentRef,
+  setActivateNoteArea,
+}: {
   contentRef: React.RefObject<HTMLDivElement>
-}
-
-export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
+  setActivateNoteArea: any
+}) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
@@ -18,7 +21,27 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
     navigator.clipboard.writeText(selectedText)
     alert('Copied to clipboard!')
   }
+  useEffect(() => {
+    if (selectedText != '') {
+      localStorage.setItem('highlightPosition', JSON.stringify(tooltipPosition))
+    } else {
+      localStorage.setItem(
+        'highlightPosition',
+        JSON.stringify({ top: 0, left: 0 }),
+      )
+      setActivateNoteArea((prev: any) => prev + 1)
+    }
+  }, [tooltipPosition])
+  useEffect(() => {
+    // if (tooltipVisible == false) {
+    localStorage.setItem(
+      'highlightPosition',
+      JSON.stringify({ top: 0, left: 0 }),
+    )
+    // }
+  }, [tooltipVisible])
 
+  useEffect(() => {}, [selectedText])
   const handleTextSelection = useCallback(
     (event: MouseEvent) => {
       const selection = window.getSelection()
@@ -32,7 +55,7 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
         const range = selection.getRangeAt(0).getBoundingClientRect()
         const tooltipWidth = tooltipRef.current
           ? tooltipRef.current.offsetWidth
-          : 0
+          : 200
 
         // Calculate the left position with boundary checks
         let leftPos = range.left + window.scrollX + range.width - tooltipWidth
@@ -41,8 +64,11 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
         const viewportWidth = window.innerWidth
 
         // If the tooltip goes off the right edge, adjust the position
-        if (leftPos + tooltipWidth > viewportWidth) {
-          leftPos = viewportWidth - tooltipWidth - 80
+
+        let extra = viewportWidth - (leftPos + tooltipWidth)
+
+        if (viewportWidth - (leftPos + tooltipWidth) < 100) {
+          leftPos = leftPos - tooltipWidth + extra
         }
         if (leftPos < 10) {
           // Ensure it doesn't go off the left edge
@@ -51,12 +77,19 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
 
         setSelectedText(text)
         setTooltipPosition({
-          top: range.top + window.scrollY - 80, // Adjust the offset
+          top: range.top + window.scrollY - 70, // Adjust the offset
           left: leftPos,
         })
         setTooltipVisible(true)
       } else {
         setTooltipVisible(false)
+        localStorage.setItem(
+          'highlightPosition',
+          JSON.stringify({ top: 0, left: 0 }),
+        )
+        if (selectedText != '') {
+          setActivateNoteArea((prev: any) => prev + 1)
+        }
       }
     },
     [contentRef],
@@ -79,18 +112,25 @@ export default function ResourceContentTooltip({ contentRef }: TooltipProps) {
             top: tooltipPosition.top,
             left: tooltipPosition.left,
             borderRadius: '5px',
-            padding: '10px',
+
             zIndex: 1000,
           }}
-          className="flex flex-wrap gap-2 border border-gray-800 bg-background"
+          className="flex flex-wrap border   bg-background p-2"
         >
-          <Button variant="outline" className="mr-2" size="sm">
+          <Button variant={'outlineNone'} className="mr-2" size="sm">
             Highlight
           </Button>
-          <Button variant="outline" className="mr-2" size="sm">
+          <Separator className="h-10" orientation="vertical" />
+          <Button
+            variant={'outlineNone'}
+            className="mr-2"
+            size="sm"
+            onClick={() => setActivateNoteArea((prev: number) => prev + 1)}
+          >
             Make a Note
           </Button>
-          <Button onClick={handleCopy} size="sm">
+          <Separator className="h-10" orientation="vertical" />
+          <Button variant={'outlineNone'} onClick={handleCopy} size="sm">
             Copy
           </Button>
         </div>

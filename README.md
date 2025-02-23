@@ -12,14 +12,94 @@
 <br/>
 
 <p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
+  <a href="#Requirements"><strong>Requirements</strong></a> ·
+  <a href="#Install-and-Run"><strong>Clone and run locally</strong></a> ·
   <a href="#documentation"><strong>Documentation</strong></a> ·
   <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
 </p>
 <br/>
 
-## Features
+# Project Overview
+The CBH app is a Indigenous education resource platform where users are able to access to truth & reconciliation knoweldge. Also, it works as a social media platform where users can share their thoughts and ideas about resources. It advocates education, inspiration, and interaction.  
+
+# Requirements
+- Node.js >= 18.17.0
+- Docker
+- Payload CMS Repo: https://github.com/Builder-s-League/CMS-Payload.git
+
+# Install and Run
+1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
+
+   ```bash
+   npx supabase start
+   ```
+
+2. Rename `.env.local.example` to `.env.local` and update the following:
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   ```
+
+   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in two distinct ways:
+
+   1 - By accessing the Supabase [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+
+   2 - Or on the start command output in step 1 if you use it locally.
+
+   If you prefer to run Supabase locally, you can stop all services using this command:
+
+   ```bash
+   npx supabase stop
+   ```
+
+3. You can now run the Next.js local development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+
+> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+
+# Documentation
+## Scope
+The CBH app is a multi-user platform designed for learning management and collaboration. It supports three user roles with distinct functionalities:
+
+CBH (Service Provider):
+- Manages organizations and users, including HR administrators and employees.
+- Creates, updates, and deletes (CUD) course content.
+- Schedules content delivery and manages user-generated content (e.g., public notes and external content links).
+- Collects and reviews user feedback.
+- Designs and sends out surveys to employees.
+  
+HR (Client Organizations):
+- Manages employees (users) within their organization.
+- Oversees user-generated content, including public notes and external content links.
+  
+Users (Employees of the Client Organization):
+- Access course content through the Learning Management System (LMS).
+- Create private or public notes linked to specific content.\
+- Share external articles on a shared feed.
+- Engage with the community feed to view others' public notes and shared content.
+- Provide feedback through a dedicated feedback button or respond to surveys sent by CBH.
+
+To have a detailed understanding of the project, we have Breadboard and Fat Markers Sketches:
+
+Breadboard: https://excalidraw.com/#room=89227fcc04f45ba6a0fc,-acIFbbAaHe94JsrGv85EQ
+
+Fat Markers Sketches:
+
+1. Employee: https://excalidraw.com/#room=df100b80af790dbfe300,5-wsEbpqQ8QxuD9qiuy8Eg
+
+2. CBH: https://excalidraw.com/#room=5e1c7e3a393c2474dc16,c8lH3_lGzZnbQqG9dmlarw
+
+3. HR : https://excalidraw.com/#room=7b63764a003c00a48a2e,NmWS8hGd8-NV9kMIN6Dinw
+
+## ERD
+![image](https://github.com/user-attachments/assets/455f25d2-7a7b-4f0c-8159-e7c3ce419783)
+## Tech Stack
 
 - ⚡️ Next.js 14 (App Router)
 - 💚 Supabase w/ supabase-ssr - Works across the entire [Next.js](https://nextjs.org) stack (App Router, Pages Router, Client, Server, Middleware, It just works!)
@@ -41,36 +121,9 @@
 - ✨ Next Top Loader - Render a pleasent top loader on navigation with [nextjs-toploader](https://github.com/TheSGJ/nextjs-toploader)
 - 🔋 Lots Extras - Next Bundle Analyzer, Vercel Analytics, Vercel Geist Font.
 
-## Clone and run locally
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
-
-2. Rename `.env.local.example` to `.env.local` and update the following:
-
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
-
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
-
-3. You can now run the Next.js local development server:
-
-   ```bash
-   npm run dev
-   ```
-
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
-
-# Documentation
-
-### Requirements
-
-- Node.js >= 18.17.0
-
-### Scripts
+  
+## Scripts
 
 - `npm run dev` — Starts the application in development mode at `http://localhost:3000`.
 - `npm run build` — Creates an optimized production build of your application.
@@ -83,7 +136,7 @@
 - `npm run test:ci` — Runs all the jest tests in the project, Jest will assume it is running in a CI environment.
 - `npm run analyze` — Builds the project and opens the bundle analyzer.
 
-### Paths
+## Paths
 
 TypeScript is pre-configured with custom path mappings. To import components or files, use the `@` prefix.
 
@@ -94,11 +147,7 @@ import { Button } from '@/components/ui/Button'
 import avatar from '@/public/avatar.png'
 ```
 
-## Appsmith Dashboards
-
-We have included a set of Appsmith dashboards that can be run locally. These dashboards provide a range of data visualizations and are highly customizable.
-
-### Quick Start
+## Quick Start
 
 To get started with the Appsmith dashboards:
 
@@ -106,7 +155,7 @@ To get started with the Appsmith dashboards:
 2. Navigate to the `appsmith_dashboards` folder.
 3. Follow the detailed instructions provided in the guide within that folder.
 
-### Detailed Guide
+## Detailed Guide
 
 For detailed instructions on running and contributing to the Appsmith dashboards, please refer to the [Appsmith Dashboards Guide](./appsmith_dashboards/README.md).
 

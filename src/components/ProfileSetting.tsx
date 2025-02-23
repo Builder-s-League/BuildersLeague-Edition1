@@ -1,7 +1,14 @@
 'use client'
-import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
+import Image from 'next/image'
+import { PersonIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -18,18 +25,16 @@ export const ProfileSetting = () => {
     checkImageExistence()
   }, [])
 
-  // Check if the image exists in Supabase storage
   const checkImageExistence = async () => {
     try {
       const { data, error } = await supabase.storage
         .from('CBH_ProfileImage')
-        .list('', { search: 'profile_image' }) // Check for the profile_image file
+        .list('', { search: 'profile_image' })
 
       if (error) {
         throw error
       }
 
-      // If the image exists, fetch it
       if (data.length > 0) {
         fetchImageFromSupabase()
       } else {
@@ -43,21 +48,19 @@ export const ProfileSetting = () => {
   const fetchImageFromSupabase = async () => {
     try {
       const { data, error } = await supabase.storage
-        .from('CBH_ProfileImage') // Your bucket name
-        .download('profile_image') // The file path in the bucket
+        .from('CBH_ProfileImage')
+        .download('profile_image')
 
       if (error) {
         throw error
       }
 
-      // Convert the downloaded image to a base64 string
       const reader = new FileReader()
       reader.onloadend = () => {
         const base64data = reader.result as string
-
-        setFileContent(base64data) // Set the base64 string as the file content
+        setFileContent(base64data)
       }
-      reader.readAsDataURL(data) // Convert the blob to base64
+      reader.readAsDataURL(data)
     } catch (error) {
       console.error('Error fetching image from Supabase:', error)
     }
@@ -88,7 +91,7 @@ export const ProfileSetting = () => {
     try {
       const { data, error } = await supabase.storage
         .from('CBH_ProfileImage')
-        .upload(fileName, file, { upsert: true }) // Upload the file directly as binary
+        .upload(fileName, file, { upsert: true })
 
       if (error) throw error
 
@@ -119,84 +122,95 @@ export const ProfileSetting = () => {
           onConfirm={onConfirm}
         />
       )}
-      <div className="mx-auto mt-12 flex w-fit flex-col items-center rounded-2xl border-2 border-white p-6">
-        <h1 className="mb-4 text-center text-2xl font-bold">
-          Profile Settings
-        </h1>
-        <div className="flex flex-row rounded-2xl p-4">
-          <div className="m-4 flex flex-col items-center rounded-lg p-4">
-            <div className="flex flex-row rounded-lg p-4">
-              <div className="mr-4 flex flex-col font-semibold">
-                <label>Full Name: </label>
-                <label>Nickname: </label>
-                <label>Email: </label>
-                <label>DOB: </label>
-                <label>Address: </label>
-              </div>
-              <div className="flex flex-col">
-                <label>John Doe</label>
-                <label>John</label>
-                <label>john.doe@example.com</label>
-                <label>January 1, 1999</label>
-                <label>123 This St</label>
-              </div>
-            </div>
-            <div className="mt-4 flex w-48 flex-col">
-              <button className="my-1 h-8 rounded-lg bg-blue-500 text-white hover:bg-blue-700">
-                Change Password
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-green-500 text-white hover:bg-green-700">
-                Help
-              </button>
-              <button className="my-1 h-8 rounded-lg bg-red-500 text-white hover:bg-red-700">
-                Logout
-              </button>
-            </div>
-          </div>
-          <div className="group m-4 flex h-[10rem] cursor-pointer flex-col items-center rounded-lg  p-4">
-            <div className="relative">
-              {fileContent ? (
-                <img
+      <div className="p-4">
+        <header className="space-y-2">
+          <div className="mb-4 flex items-center gap-4">
+            {fileContent ? (
+              <div className="overflow-hidden rounded-full">
+                <Image
                   src={fileContent}
-                  alt="Uploaded"
-                  className="h-20 w-20 rounded-full object-cover"
+                  alt="Profile Image"
+                  width={96}
+                  height={96}
+                  className="rounded-full"
+                  layout="fixed"
+                  objectFit="cover"
+                  quality={100}
                 />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  height={100}
-                  width={100}
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-20 rounded-full"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                </svg>
-              )}
-
+              </div>
+            ) : (
+              <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gray-100">
+                <PersonIcon className="h-20 w-20 text-gray-300" />
+              </div>
+            )}
+            <div className="space-y-1">
+              <h1 className="text-2xl font-bold">John Doe</h1>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  (
+                    document.querySelector(
+                      'input[type="file"]',
+                    ) as HTMLInputElement
+                  )?.click()
+                }
+              >
+                Change Photo
+              </Button>
               <input
                 type="file"
                 accept="image/*"
                 onChange={profileChangeHandler}
-                className="size-20 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer text-3xl text-gray-500 opacity-0"
+                className="hidden"
               />
             </div>
-            <label className="text-gray-500 group-hover:text-white">
-              Edit Image
-            </label>
           </div>
-        </div>
-        <div className="border-grey flex gap-2 rounded-lg border-2 p-4">
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">F</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">C</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">N</button>
-          <button className="h-8 w-12 bg-gray-900 hover:bg-gray-500">P</button>
+        </header>
+        <div className="space-y-8">
+          <Card>
+            <CardContent className="flex flex-col gap-4 p-4">
+              <div>
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" defaultValue="John Doe" />
+              </div>
+              <div>
+                <Label htmlFor="nickname">Nickname</Label>
+                <Input id="nickname" defaultValue="John" />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" defaultValue="john.doe@example.com" />
+              </div>
+              <div>
+                <Label htmlFor="dob">DOB</Label>
+                <Input id="dob" defaultValue="January 1, 1999" />
+              </div>
+              <div>
+                <Label htmlFor="address">Address</Label>
+                <Input id="address" defaultValue="123 This St" />
+              </div>
+              <div className="mt-4 flex justify-end">
+                <Button className="w-full">Update Profile</Button>
+              </div>
+              <div className=" flex flex-col gap-4">
+                <Link href="" className="w-full">
+                  <Button variant="outline" className="w-full">
+                    Change Password
+                  </Button>
+                </Link>
+
+                <Link href="/cbh/about" className="w-full">
+                  <Button variant="outline" className="w-full">
+                    Help
+                  </Button>
+                </Link>
+                <Button variant="destructive" className="w-full">
+                  Logout
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </>
