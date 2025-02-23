@@ -25,10 +25,7 @@ export const ProfileSetting = () => {
   const [profileData, setProfileData] = useState({
     id: '',
     name: '',
-    nickname: '',
     email: '',
-    dob: '',
-    address: '',
     contact_info: '',
   })
 
@@ -52,10 +49,7 @@ export const ProfileSetting = () => {
         setProfileData({
           id: data.id,
           name: data.name || '',
-          nickname: data.nickname || '',
           email: data.email || '',
-          dob: data.dob || '',
-          address: data.address || '',
           contact_info: data.contact_info || '',
         })
       }
@@ -90,10 +84,7 @@ export const ProfileSetting = () => {
         .from('users')
         .update({
           name: profileData.name,
-          nickname: profileData.nickname,
           email: profileData.email,
-          dob: profileData.dob,
-          address: profileData.address,
           contact_info: profileData.contact_info,
           updated_at: new Date().toISOString(),
         })
@@ -273,34 +264,10 @@ export const ProfileSetting = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="nickname">Nickname</Label>
-                <Input
-                  id="nickname"
-                  value={profileData.nickname}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   value={profileData.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="dob">DOB</Label>
-                <Input
-                  id="dob"
-                  value={profileData.dob}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  value={profileData.address}
                   onChange={handleInputChange}
                 />
               </div>
