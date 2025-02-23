@@ -1,5 +1,11 @@
 console.log('Service Worker: Registered')
 
+// https://nextjs.org/docs/app/building-your-application/caching#using-service-workers
+// this service worker is used to cache the static assets of the app
+// ** important: this service worker might not work in the development environment
+// services workers are restricted to running across HTTPS for security reasons
+// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#setting_up_to_play_with_service_workers
+
 const CACHE_NAME = 'cobh-cache-v1'
 const urlsToCache = [
   // Core app files
