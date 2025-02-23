@@ -32,7 +32,6 @@ export default function RootLayout({
         sizes="180x180"
         href="/icons/apple-touch-icon.png"
       />
-
       <link rel="serviceworker" href="/sw.js" />
       <body className="bg-background text-foreground">
         <NextTopLoader showSpinner={false} height={2} color="#2acf80" />
@@ -43,6 +42,25 @@ export default function RootLayout({
           </main>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </ReactQueryProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(err) {
+                      console.error('ServiceWorker registration failed: ', err);
+                    });
+                });
+              } else {
+                console.log('Service workers are not supported');
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )
