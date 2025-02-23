@@ -18,9 +18,9 @@ export default async function Navigation() {
   const isSupabaseConnected = canInitSupabaseClient()
 
   const navItems = [
-    { name: 'CBH', path: '/cbh/login' },
-    { name: 'HR', path: '/hr/login' },
-    { name: 'Employees', path: '/emp/feed' },
+    { name: 'CBH', path: '/login' },
+    { name: 'HR', path: '/login' },
+    { name: 'Employees', path: '/login' },
     { name: 'About', path: '/about' },
   ]
 
