@@ -4,7 +4,6 @@ import HRNavBar from '@/components/NavBar/HRNavbar'
 
 export default function HRPage() {
   const navItems = [
-    { name: 'Login', href: 'hr/login' },
     { name: 'Schedule', href: 'hr/schedule' },
     { name: 'Settings', href: 'hr/settings' },
   ]

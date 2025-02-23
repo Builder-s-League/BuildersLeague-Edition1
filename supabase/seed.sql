@@ -1,9 +1,17 @@
 -- Inserting sample data into Users table
-INSERT INTO Users (name, email, contact_info, password, admin_id, created_at, updated_at, isActive, role)
-VALUES 
-  ('Admin User', 'admin@example.com', '123-456-7890', 'securepassword', NULL, NOW(), NOW(), TRUE, 0),
-  ('Org User', 'org@example.com', '234-567-8901', 'securepassword', 1, NOW(), NOW(), TRUE, 1),
-  ('Employee User', 'employee@example.com', '345-678-9012', 'securepassword', 1, NOW(), NOW(), TRUE, 2);
+-- INSERT INTO Users (name, email, contact_info, password, admin_id, created_at, updated_at, isActive, role)
+-- VALUES 
+--   ('Admin User', 'admin@example.com', '123-456-7890', 'securepassword', NULL, NOW(), NOW(), TRUE, 0),
+--   ('Org User', 'org@example.com', '234-567-8901', 'securepassword', 1, NOW(), NOW(), TRUE, 1),
+--   ('Employee User', 'employee@example.com', '345-678-9012', 'securepassword', 1, NOW(), NOW(), TRUE, 2);
+
+  create table user_roles (
+    id serial primary key, -- Unique identifier for each entry
+    user_id uuid not null references auth.users (id) on delete cascade, -- Link to auth.users
+    role integer not null check (role in (0, 1, 2)), -- 0: Admin, 1: Org, 2: Employee
+    created_at timestamp with time zone default now() -- Auto-set creation timestamp
+);
+
 
 -- Inserting sample data into Notes table
 INSERT INTO Notes (textrange, note_content, topic_id, employee_id, is_public, is_approved_cbh, is_approved_emp, created_at, updated_at)

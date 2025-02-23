@@ -20,16 +20,39 @@ export default function Login({
     const cookieStore = cookies()
     const supabase = createServerClient(cookieStore)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    // Sign in the user
+    const { data: authData, error: authError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-    if (error) {
+    if (authError) {
       return redirect('/login?message=Could not authenticate user')
     }
 
-    return redirect('/')
+    // Fetch the user's role from the database
+    const { data: roleData, error: roleError } = await supabase
+      .from('user_roles') // Your roles table
+      .select('role')
+      .eq('user_id', authData.user?.id)
+      .single()
+
+    if (roleError || !roleData) {
+      return redirect('/login?message=Failed to fetch user role')
+    }
+
+    // Redirect based on the user's role
+    switch (roleData.role) {
+      case 0: // Admin
+        return redirect('/cbh')
+      case 1: // Org
+        return redirect('/hr')
+      case 2: // Employee
+        return redirect('/emp')
+      default:
+        return redirect('/') // Fallback for unknown roles
+    }
   }
 
   return (

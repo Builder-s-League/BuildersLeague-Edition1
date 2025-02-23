@@ -1,26 +1,50 @@
+'use client'
+
 import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { createServerClient } from '@/utils/supabase'
+import { useEffect, useState } from 'react'
+import { createBrowserClient } from '@/utils/supabase' // Import your custom client creator
 
-export default async function Navigation() {
-  const cookieStore = cookies()
+const supabase = createBrowserClient() // Use your custom client creation function
 
-  const canInitSupabaseClient = () => {
+export default function Navigation() {
+  const [isSignedIn, setIsSignedIn] = useState(false)
+
+  const checkSession = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+    setIsSignedIn(!!session)
+  }
+
+  useEffect(() => {
+    checkSession()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      // Specifically handle sign out event
+      if (event === 'SIGNED_OUT') {
+        setIsSignedIn(false)
+      } else {
+        checkSession()
+      }
+    })
+
+    return () => {
+      subscription?.unsubscribe()
+    }
+  }, [])
+
+  const handleLogout = async () => {
     try {
-      createServerClient(cookieStore)
-      return true
-    } catch (e) {
-      console.error('Supabase initialization failed:', e)
-      return false
+      await supabase.auth.signOut()
+    } catch (error) {
+      console.error('Error during logout:', error)
     }
   }
 
-  const isSupabaseConnected = canInitSupabaseClient()
-
   const navItems = [
-    { name: 'CBH', path: '/cbh/login' },
-    { name: 'HR', path: '/hr/login' },
-    { name: 'Employees', path: '/emp/feed' },
+    { name: 'Login', path: '/login', disabled: isSignedIn },
     { name: 'About', path: '/about' },
   ]
 
@@ -34,12 +58,24 @@ export default async function Navigation() {
           <Link
             key={item.name}
             href={item.path}
-            className="bg-light-gray-800 group relative overflow-hidden rounded-lg px-6 py-3 text-3xl font-medium text-gray-900 transition-all duration-300 ease-in-out"
+            className={`bg-light-gray-800 group relative overflow-hidden rounded-lg px-6 py-3 text-3xl font-medium text-gray-900 transition-all duration-300 ease-in-out ${
+              item.disabled ? 'pointer-events-none opacity-50' : ''
+            }`}
           >
             {item.name}
             <span className="absolute bottom-0 left-0 h-1 w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full"></span>
           </Link>
         ))}
+
+        {/* Render the Logout button if the user is signed in */}
+        {isSignedIn && (
+          <button
+            onClick={handleLogout}
+            className="rounded-lg bg-red-600 px-6 py-3 text-3xl font-medium text-white transition-all duration-300 ease-in-out hover:bg-red-700"
+          >
+            Logout
+          </button>
+        )}
       </nav>
     </div>
   )
