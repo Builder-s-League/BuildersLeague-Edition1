@@ -9,14 +9,13 @@ export const getTopicDetail = async ({
 }: {
   id: string
 }): Promise<Topic> => {
-  const response = await fetch(`${API_URL}/api/topic?id=${id}`, {
+  const response = await fetch(`${process.env.BASE_API_URL}/topic?id=${id}`, {
     next: {
       revalidate: 600,
     },
   })
 
   if (!response.ok) {
-    console.log(response)
     throw new Error(`Failed to fetch data: ${response.statusText}`)
   }
   return await response.json()

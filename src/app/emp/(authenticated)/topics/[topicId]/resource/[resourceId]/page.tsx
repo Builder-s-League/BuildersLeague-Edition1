@@ -13,15 +13,33 @@ interface ResourcePageProps {
   }
 }
 export default function ResourcePage({ params }: ResourcePageProps) {
+  const [content, setContent] = useState(null)
   const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
   const [activateNoteArea, setActivateNoteArea] = useState(1)
+
+  async function fetchResourceContent() {
+    const data = await fetch(
+      'http://localhost:3001/api/topic/resource?id=' + params.resourceId,
+      {
+        cache: 'no-cache',
+      },
+    )
+    const res = await data.json()
+    setContent(res)
+  }
+  useEffect(() => {
+    fetchResourceContent()
+  }, [])
   return (
     <div className="container">
       <div className="mx-auto flex flex-col items-start justify-center gap-2 px-4 py-8 md:py-12 md:pb-8 lg:py-12 lg:pb-10">
-        <Content
-          selectedFileType={selectedFileType}
-          setActivateNoteArea={setActivateNoteArea}
-        />
+        {content && (
+          <Content
+            selectedFileType={selectedFileType}
+            setActivateNoteArea={setActivateNoteArea}
+            content={content}
+          />
+        )}
         <ResourceAddNote activateNoteArea={activateNoteArea} />
       </div>
     </div>
@@ -31,22 +49,25 @@ export default function ResourcePage({ params }: ResourcePageProps) {
 const Content = ({
   selectedFileType,
   setActivateNoteArea,
+  content,
 }: {
+  content: any
   setActivateNoteArea: any
   selectedFileType: Filetype
 }) => {
   return (
     <div className="mx-auto flex flex-col items-center justify-center gap-10   py-8  md:py-12 md:pb-8 lg:py-12 lg:pb-10">
-      <Title title="Residential school history" />
-      <PlayAudio text={demoText} />
-      <Description text={demoText} setActivateNoteArea={setActivateNoteArea} />
+      <Title title={content.title} />
+      <PlayAudio text={content?.content[0]?.children[0]?.text} />
+
+      <Description
+        text={content?.content[0]?.children[0]?.text}
+        setActivateNoteArea={setActivateNoteArea}
+      />
       <File type={selectedFileType} />
     </div>
   )
 }
-
-const demoText =
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry...'
 
 const Description = ({
   text,
@@ -69,37 +90,7 @@ const Description = ({
       onMouseDown={() => setActivateNoteArea((prev: number) => prev + 1)}
       onMouseUp={() => setActivateNoteArea((prev: number) => prev + 1)}
     >
-      <p>
-        This is the resource article content. Select any piece of text to see
-        the tooltip. This is the resource article content. Select any piece of
-        text to see the tooltip. This is the resource article content. Select
-        any piece of text to see the tooltip. This is the resource article
-        content. Select any piece of text to see the tooltip. This is the
-        resource article content. Select any piece of text to see the tooltip.
-        This is the resource article content. Select any piece of text to see
-        the tooltip. This is the resource article content. Select any piece of
-        text to see the tooltip. This is the resource article content. Select
-        any piece of text to see the tooltip. This is the resource article
-        content. Select any piece of text to see the tooltip. This is the
-        resource article content. Select any piece of text to see the tooltip.
-        This is the resource article content. Select any piece of text to see
-        the tooltip. This is the resource article content. Select any piece of
-        text to see the tooltip. This is the resource article content. Select
-        any piece of text to see the tooltip. This is the resource article
-        content. Select any piece of text to see the tooltip. This is the
-        resource article content. Select any piece of text to see the tooltip.
-        This is the resource article content. Select any piece of text to see
-        the tooltip. This is the resource article content. Select any piece of
-        text to see the tooltip. This is the resource article content. Select
-        any piece of text to see the tooltip. This is the resource article
-        content. Select any piece of text to see the tooltip. This is the
-        resource article content. Select any piece of text to see the tooltip.
-        This is the resource article content. Select any piece of text to see
-        the tooltip. This is the resource article content. Select any piece of
-        text to see the tooltip. This is the resource article content. Select
-        any piece of text to see the tooltip. This is the resource article
-        content. Select any piece of text to see the tooltip.
-      </p>
+      <p>{text}</p>
       <ResourceContentTooltip
         contentRef={contentRef}
         setActivateNoteArea={setActivateNoteArea}
