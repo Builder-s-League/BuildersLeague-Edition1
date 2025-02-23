@@ -25,6 +25,7 @@
     "test:ci": "jest --ci --passWithNoTests",
     "analyze": "ANALYZE=true npm run build",
     "lint-staged": "lint-staged"
+
   },
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.665.0",
@@ -102,7 +103,7 @@
     "typescript": "5.1.3"
   },
   "msw": {
-    "workerDirectory": [
+"workerDirectory": [
       "public"
     ]
   }
