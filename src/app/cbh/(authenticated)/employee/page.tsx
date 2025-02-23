@@ -1,12 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@supabase/supabase-js'
 import EDTopNavBar from '@/components/EmployeeDashboard/EDTopNavBar'
 import EmployeeCard from '@/components/EmployeeDashboard/EmployeeCard'
 
 export default function Dashboard() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  )
   const [loading, setLoading] = useState(true)
   const [employees, setEmployees] = useState(
     [] as Array<{ id: number; name: string }>,
