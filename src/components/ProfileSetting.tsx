@@ -21,9 +21,102 @@ export const ProfileSetting = () => {
   const [fileToSend, sendFile] = useState<File | null>()
   const [isModalOpen, setModalOpen] = useState(false)
 
+  // Add new state for user profile data
+  const [profileData, setProfileData] = useState({
+    id: '',
+    name: '',
+    nickname: '',
+    email: '',
+    dob: '',
+    address: '',
+    contact_info: '',
+  })
+
+  // Add loading and error states
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   useEffect(() => {
+    fetchUserProfile()
     checkImageExistence()
   }, [])
+
+  const fetchUserProfile = async () => {
+    try {
+      setIsLoading(true)
+      const { data, error } = await supabase.from('users').select('*').single()
+
+      if (error) throw error
+
+      if (data) {
+        setProfileData({
+          id: data.id,
+          name: data.name || '',
+          nickname: data.nickname || '',
+          email: data.email || '',
+          dob: data.dob || '',
+          address: data.address || '',
+          contact_info: data.contact_info || '',
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
+      setError('Failed to load profile data')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target
+    setProfileData((prev) => ({
+      ...prev,
+      [id]: value,
+    }))
+  }
+
+  const handleUpdateProfile = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      // First, check if we have an ID
+      if (!profileData.id) {
+        setError('No user ID found')
+        return
+      }
+
+      const { error } = await supabase
+        .from('users')
+        .update({
+          name: profileData.name,
+          nickname: profileData.nickname,
+          email: profileData.email,
+          dob: profileData.dob,
+          address: profileData.address,
+          contact_info: profileData.contact_info,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', profileData.id)
+
+      if (error) {
+        // Log the specific error
+        console.error('Supabase error:', error)
+        setError(`Update failed: ${error.message}`)
+        return
+      }
+
+      alert('Profile updated successfully!')
+    } catch (error) {
+      // Log the full error object
+      console.error('Full error:', error)
+      setError(
+        error instanceof Error ? error.message : 'Failed to update profile',
+      )
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const checkImageExistence = async () => {
     try {
@@ -144,7 +237,7 @@ export const ProfileSetting = () => {
               </div>
             )}
             <div className="space-y-1">
-              <h1 className="text-2xl font-bold">John Doe</h1>
+              <h1 className="text-2xl font-bold">{profileData.name}</h1>
               <Button
                 size="sm"
                 variant="outline"
@@ -170,28 +263,63 @@ export const ProfileSetting = () => {
         <div className="space-y-8">
           <Card>
             <CardContent className="flex flex-col gap-4 p-4">
+              {error && <div className="text-sm text-red-500">{error}</div>}
               <div>
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" defaultValue="John Doe" />
+                <Input
+                  id="name"
+                  value={profileData.name}
+                  onChange={handleInputChange}
+                />
               </div>
               <div>
                 <Label htmlFor="nickname">Nickname</Label>
-                <Input id="nickname" defaultValue="John" />
+                <Input
+                  id="nickname"
+                  value={profileData.nickname}
+                  onChange={handleInputChange}
+                />
               </div>
               <div>
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" defaultValue="john.doe@example.com" />
+                <Input
+                  id="email"
+                  value={profileData.email}
+                  onChange={handleInputChange}
+                />
               </div>
               <div>
                 <Label htmlFor="dob">DOB</Label>
-                <Input id="dob" defaultValue="January 1, 1999" />
+                <Input
+                  id="dob"
+                  value={profileData.dob}
+                  onChange={handleInputChange}
+                />
               </div>
               <div>
                 <Label htmlFor="address">Address</Label>
-                <Input id="address" defaultValue="123 This St" />
+                <Input
+                  id="address"
+                  value={profileData.address}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="contact_info">Contact Info</Label>
+                <Input
+                  id="contact_info"
+                  value={profileData.contact_info}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="mt-4 flex justify-end">
-                <Button className="w-full">Update Profile</Button>
+                <Button
+                  className="w-full"
+                  onClick={handleUpdateProfile}
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Updating...' : 'Update Profile'}
+                </Button>
               </div>
               <div className=" flex flex-col gap-4">
                 <Link href="" className="w-full">
