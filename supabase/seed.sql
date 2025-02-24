@@ -1,48 +1,202 @@
--- Inserting sample data into Users table
-INSERT INTO Users (name, email, contact_info, password, admin_id, created_at, updated_at, isActive, role)
-VALUES 
-  ('Admin User', 'admin@example.com', '123-456-7890', 'securepassword', NULL, NOW(), NOW(), TRUE, 0),
-  ('Org User', 'org@example.com', '234-567-8901', 'securepassword', 1, NOW(), NOW(), TRUE, 1),
-  ('Employee User', 'employee@example.com', '345-678-9012', 'securepassword', 1, NOW(), NOW(), TRUE, 2);
+BEGIN;
 
--- Inserting sample data into Notes table
-INSERT INTO Notes (textrange, note_content, topic_id, employee_id, is_public, is_approved_cbh, is_approved_emp, created_at, updated_at)
-VALUES 
-  (ARRAY[0, 5], 'This is a public note', 1, 3, TRUE, TRUE, TRUE, NOW(), NOW()),
-  (ARRAY[6, 15], 'This is a private note', 1, 3, FALSE, FALSE, FALSE, NOW(), NOW());
+-- First, clean up existing data
+DO $$
+BEGIN
+    DELETE FROM Notes;
+    DELETE FROM TopicProgress;
+    DELETE FROM Feedbacks;
+    DELETE FROM Schedule_Organizations;
+    DELETE FROM Schedules;
+    DELETE FROM CBH_banned_words;
+    DELETE FROM Organization_Banned_Words;
+    DELETE FROM Survey;
+    DELETE FROM profiles;
+    DELETE FROM auth.identities;
+    DELETE FROM auth.users;
+END $$;
 
--- Inserting sample data into TopicProgress table
-INSERT INTO TopicProgress (topic_id, employee_id, content_id, created_at, updated_at)
-VALUES 
-  (1, 3, 1, NOW(), NOW()),
-  (2, 3, 2, NOW(), NOW());
+-- Create all users and related data in one transaction
+WITH user_values AS (
+    SELECT *
+    FROM (
+        VALUES 
+            ('admin@example.com', 3, 'CBH Admin User'),
+            ('hr@example.com', 2, 'HR/Org User'),
+            ('employee@example.com', 1, 'Employee User')
+    ) AS t(email, profile_role, name)
+),
+inserted_users AS (
+    INSERT INTO auth.users (
+        id,
+        instance_id,
+        aud,
+        role,
+        email,
+        encrypted_password,
+        email_confirmed_at,
+        invited_at,
+        confirmation_token,
+        confirmation_sent_at,
+        recovery_token,
+        recovery_sent_at,
+        email_change_token_new,
+        email_change,
+        email_change_sent_at,
+        last_sign_in_at,
+        raw_app_meta_data,
+        raw_user_meta_data,
+        is_super_admin,
+        created_at,
+        updated_at,
+        phone,
+        phone_confirmed_at,
+        phone_change,
+        phone_change_token,
+        phone_change_sent_at,
+        email_change_token_current,
+        email_change_confirm_status,
+        banned_until,
+        reauthentication_token,
+        reauthentication_sent_at
+    )
+    SELECT
+        CASE 
+            WHEN email = 'admin@example.com' THEN '00000000-0000-0000-0000-000000000001'::uuid
+            WHEN email = 'hr@example.com' THEN '00000000-0000-0000-0000-000000000002'::uuid
+            ELSE '00000000-0000-0000-0000-000000000003'::uuid
+        END,
+        '00000000-0000-0000-0000-000000000000'::uuid,
+        'authenticated',
+        'authenticated',
+        email,
+        crypt('password123', gen_salt('bf')),
+        now(),
+        NULL::timestamp,
+        '',
+        NULL::timestamp,
+        '',
+        NULL::timestamp,
+        '',
+        '',
+        NULL::timestamp,
+        now()::timestamp,
+        '{"provider":"email","providers":["email"]}'::jsonb,
+        '{}'::jsonb,
+        false,
+        now(),
+        now(),
+        NULL,
+        NULL::timestamp,
+        '',
+        '',
+        NULL::timestamp,
+        '',
+        0,
+        NULL::timestamp,
+        '',
+        NULL::timestamp
+    FROM user_values
+    RETURNING id, email
+),
+inserted_identities AS (
+    INSERT INTO auth.identities (
+        id,
+        user_id,
+        identity_data,
+        provider,
+        provider_id,
+        last_sign_in_at,
+        created_at,
+        updated_at
+    )
+    SELECT 
+        gen_random_uuid(),
+        id,
+        json_build_object(
+            'sub', id::text,
+            'email', email,
+            'email_verified', true
+        )::jsonb,
+        'email',
+        email, -- Use email as provider_id
+        now(),
+        now(),
+        now()
+    FROM inserted_users
+    RETURNING user_id
+)
+-- Wait for trigger to create profiles
+SELECT pg_sleep(0.1);
 
--- Inserting sample data into Feedbacks table
-INSERT INTO Feedbacks (content, employee_id, created_at, updated_at)
-VALUES 
-  ('Great progress!', 3, NOW(), NOW()),
-  ('Needs improvement on the latest topic.', 3, NOW(), NOW());
+-- Now update the profiles
+DO $$
+DECLARE
+    admin_uuid UUID := '00000000-0000-0000-0000-000000000001';
+    hr_uuid UUID := '00000000-0000-0000-0000-000000000002';
+    employee_uuid UUID := '00000000-0000-0000-0000-000000000003';
+BEGIN
+    -- Update profiles
+    UPDATE profiles
+    SET role = 3,
+        name = 'CBH Admin User',
+        contact_info = '123-456-7890'
+    WHERE id = admin_uuid;
 
--- Inserting sample data into Schedules table
--- INSERT INTO Schedules (topic_id, organization_id, cbh_admin_id, schedule_at, created_at, updated_at)
--- VALUES 
---   (1, 2, 1, '2024-10-10 10:00:00', NOW(), NOW()),
---   (2, 2, 1, '2024-10-12 14:00:00', NOW(), NOW());
+    UPDATE profiles
+    SET role = 2,
+        name = 'HR/Org User',
+        contact_info = '234-567-8901',
+        admin_id = admin_uuid
+    WHERE id = hr_uuid;
 
--- Inserting sample data into CBH_banned_words table
-INSERT INTO CBH_banned_words (banned_word, cbh_admin_id, created_at, updated_at)
-VALUES 
-  ('inappropriate_word_1', 1, NOW(), NOW()),
-  ('inappropriate_word_2', 1, NOW(), NOW());
+    UPDATE profiles
+    SET role = 1,
+        name = 'Employee User',
+        contact_info = '345-678-9012',
+        admin_id = hr_uuid
+    WHERE id = employee_uuid;
 
--- Inserting sample data into Organization_Banned_Words table
-INSERT INTO Organization_Banned_Words (banned_word, organization_id, created_at, updated_at)
-VALUES 
-  ('organization_word_1', 2, NOW(), NOW()),
-  ('organization_word_2', 2, NOW(), NOW());
+    -- Insert Notes
+    INSERT INTO Notes (textrange, note_content, topic_id, employee_id, is_public, is_approved_cbh, is_approved_emp, created_at, updated_at)
+    VALUES 
+        (ARRAY[0, 5], 'First public note', 1, employee_uuid, TRUE, TRUE, TRUE, NOW(), NOW()),
+        (ARRAY[6, 15], 'Private note', 1, employee_uuid, FALSE, FALSE, FALSE, NOW(), NOW());
 
--- Inserting sample data into Survey table
-INSERT INTO Survey (link, organization_id, created_at, updated_at)
-VALUES 
-  ('https://example.com/survey1', 2, NOW(), NOW()),
-  ('https://example.com/survey2', 2, NOW(), NOW());
+    -- Insert TopicProgress
+    INSERT INTO TopicProgress (topic_id, employee_id, content_id, created_at, updated_at)
+    VALUES 
+        (1, employee_uuid, 1, NOW(), NOW());
+
+    -- Insert Feedbacks
+    INSERT INTO Feedbacks (content, employee_id, created_at, updated_at)
+    VALUES 
+        ('Great progress!', employee_uuid, NOW(), NOW());
+
+    -- Insert Schedules
+    INSERT INTO Schedules (topic_id, cbh_admin_id, schedule_at, created_at, updated_at)
+    VALUES 
+        ('TOPIC-001', admin_uuid, NOW() + INTERVAL '1 day', NOW(), NOW());
+
+    -- Insert Schedule_Organizations
+    INSERT INTO Schedule_Organizations (parent_id, organization_id, created_at, updated_at)
+    VALUES 
+        (1, hr_uuid, NOW(), NOW());
+
+    -- Insert CBH_banned_words
+    INSERT INTO CBH_banned_words (banned_word, cbh_admin_id, created_at, updated_at)
+    VALUES 
+        ('inappropriate1', admin_uuid, NOW(), NOW());
+
+    -- Insert Organization_Banned_Words
+    INSERT INTO Organization_Banned_Words (banned_word, organization_id, created_at, updated_at)
+    VALUES 
+        ('org_banned1', hr_uuid, NOW(), NOW());
+
+    -- Insert Survey
+    INSERT INTO Survey (link, organization_id, created_at, updated_at, status)
+    VALUES 
+        ('https://survey1.example.com', hr_uuid, NOW(), NOW(), TRUE);
+END $$;
+
+COMMIT;

@@ -1,7 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import { headers, cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { createServerClient } from '@/utils/supabase'
+import { signIn } from './actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,24 +12,11 @@ export default function Login({
 }: {
   searchParams: { message: string }
 }) {
-  const signIn = async (formData: FormData) => {
-    'use server'
-
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createServerClient(cookieStore)
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      return redirect('/login?message=Could not authenticate user')
+  const handleSubmit = async (formData: FormData) => {
+    const result = await signIn(formData)
+    if (result?.success) {
+      window.location.href = '/'
     }
-
-    return redirect('/')
   }
 
   return (
@@ -60,7 +47,7 @@ export default function Login({
           <h2 className="text-xl font-semibold">Login</h2>
         </CardHeader>
         <CardContent>
-          <form action={signIn} className="flex flex-col gap-4">
+          <form action={handleSubmit} className="flex flex-col gap-4">
             <Label htmlFor="email">Email</Label>
             <Input
               type="email"

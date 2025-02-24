@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -33,12 +33,7 @@ export const ProfileSetting = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    fetchUserProfile()
-    checkImageExistence()
-  }, [])
-
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       setIsLoading(true)
       const { data, error } = await supabase.from('users').select('*').single()
@@ -59,7 +54,7 @@ export const ProfileSetting = () => {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [])
 
   // Helper function to validate inputs
   const validateInputs = () => {
@@ -76,6 +71,87 @@ export const ProfileSetting = () => {
 
     return null
   }
+
+  const fetchImageFromSupabase = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage')
+        .download('profile_image')
+
+      if (error) {
+        throw error
+      }
+
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64data = reader.result as string
+        setFileContent(base64data)
+      }
+      reader.readAsDataURL(data)
+    } catch (error) {
+      console.error('Error fetching image from Supabase:', error)
+    }
+  }, [])
+
+  const profileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const fileReader = new FileReader()
+
+      fileReader.onload = (evt: ProgressEvent<FileReader>) => {
+        setPreviewURL(evt.target?.result as string)
+        sendFile(file)
+        setModalOpen(true)
+      }
+
+      fileReader.onerror = (error) => {
+        console.error('Error reading file:', error)
+      }
+
+      fileReader.readAsDataURL(file)
+    }
+  }
+
+  const uploadImageToSupabase = useCallback(async (file: File) => {
+    const fileName = 'profile_image'
+
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage')
+        .upload(fileName, file, { upsert: true })
+
+      if (error) throw error
+
+      console.log('Image uploaded successfully:', data)
+    } catch (error) {
+      console.error('Error uploading image to Supabase:', error)
+    }
+  }, [])
+
+  const checkImageExistence = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('CBH_ProfileImage')
+        .list('', { search: 'profile_image' })
+
+      if (error) {
+        throw error
+      }
+
+      if (data.length > 0) {
+        fetchImageFromSupabase()
+      } else {
+        console.log('No profile image found')
+      }
+    } catch (error) {
+      console.error('Error checking image existence:', error)
+    }
+  }, [fetchImageFromSupabase])
+
+  useEffect(() => {
+    fetchUserProfile()
+    checkImageExistence()
+  }, [fetchUserProfile, checkImageExistence])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -130,82 +206,6 @@ export const ProfileSetting = () => {
       )
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const checkImageExistence = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('CBH_ProfileImage')
-        .list('', { search: 'profile_image' })
-
-      if (error) {
-        throw error
-      }
-
-      if (data.length > 0) {
-        fetchImageFromSupabase()
-      } else {
-        console.log('No profile image found')
-      }
-    } catch (error) {
-      console.error('Error checking image existence:', error)
-    }
-  }
-
-  const fetchImageFromSupabase = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('CBH_ProfileImage')
-        .download('profile_image')
-
-      if (error) {
-        throw error
-      }
-
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        const base64data = reader.result as string
-        setFileContent(base64data)
-      }
-      reader.readAsDataURL(data)
-    } catch (error) {
-      console.error('Error fetching image from Supabase:', error)
-    }
-  }
-
-  const profileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const fileReader = new FileReader()
-
-      fileReader.onload = (evt: ProgressEvent<FileReader>) => {
-        setPreviewURL(evt.target?.result as string)
-        sendFile(file)
-        setModalOpen(true)
-      }
-
-      fileReader.onerror = (error) => {
-        console.error('Error reading file:', error)
-      }
-
-      fileReader.readAsDataURL(file)
-    }
-  }
-
-  const uploadImageToSupabase = async (file: File) => {
-    const fileName = 'profile_image'
-
-    try {
-      const { data, error } = await supabase.storage
-        .from('CBH_ProfileImage')
-        .upload(fileName, file, { upsert: true })
-
-      if (error) throw error
-
-      console.log('Image uploaded successfully:', data)
-    } catch (error) {
-      console.error('Error uploading image to Supabase:', error)
     }
   }
 
