@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { signIn } from './actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,10 +14,40 @@ export default function Login({
 }: {
   searchParams: { message: string }
 }) {
+  const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async (formData: FormData) => {
-    const result = await signIn(formData)
-    if (result?.success) {
-      window.location.href = '/'
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      const result = await signIn(formData)
+
+      if (result?.error) {
+        setError(result.error)
+        return
+      }
+
+      // If no error, the server action will handle the redirect
+      // But we can also handle it client-side as a fallback
+      if (result?.role) {
+        switch (result.role) {
+          case 3:
+            router.push('/cbh')
+            break
+          case 2:
+            router.push('/hr')
+            break
+          default:
+            router.push('/emp')
+        }
+      }
+    } catch (e) {
+      setError('An unexpected error occurred')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -67,12 +99,12 @@ export default function Login({
             <Button asChild variant="link">
               <Link href="/forgot-password">Forgot Password?</Link>
             </Button>
-            <Button type="submit" className="bg-green-700">
-              Sign In
+            <Button type="submit" className="bg-green-700" disabled={isLoading}>
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
-            {searchParams?.message && (
+            {(error || searchParams?.message) && (
               <p className="mt-4 text-center text-red-500">
-                {searchParams.message}
+                {error || searchParams.message}
               </p>
             )}
           </form>
