@@ -9,8 +9,6 @@ console.log('Service Worker: Registered')
 const CACHE_NAME = 'cobh-cache-v1'
 const urlsToCache = [
   // Core app files
-  '/',
-  '/manifest.webmanifest',
 
   // Static assets
   '/cobh_logo/COBH_Logo_Large.svg',
@@ -19,7 +17,17 @@ const urlsToCache = [
   '/icons/apple-touch-icon.png',
 ]
 
+// Check if we're in development mode
+const isDevelopment =
+  self.location.hostname === 'localhost' ||
+  self.location.hostname === '127.0.0.1'
+
 self.addEventListener('install', (event) => {
+  if (isDevelopment) {
+    console.log('Service Worker: Skipping cache in development')
+    return
+  }
+
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.all(
@@ -40,6 +48,11 @@ self.addEventListener('install', (event) => {
 })
 
 self.addEventListener('fetch', (event) => {
+  if (isDevelopment) {
+    // Skip caching in development
+    return
+  }
+
   if (event.request.url.startsWith(self.location.origin)) {
     event.respondWith(
       caches.match(event.request).then((response) => {
@@ -56,16 +69,30 @@ self.addEventListener('fetch', (event) => {
             return response
           }
 
-          if (response.type === 'basic') {
-            const responseToCache = response.clone()
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache)
-            })
-          }
+          const responseToCache = response.clone()
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache)
+          })
 
           return response
         })
       }),
     )
   }
+})
+
+// Add cleanup for old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Service Worker: Removing old cache', cacheName)
+            return caches.delete(cacheName)
+          }
+        }),
+      )
+    }),
+  )
 })

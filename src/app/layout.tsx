@@ -42,25 +42,27 @@ export default function RootLayout({
           </main>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </ReactQueryProvider>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(function(err) {
-                      console.error('ServiceWorker registration failed: ', err);
-                    });
-                });
-              } else {
-                console.log('Service workers are not supported');
-              }
-            `,
-          }}
-        />
+        {process.env.NODE_ENV === 'production' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                if ('serviceWorker' in navigator) {
+                  window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js')
+                      .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                      })
+                      .catch(function(err) {
+                        console.error('ServiceWorker registration failed: ', err);
+                      });
+                  });
+                } else {
+                  console.log('Service workers are not supported');
+                }
+              `,
+            }}
+          />
+        )}
       </body>
     </html>
   )

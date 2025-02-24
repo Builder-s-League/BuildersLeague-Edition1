@@ -8,23 +8,31 @@ export async function middleware(request: NextRequest) {
     // Feel free to remove once you have Supabase connected.
     const { supabase, response } = createMiddlewareClient(request)
 
-    // Refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-    await supabase.auth.getSession()
+    // Refresh session if expired
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession()
+    console.log('Session:', session, 'Session Error:', sessionError)
 
     const {
       data: { user },
     } = await supabase.auth.getUser()
-
+    console.log('Auth User:', user)
     if (user) {
+      console.log(user.id)
       // Fetch profile instead of users table
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single()
-
-      if (error) throw error
+      console.log('Profile Query Error:', error)
+      console.log('Profile Data:', profile)
+      if (error) {
+        console.error('Profile fetch error:', error.message, error.details)
+        throw error
+      }
       if (!profile) throw new Error('Profile not found')
 
       console.log('profile', profile)
@@ -58,8 +66,9 @@ export async function middleware(request: NextRequest) {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
-    console.error('Middleware error:', e)
-    return NextResponse.redirect(new URL('/login', request.nextUrl))
+    return NextResponse.next({
+      request: { headers: request.headers },
+    })
   }
 }
 
@@ -77,16 +86,4 @@ export const config = {
      */
     '/((?!_next/static|_next/image|favicon.ico|login|api|_supabase).*)',
   ],
-}
-
-// Update your types
-interface UserProfile {
-  id: string
-  name: string
-  contact_info: string | null
-  is_active: boolean
-  role: number // 1: employee, 2: hr/org, 3: cbh(admin)
-  admin_id: string | null
-  created_at: string
-  updated_at: string
 }
