@@ -41,7 +41,7 @@ const nextConfig = {
     },
   ],
   images: {
-    domains: ['buildersleague.payloadcms.app'],
+    domains: ['buildersleague.payloadcms.app', 'localhost'],
   },
 }
 
