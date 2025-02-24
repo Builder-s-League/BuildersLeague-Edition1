@@ -56,7 +56,7 @@ const Content = ({
   selectedFileType: Filetype
 }) => {
   return (
-    <div className="mx-auto flex flex-col items-center justify-center gap-10   py-8  md:py-12 md:pb-8 lg:py-12 lg:pb-10">
+    <div className="mx-auto  flex w-full flex-col items-center justify-center gap-10   py-8  md:py-12 md:pb-8 lg:py-12 lg:pb-10">
       <Title title={content.title} />
       <PlayAudio text={content?.content[0]?.children[0]?.text} />
 
