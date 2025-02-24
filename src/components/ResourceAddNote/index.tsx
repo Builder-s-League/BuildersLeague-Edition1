@@ -38,7 +38,8 @@ export const ResourceAddNote = ({
     NoteAreaRef.current.focus()
 
     setNotepos(() => {
-      let p = JSON.parse(localStorage.getItem('highlightPosition') || '')
+      let s = localStorage.getItem('highlightPosition')
+      let p = s ? JSON.parse(s) : ''
       if (!p) return { top: 0, left: 0 }
       return p
     })

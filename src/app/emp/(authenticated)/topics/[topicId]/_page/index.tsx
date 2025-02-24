@@ -46,7 +46,7 @@ export default function TopicDetailPageContent({
         <div className="flex w-full flex-col">
           <LinearProgressBar value={topicState.progress} max={100} />
           <p className="text-right text-muted-foreground">
-            {topicState.progress}%
+            {topicState.progress ?? 0}%
           </p>
         </div>
       </section>
