@@ -37,7 +37,7 @@ The CBH app is a Indigenous education resource platform where users are able to 
    npx supabase start
    ```
 
-2. Rename `.env.local.example` to `.env.local` and update the following:
+2. Copy and rename `.env.local.example` to `.env.local` and update the following:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
