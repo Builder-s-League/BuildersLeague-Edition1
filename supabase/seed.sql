@@ -140,21 +140,24 @@ BEGIN
     UPDATE profiles
     SET role = 3,
         name = 'CBH Admin User',
-        contact_info = '123-456-7890'
+        contact_info = '123-456-7890',
+        email = 'admin@example.com'
     WHERE id = admin_uuid;
 
     UPDATE profiles
     SET role = 2,
         name = 'HR/Org User',
         contact_info = '234-567-8901',
-        admin_id = admin_uuid
+        admin_id = admin_uuid,
+        email = 'hr@example.com'
     WHERE id = hr_uuid;
 
     UPDATE profiles
     SET role = 1,
         name = 'Employee User',
         contact_info = '345-678-9012',
-        admin_id = hr_uuid
+        admin_id = hr_uuid,
+        email = 'employee@example.com'
     WHERE id = employee_uuid;
 
     -- Insert Notes

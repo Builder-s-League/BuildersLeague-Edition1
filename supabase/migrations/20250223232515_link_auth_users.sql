@@ -20,18 +20,22 @@ BEGIN
     INSERT INTO public.profiles (
         id,
         name,
+        email,
         contact_info,
         is_active,
         role,
+        admin_id,
         created_at,
         updated_at
     )
     VALUES (
         NEW.id,
         COALESCE(NEW.raw_user_meta_data->>'name', NEW.email),
-        NULL,
+        NEW.email,
+        NEW.raw_user_meta_data->>'contact_info',
         true,
-        1,  -- Default to employee (1)
+        COALESCE((NEW.raw_user_meta_data->>'role')::int, 1),  -- Default to employee (1)
+        (NEW.raw_user_meta_data->>'admin_id')::uuid,  -- Convert to UUID
         NOW(),
         NOW()
     );

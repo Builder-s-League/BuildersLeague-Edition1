@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     name VARCHAR(255),
+    email VARCHAR(255),
     contact_info VARCHAR(255),
     is_active BOOLEAN DEFAULT true,
     role INT, -- 1 -> employee, 2 -> hr/org  3 -> cbh(admin)
@@ -146,6 +147,7 @@ CREATE POLICY "Users can update own profile"
 CREATE POLICY "Allow profile creation"
     ON profiles FOR INSERT
     WITH CHECK (true);
+
 
 -- Grant necessary permissions
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
