@@ -9,6 +9,7 @@ import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
 import Image from 'next/image'
 import { PersonIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -20,6 +21,7 @@ export const ProfileSetting = () => {
   const [previewImageURL, setPreviewURL] = useState<string>('')
   const [fileToSend, sendFile] = useState<File | null>()
   const [isModalOpen, setModalOpen] = useState(false)
+  const router = useRouter()
 
   // Add new state for user profile data
   const [profileData, setProfileData] = useState({
@@ -221,6 +223,16 @@ export const ProfileSetting = () => {
     setModalOpen(false)
   }
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      router.push('/login') // Redirect to login page after logout
+    } catch (error) {
+      console.error('Error logging out:', error)
+    }
+  }
+
   return (
     <>
       {isModalOpen && (
@@ -324,7 +336,11 @@ export const ProfileSetting = () => {
                     Help
                   </Button>
                 </Link>
-                <Button variant="destructive" className="w-full">
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               </div>
