@@ -88,7 +88,7 @@ export default function EDWrapper({ employees, hrId }: EDWrapperProps) {
                 No employees match your search criteria
               </div>
             ) : (
-              <EmployeeList employees={filteredEmployees} />
+              <EmployeeList employees={filteredEmployees} hrId={hrId} />
             )}
           </div>
         </div>

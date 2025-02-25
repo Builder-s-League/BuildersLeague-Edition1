@@ -12,18 +12,20 @@ import { cn } from '@/utils/tailwind'
 interface EmployeeCardProps {
   profile: ProfileSummary
   learningHours: number
+  hrId: string
 }
 
 export default function EmployeeCard({
   profile,
   learningHours,
+  hrId,
 }: EmployeeCardProps) {
   const router = useRouter()
   const path = usePathname()
 
   const handleDelete = async () => {
     try {
-      await deleteEmployee(profile.id)
+      await deleteEmployee(profile.id, hrId)
       toast.success('Employee deleted successfully')
     } catch (error) {
       console.error('Error deleting employee:', error)
