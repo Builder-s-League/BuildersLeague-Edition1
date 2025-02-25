@@ -1,41 +1,92 @@
 'use client'
 
 import React from 'react'
-import PageButton from './PageButton'
-import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import ConfirmationDialog from '../ui/confirmation-dialog'
+import { deleteEmployee } from '@/app/cbh/(authenticated)/organization-dashboard/[hrId]/actions'
+import { toast } from 'sonner'
+import { Profile, ProfileSummary } from '@/types/profile'
+import { cn } from '@/utils/tailwind'
 
 interface EmployeeCardProps {
-  name: string
+  profile: ProfileSummary
   learningHours: number
-  employeeNumber: number
 }
 
 export default function EmployeeCard({
-  name,
+  profile,
   learningHours,
-  employeeNumber,
 }: EmployeeCardProps) {
+  const router = useRouter()
+  const path = usePathname()
+
+  const handleDelete = async () => {
+    try {
+      await deleteEmployee(profile.id)
+      toast.success('Employee deleted successfully')
+    } catch (error) {
+      console.error('Error deleting employee:', error)
+      toast.error('Failed to delete employee')
+    }
+  }
+
   return (
-    <div className="m-6 flex items-center justify-around gap-4 rounded-lg border border-gray-300 bg-white p-4 shadow-md transition-all">
-      <div className=" rounded-lg border border-gray-300 p-10">
-        <p className="text-lg font-semibold text-gray-600">
-          Employee {employeeNumber}: {name}
-        </p>
-      </div>
-      <div className="flex flex-col p-10">
-        <p className="rounded-full bg-blue-100 px-3 py-1 text-sm text-gray-600">
-          Learning Hours: {learningHours}
-        </p>
-        <div className="mt-4 flex gap-3">
-          <Link
-            href={`/cbh/employee/edit/${employeeNumber}`}
-            className="flex-1"
+    <div className="flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all hover:shadow-md">
+      <div className="p-4 md:p-5">
+        <div className="mb-3 md:mb-4">
+          <div className="flex items-center gap-4">
+            <h3 className="truncate text-base font-semibold text-gray-900 md:text-lg">
+              {profile.name}
+            </h3>
+            <span
+              className={cn(
+                'inline-flex w-fit rounded-full px-3 py-1 text-xs font-medium',
+                profile.is_active
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-gray-100 text-gray-700',
+              )}
+            >
+              {profile.is_active ? 'Active' : 'Inactive'}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-gray-500 md:text-sm">
+            Employee ID: {profile.id}
+          </p>
+        </div>
+
+        <div className="mb-3 md:mb-4">
+          <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs text-blue-800 md:px-3 md:py-1 md:text-sm">
+            Learning Hours: {learningHours}
+          </span>
+        </div>
+
+        <div className="flex gap-2">
+          <Button
+            variant="default"
+            size="sm"
+            className="md:size-default flex-1"
+            onClick={() => router.push(`${path}/edit/${profile.id}`)}
           >
-            <PageButton label="Edit" className="w-full" />
-          </Link>
-          <Link href="/delete" className="flex-1">
-            <PageButton label="Delete" className="w-full" />
-          </Link>
+            Edit
+          </Button>
+          <ConfirmationDialog
+            title="Are you sure?"
+            description="This action cannot be undone."
+            actionLabel="Delete"
+            variant="destructive"
+            cancelLabel="Cancel"
+            onConfirm={handleDelete}
+            trigger={
+              <Button
+                variant="destructive"
+                size="sm"
+                className="md:size-default flex-1"
+              >
+                Delete
+              </Button>
+            }
+          />
         </div>
       </div>
     </div>

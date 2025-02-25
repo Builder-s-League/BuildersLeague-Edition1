@@ -1,23 +1,21 @@
 'use client'
-import { MouseEventHandler } from 'react'
+
+import { Button } from '@/components/ui/button'
 
 interface PageButtonProps {
   label: string
-  link?: string
   className?: string
-  onClick?: MouseEventHandler<HTMLAnchorElement>
+  onClick?: () => void
 }
 
-function PageButton({ label, link, className, onClick }: PageButtonProps) {
+export default function PageButton({
+  label,
+  className,
+  onClick,
+}: PageButtonProps) {
   return (
-    <a
-      onClick={onClick}
-      className={`m-2 rounded bg-gray-500 px-4 py-2 text-center text-white hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-500 ${className || ''}`}
-      href={link}
-    >
+    <Button variant="outline" className={className} onClick={onClick}>
       {label}
-    </a>
+    </Button>
   )
 }
-
-export default PageButton
