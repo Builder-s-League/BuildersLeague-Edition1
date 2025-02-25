@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import { parse } from 'json2csv'
 import { Button } from '@/components/ui/button'
