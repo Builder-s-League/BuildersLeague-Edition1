@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import { parse } from 'json2csv'
 import { Button } from '@/components/ui/button'
-import { Download } from 'lucide-react'
+import { DownloadIcon } from '@radix-ui/react-icons'
 import { toast } from 'sonner'
 
 export function ExportCSVButton({ hrId }: { hrId: string }) {
@@ -84,7 +84,7 @@ export function ExportCSVButton({ hrId }: { hrId: string }) {
       className="flex items-center gap-2"
       onClick={handleExport}
     >
-      <Download className="h-4 w-4" />
+      <DownloadIcon className="h-4 w-4" />
       <span>Export</span>
     </Button>
   )

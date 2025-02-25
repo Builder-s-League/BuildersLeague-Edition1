@@ -3,7 +3,12 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ExportCSVButton } from './ExportButton'
-import { PlusCircle, Upload, Mail } from 'lucide-react'
+import {
+  PlusIcon,
+  DownloadIcon,
+  UploadIcon,
+  EnvelopeOpenIcon,
+} from '@radix-ui/react-icons'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -64,13 +69,13 @@ export default function EDActions({
             <div className="grid grid-cols-2 gap-2">
               <Link href={`${path}/add`} passHref>
                 <Button className="w-full">
-                  <PlusCircle className="mr-2 h-4 w-4" />
+                  <PlusIcon className="mr-2 h-4 w-4" />
                   Add Employee
                 </Button>
               </Link>
               <Link href={`${path}/import`} passHref>
                 <Button variant="outline" className="w-full">
-                  <Upload className="mr-2 h-4 w-4" />
+                  <UploadIcon className="mr-2 h-4 w-4" />
                   Import
                 </Button>
               </Link>
@@ -78,7 +83,7 @@ export default function EDActions({
             <div className="grid grid-cols-2 gap-2">
               <Link href={`${path}/email`} passHref>
                 <Button variant="outline" className="w-full">
-                  <Mail className="mr-2 h-4 w-4" />
+                  <EnvelopeOpenIcon className="mr-2 h-4 w-4" />
                   Email All
                 </Button>
               </Link>

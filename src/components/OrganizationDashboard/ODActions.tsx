@@ -68,10 +68,7 @@ export default function ODActions({
               <PlusIcon className="mr-2 h-4 w-4" />
               Add Organization
             </Link>
-            <Button
-              onClick={handleExport}
-              className={buttonVariants({ variant: 'secondary', size: 'lg' })}
-            >
+            <Button onClick={handleExport} variant="outline" size="lg">
               <DownloadIcon className="mr-2 h-4 w-4" />
               Export CSV
             </Button>
