@@ -14,7 +14,14 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-import bcrypt from 'bcryptjs'
+import {
+  deleteOrganization,
+  resetOrganizationPassword,
+  updateOrganizationProfile,
+} from '../../actions'
+import ConfirmationDialog from '@/components/ui/confirmation-dialog'
+import { generateSecurePassword } from '@/utils/password'
+
 export default function EditOrganization() {
   const { id } = useParams()
   const router = useRouter()
@@ -22,36 +29,65 @@ export default function EditOrganization() {
 
   const [organization, setOrganization] = useState({
     name: '',
-    // address: '',
     contact_info: '',
-    // hr_name: '',
     email: '',
-    isactive: false,
-    password: '', // Add password field
+    is_active: false,
   })
 
+  // Track original data to compare changes
+  const [originalData, setOriginalData] = useState({
+    name: '',
+    contact_info: '',
+    email: '',
+    is_active: false,
+  })
+
+  const [isLoading, setIsLoading] = useState(false)
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false)
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [generatedPassword, setGeneratedPassword] = useState(
+    generateSecurePassword(),
+  )
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchOrganization = async () => {
-      const { data, error } = await supabase
-        .from('users')
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
         .select('*')
         .eq('id', id)
-        .eq('role', 1)
+        .eq('role', 2)
         .single()
 
-      if (error) {
-        console.error('Error fetching organization:', error)
-      } else if (data) {
-        setOrganization(data)
+      if (profileError) {
+        console.error('Error fetching organization:', profileError)
+        setError(profileError.message)
+        return
+      }
+
+      if (profile) {
+        const orgData = {
+          name: profile.name,
+          contact_info: profile.contact_info,
+          email: profile.email,
+          is_active: profile.is_active,
+        }
+        setOrganization(orgData)
+        setOriginalData(orgData) // Store original data
       }
     }
 
     fetchOrganization()
   }, [id, supabase])
+
+  // Check if form data has changed
+  const hasChanges = () => {
+    return (
+      organization.name !== originalData.name ||
+      organization.contact_info !== originalData.contact_info ||
+      organization.email !== originalData.email ||
+      organization.is_active !== originalData.is_active
+    )
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -59,52 +95,79 @@ export default function EditOrganization() {
   }
 
   const handleSwitchChange = (checked: boolean) => {
-    setOrganization((prev) => ({ ...prev, isactive: checked }))
+    setOrganization((prev) => ({ ...prev, is_active: checked }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const { error } = await supabase
-      .from('users')
-      .update(organization)
-      .eq('id', id)
+    setError(null)
+    setIsLoading(true)
 
-    if (error) {
-      console.error('Error updating organization:', error)
-    } else {
-      router.push('/cbh/organization-dashboard')
+    try {
+      const result = await updateOrganizationProfile(id as string, {
+        name: organization.name,
+        contact_info: organization.contact_info,
+        email: organization.email,
+        is_active: organization.is_active,
+      })
+
+      if (result.error) {
+        setError(result.error)
+        return
+      }
+
+      // Update original data after successful update
+      setOriginalData(organization)
+      router.replace('/cbh/organization-dashboard')
+    } catch (err) {
+      console.error('Error updating organization:', err)
+      setError(
+        err instanceof Error ? err.message : 'Failed to update organization',
+      )
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleDelete = async () => {
-    const { error } = await supabase.from('users').delete().eq('id', id)
+    setIsLoading(true)
+    try {
+      const result = await deleteOrganization(id as string)
 
-    if (error) {
-      console.error('Error deleting organization:', error)
-    } else {
-      router.push('/cbh/organization-dashboard')
+      if (result.error) {
+        setError(result.error)
+        return
+      }
+
+      router.replace('/cbh/organization-dashboard')
+    } catch (err) {
+      console.error('Error deleting organization:', err)
+      setError(
+        err instanceof Error ? err.message : 'Failed to delete organization',
+      )
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleResetPassword = async () => {
-    if (newPassword !== confirmPassword) {
-      alert("Passwords don't match")
-      return
-    }
+    setIsLoading(true)
+    try {
+      const { error: resetError } = await resetOrganizationPassword(
+        id as string,
+        generatedPassword,
+      )
 
-    const { error } = await supabase
-      .from('users')
-      .update({ password: await bcrypt.hash(organization.password, 10) })
-      .eq('id', id)
-
-    if (error) {
-      console.error('Error resetting password:', error)
-      alert('Failed to reset password')
-    } else {
-      alert('Password reset successfully')
+      if (resetError) throw resetError
+      // Close the reset password dialog
       setIsResetPasswordOpen(false)
-      setNewPassword('')
-      setConfirmPassword('')
+      // Generate new password for next time
+      setGeneratedPassword(generateSecurePassword())
+    } catch (err) {
+      console.error('Error resetting password:', err)
+      setError(err instanceof Error ? err.message : 'Failed to reset password')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -126,46 +189,18 @@ export default function EditOrganization() {
             />
           </div>
 
-          {/* <div>
-            <Label htmlFor="address">Organization Address</Label>
-            <Input
-              type="text"
-              id="address"
-              name="address"
-              value={organization.address}
-              onChange={handleInputChange}
-              placeholder="Organization Address"
-              required
-            />
-          </div> */}
-
           <div>
-            <Label htmlFor="contact_info">
-              Organization Contact Information
-            </Label>
+            <Label htmlFor="contact_info">Contact Information</Label>
             <Input
               type="text"
               id="contact_info"
               name="contact_info"
               value={organization.contact_info}
               onChange={handleInputChange}
-              placeholder="Organization Contact Information"
+              placeholder="Contact Information"
               required
             />
           </div>
-
-          {/* <div>
-            <Label htmlFor="hr_name">HR Manager Name</Label>
-            <Input
-              type="text"
-              id="hr_name"
-              name="hr_name"
-              value={organization.hr_name}
-              onChange={handleInputChange}
-              placeholder="HR Manager Name"
-              required
-            />
-          </div> */}
 
           <div>
             <Label htmlFor="email">Email</Label>
@@ -175,31 +210,53 @@ export default function EditOrganization() {
               name="email"
               value={organization.email}
               onChange={handleInputChange}
-              placeholder="HR Manager Email"
+              placeholder="Email"
               required
             />
           </div>
 
           <div>
-            <Button type="button" onClick={() => setIsResetPasswordOpen(true)}>
-              Reset Email Password
+            <Button
+              type="button"
+              onClick={() => setIsResetPasswordOpen(true)}
+              disabled={isLoading}
+            >
+              Reset Password
             </Button>
           </div>
 
           <div className="flex items-center space-x-2">
             <Switch
-              id="isactive"
-              checked={organization.isactive}
+              id="is_active"
+              checked={organization.is_active}
               onCheckedChange={handleSwitchChange}
             />
-            <Label htmlFor="isactive">Active / Inactive</Label>
+            <Label htmlFor="is_active">Active Status</Label>
           </div>
 
+          {error && <p className="text-red-500">{error}</p>}
+
           <div className="flex space-x-2">
-            <Button type="submit">Update</Button>
-            <Button type="button" variant="destructive" onClick={handleDelete}>
-              Delete
+            <Button type="submit" disabled={isLoading || !hasChanges()}>
+              {isLoading ? 'Updating...' : 'Update'}
             </Button>
+            <ConfirmationDialog
+              trigger={
+                <Button
+                  type="button"
+                  variant="destructive"
+                  disabled={isLoading}
+                >
+                  Delete Organization
+                </Button>
+              }
+              title="Are you absolutely sure?"
+              description="This action cannot be undone. This will permanently delete the organization account and remove their data from our servers."
+              actionLabel="Delete"
+              onConfirm={handleDelete}
+              isLoading={isLoading}
+              variant="destructive"
+            />
           </div>
         </form>
       </div>
@@ -210,32 +267,41 @@ export default function EditOrganization() {
             <DialogTitle>Reset Password</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="newPassword">New Password</Label>
-              <Input
-                id="newPassword"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-            </div>
-            <div>
-              <Label htmlFor="confirmPassword">Confirm New Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+            <div className="space-y-2">
+              <Label htmlFor="generatedPassword">Generated Password</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="generatedPassword"
+                  value={generatedPassword}
+                  readOnly
+                  className="bg-muted"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setGeneratedPassword(generateSecurePassword())}
+                >
+                  Regenerate
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Make sure to copy and share this password with the organization
+              </p>
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleResetPassword}>Update</Button>
+            <Button onClick={handleResetPassword} disabled={isLoading}>
+              {isLoading ? 'Resetting Password...' : 'Reset Password'}
+            </Button>
             <Button
               variant="outline"
-              onClick={() => setIsResetPasswordOpen(false)}
+              onClick={() => {
+                setIsResetPasswordOpen(false)
+                setGeneratedPassword(generateSecurePassword()) // Generate new password when dialog is closed
+              }}
+              disabled={isLoading}
             >
-              Discard
+              Cancel
             </Button>
           </DialogFooter>
         </DialogContent>
