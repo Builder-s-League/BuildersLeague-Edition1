@@ -31,6 +31,31 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
     // TODO: Add path-based authorization
+    if (path.startsWith('/emp')) {
+      if (profile.role === 2) {
+        return NextResponse.redirect(new URL('/hr', request.url))
+      } else if (profile.role === 3) {
+        return NextResponse.redirect(new URL('/cbh', request.url))
+      }
+    }
+
+    if (path.startsWith('/hr')) {
+      if (profile.role === 1) {
+        return NextResponse.redirect(new URL('/emp', request.url))
+      } else if (profile.role === 3) {
+        return NextResponse.redirect(new URL('/cbh', request.url))
+      }
+    }
+
+    if (path.startsWith('/cbh')) {
+      if (profile.role === 1) {
+        return NextResponse.redirect(new URL('/emp', request.url))
+      } else if (profile.role === 2) {
+        return NextResponse.redirect(new URL('/hr', request.url))
+      }
+    }
+
+    console.log(profile.role)
     return response
   } catch (e) {
     console.error('Middleware error:', e)
