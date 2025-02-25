@@ -1,12 +1,10 @@
-import EDTopNavBar from '@/components/EmployeeDashboard/EDTopNavBar'
 import EDWrapper from '@/components/EmployeeDashboard/EDWrapper'
-import { Card } from '@/components/ui/card'
 import { getEmployees } from './actions'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-export default async function Dashboard({
+export default async function EmployeePage({
   params,
 }: {
   params: { hrId: string }

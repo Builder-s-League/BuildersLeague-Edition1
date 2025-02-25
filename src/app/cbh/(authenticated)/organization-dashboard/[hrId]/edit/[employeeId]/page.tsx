@@ -8,6 +8,15 @@ import { Label } from '@/components/ui/label'
 import { Profile } from '@/types/profile'
 import { updateEmployee, getEmployeeDetails } from '../../actions'
 import { toast } from 'sonner'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { generateSecurePassword } from '@/utils/password'
+import { resetEmployeePassword } from '../../../actions'
 
 export default function EditEmployee({
   params: { employeeId, hrId },
@@ -17,6 +26,10 @@ export default function EditEmployee({
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false)
+  const [generatedPassword, setGeneratedPassword] = useState(
+    generateSecurePassword(),
+  )
 
   const [employee, setEmployee] = useState<Profile>({
     id: employeeId,
@@ -78,6 +91,26 @@ export default function EditEmployee({
     } catch (err) {
       console.error('Error updating employee:', err)
       setError(err instanceof Error ? err.message : 'Failed to update employee')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleResetPassword = async () => {
+    setLoading(true)
+    try {
+      const { error: resetError } = await resetEmployeePassword(
+        employeeId as string,
+        generatedPassword,
+      )
+
+      if (resetError) throw resetError
+      setIsResetPasswordOpen(false)
+      setGeneratedPassword(generateSecurePassword())
+      toast.success('Password reset successfully')
+    } catch (err) {
+      console.error('Error resetting password:', err)
+      setError(err instanceof Error ? err.message : 'Failed to reset password')
     } finally {
       setLoading(false)
     }
@@ -155,6 +188,16 @@ export default function EditEmployee({
               />
             </div>
 
+            <div>
+              <Button
+                type="button"
+                onClick={() => setIsResetPasswordOpen(true)}
+                disabled={loading}
+              >
+                Reset Password
+              </Button>
+            </div>
+
             {error && <p className="text-sm text-red-500">{error}</p>}
 
             <div className="flex gap-4 pt-4">
@@ -177,6 +220,52 @@ export default function EditEmployee({
           </form>
         </div>
       </div>
+
+      <Dialog open={isResetPasswordOpen} onOpenChange={setIsResetPasswordOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reset Password</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="generatedPassword">Generated Password</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="generatedPassword"
+                  value={generatedPassword}
+                  readOnly
+                  className="bg-muted"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setGeneratedPassword(generateSecurePassword())}
+                >
+                  Regenerate
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Make sure to copy and share this password with the employee
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleResetPassword} disabled={loading}>
+              {loading ? 'Resetting Password...' : 'Reset Password'}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsResetPasswordOpen(false)
+                setGeneratedPassword(generateSecurePassword())
+              }}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

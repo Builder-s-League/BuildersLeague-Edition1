@@ -21,6 +21,7 @@ import {
 } from '../../actions'
 import ConfirmationDialog from '@/components/ui/confirmation-dialog'
 import { generateSecurePassword } from '@/utils/password'
+import { toast } from 'sonner'
 
 export default function EditOrganization() {
   const { id } = useParams()
@@ -162,6 +163,7 @@ export default function EditOrganization() {
       setIsResetPasswordOpen(false)
       // Generate new password for next time
       setGeneratedPassword(generateSecurePassword())
+      toast.success('Password reset successfully')
     } catch (err) {
       console.error('Error resetting password:', err)
       setError(err instanceof Error ? err.message : 'Failed to reset password')
