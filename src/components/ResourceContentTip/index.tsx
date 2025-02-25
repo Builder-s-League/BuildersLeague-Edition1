@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { toast } from 'sonner'
 
 export default function ResourceContentTooltip({
   contentRef,
@@ -19,7 +20,7 @@ export default function ResourceContentTooltip({
 
   const handleCopy = () => {
     navigator.clipboard.writeText(selectedText)
-    alert('Copied to clipboard!')
+    toast.success('Copied to clipboard!')
   }
   useEffect(() => {
     if (selectedText != '') {

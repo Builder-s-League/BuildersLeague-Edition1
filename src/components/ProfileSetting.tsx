@@ -9,6 +9,7 @@ import ImagePreviewModal from '@/components/Overlay/Modals/image-preview-modal'
 import Image from 'next/image'
 import { PersonIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -197,7 +198,7 @@ export const ProfileSetting = () => {
         return
       }
 
-      alert('Profile updated successfully!')
+      toast.success('Profile updated successfully!')
     } catch (error) {
       // Log the full error object
       console.error('Full error:', error)
