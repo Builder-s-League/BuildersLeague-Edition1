@@ -6,8 +6,11 @@ const buildEslintCommand = (filenames) =>
     .join(' --file ')}`
 
 module.exports = {
-  '*.{js,jsx,ts,tsx}': [
-    buildEslintCommand,
-    'prettier --ignore-path .gitignore --write',
-  ],
+  '*.{js,jsx,ts,tsx}': (filenames) => {
+    // Only run commands on the staged files
+    return [
+      buildEslintCommand(filenames),
+      `prettier --write ${filenames.join(' ')}`,
+    ]
+  },
 }
