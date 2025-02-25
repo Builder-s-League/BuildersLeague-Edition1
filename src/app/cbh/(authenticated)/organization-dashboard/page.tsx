@@ -29,9 +29,9 @@ export default function OrgDashboard() {
     async function fetchOrganizations() {
       try {
         const { data, error } = await supabase
-          .from('users')
-          .select('id, name, email, contact_info, isactive')
-          .eq('role', 1)
+          .from('profiles')
+          .select('id, name, contact_info, is_active')
+          .eq('role', 2)
 
         if (error) throw error
 
@@ -51,8 +51,8 @@ export default function OrgDashboard() {
     const nameMatch = org.name.toLowerCase().includes(nameFilter.toLowerCase())
     const statusMatch =
       statusFilter === 'all' ||
-      (statusFilter === 'active' && org.isactive) ||
-      (statusFilter === 'inactive' && !org.isactive)
+      (statusFilter === 'active' && org.is_active) ||
+      (statusFilter === 'inactive' && !org.is_active)
     return nameMatch && statusMatch
   })
 
@@ -63,7 +63,7 @@ export default function OrgDashboard() {
         org.name,
         org.email,
         org.contact_info,
-        org.isactive ? 'Active' : 'Inactive',
+        org.is_active ? 'Active' : 'Inactive',
       ]),
     ]
       .map((row) => row.join(','))
