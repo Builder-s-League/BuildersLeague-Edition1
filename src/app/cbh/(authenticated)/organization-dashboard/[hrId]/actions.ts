@@ -60,7 +60,7 @@ export async function getEmployees(hrId: string): Promise<{
   }
 }
 
-export async function deleteEmployee(id: string) {
+export async function deleteEmployee(id: string, hrId: string) {
   try {
     const cookieStore = cookies()
     const supabase = createServerClient(cookieStore)
@@ -87,7 +87,8 @@ export async function deleteEmployee(id: string) {
     const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(id)
     if (authError) throw authError
 
-    revalidatePath('/cbh/employee')
+    // Add revalidation here
+    revalidatePath(`/cbh/organization-dashboard/${hrId}`)
     return { success: true }
   } catch (error) {
     console.error('Error deleting employee:', error)
@@ -119,6 +120,8 @@ export async function addEmployee(data: ProfileCreate, hrId: string) {
     if (signUpError) throw signUpError
     if (!authData.user) throw new Error('Failed to create user')
 
+    // Add revalidation here
+    revalidatePath(`/cbh/organization-dashboard/${hrId}`)
     return { success: true }
   } catch (error) {
     console.error('Error adding employee:', error)
@@ -126,13 +129,19 @@ export async function addEmployee(data: ProfileCreate, hrId: string) {
   }
 }
 
-export async function updateEmployee(id: string, data: ProfileUpdate) {
+export async function updateEmployee(
+  id: string,
+  data: ProfileUpdate,
+  hrId: string,
+) {
   try {
     const supabase = createServerClient(cookies())
     const { error } = await supabase.from('profiles').update(data).eq('id', id)
 
     if (error) throw error
 
+    // Add revalidation here
+    revalidatePath(`/cbh/organization-dashboard/${hrId}`)
     return { success: true }
   } catch (error) {
     return { error: 'Failed to update employee' }

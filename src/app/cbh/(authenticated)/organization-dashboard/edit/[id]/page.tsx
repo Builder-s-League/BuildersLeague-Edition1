@@ -116,7 +116,6 @@ export default function EditOrganization() {
         return
       }
 
-      // Update original data after successful update
       setOriginalData(organization)
       router.replace('/cbh/organization-dashboard')
     } catch (err) {

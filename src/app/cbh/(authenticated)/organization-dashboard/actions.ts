@@ -58,6 +58,8 @@ export async function deleteOrganization(id: string) {
     const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(id)
     if (authError) throw authError
 
+    // Add revalidation here
+    revalidatePath('/cbh/organization-dashboard')
     return { success: true }
   } catch (error) {
     console.error('Error deleting organization:', error)
@@ -112,6 +114,8 @@ export async function updateOrganizationProfile(
 
     if (updateError) throw updateError
 
+    // Add revalidation here
+    revalidatePath('/cbh/organization-dashboard')
     return { success: true }
   } catch (error) {
     console.error('Error updating organization:', error)
@@ -153,6 +157,8 @@ export async function createOrganization(organization: ProfileCreate) {
     if (signUpError) throw signUpError
     if (!authData.user) throw new Error('Failed to create user')
 
+    // Add revalidation here
+    revalidatePath('/cbh/organization-dashboard')
     return { success: true }
   } catch (error) {
     console.error('Error adding organization:', error)

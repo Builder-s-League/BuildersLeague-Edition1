@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { generateSecurePassword } from '@/utils/password'
 import { addEmployee } from '../actions'
-import { revalidatePath } from 'next/cache'
 import { toast } from 'sonner'
 
 export default function AddEmployeePage({
@@ -40,7 +39,7 @@ export default function AddEmployeePage({
     setError(null)
 
     try {
-      const result = await addEmployee(employee, hrId as string)
+      const result = await addEmployee(employee, hrId)
 
       if (result.error) throw new Error(result.error)
 

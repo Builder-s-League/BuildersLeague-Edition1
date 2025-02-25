@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { generateSecurePassword } from '@/utils/password'
 import { createOrganization } from '../actions'
+import { revalidatePath } from 'next/cache'
 
 export default function AddOrganization() {
   const router = useRouter()

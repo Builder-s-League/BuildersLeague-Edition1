@@ -60,12 +60,16 @@ export default function EditEmployee({
     setError(null)
 
     try {
-      const { error: updateError } = await updateEmployee(employeeId, {
-        name: employee.name,
-        email: employee.email,
-        contact_info: employee.contact_info,
-        is_active: employee.is_active,
-      })
+      const { error: updateError } = await updateEmployee(
+        employeeId,
+        {
+          name: employee.name,
+          email: employee.email,
+          contact_info: employee.contact_info,
+          is_active: employee.is_active,
+        },
+        hrId,
+      )
 
       if (updateError) throw updateError
 
