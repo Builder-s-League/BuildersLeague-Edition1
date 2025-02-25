@@ -15,9 +15,9 @@ export default function OrganizationCBH({ org }: Props) {
           {org.name}
         </span>
         <span
-          className={`mt-auto self-end text-sm ${org.isactive ? 'text-green-500' : 'text-gray-500'}`}
+          className={`mt-auto self-end text-sm ${org.is_active ? 'text-green-500' : 'text-gray-500'}`}
         >
-          {org.isactive ? 'active' : 'inactive'}
+          {org.is_active ? 'active' : 'inactive'}
         </span>
       </div>
       <div className="flex flex-col gap-2">
