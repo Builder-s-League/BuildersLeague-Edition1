@@ -81,12 +81,10 @@ export default function EDActions({
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <Link href={`${path}/email`} passHref>
-                <Button variant="outline" className="w-full">
-                  <EnvelopeOpenIcon className="mr-2 h-4 w-4" />
-                  Email All
-                </Button>
-              </Link>
+              <Button variant="outline" className="w-full">
+                <EnvelopeOpenIcon className="mr-2 h-4 w-4" />
+                Email All
+              </Button>
               <ExportCSVButton hrId={hrId} />
             </div>
           </div>

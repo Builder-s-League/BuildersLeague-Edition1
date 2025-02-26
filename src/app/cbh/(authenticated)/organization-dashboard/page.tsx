@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card'
 import ODWrapper from '@/components/OrganizationDashboard/ODWrapper'
-import { getOrganizations } from './actions'
+import { getOrganizations } from '@/actions/organization-action'
 
 // Prevent caching
 export const dynamic = 'force-dynamic'

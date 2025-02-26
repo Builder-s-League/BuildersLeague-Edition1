@@ -5,7 +5,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <HRNavBar />
-      {children}
+      <div className="container mx-auto py-4">{children}</div>
     </>
   )
 }

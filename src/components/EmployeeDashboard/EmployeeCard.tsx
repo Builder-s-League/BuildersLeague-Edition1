@@ -4,10 +4,10 @@ import React from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import ConfirmationDialog from '../ui/confirmation-dialog'
-import { deleteEmployee } from '@/app/cbh/(authenticated)/organization-dashboard/[hrId]/actions'
 import { toast } from 'sonner'
-import { Profile, ProfileSummary } from '@/types/profile'
+import { ProfileSummary } from '@/types/profile'
 import { cn } from '@/utils/tailwind'
+import { deleteEmployee } from '@/actions/employee-action'
 
 interface EmployeeCardProps {
   profile: ProfileSummary
