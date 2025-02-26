@@ -162,7 +162,7 @@ export default function ScheduleInfoPage({
       if (orgError) throw orgError
 
       console.log('Schedule saved successfully')
-      router.push('/hr/schedule')
+      router.push('/cbh/schedule')
     } catch (error) {
       console.error('Error saving schedule:', error)
     }
@@ -240,7 +240,7 @@ export default function ScheduleInfoPage({
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.push('/hr/schedule')}
+            onClick={() => router.push('/cbh/schedule')}
           >
             Cancel
           </Button>
