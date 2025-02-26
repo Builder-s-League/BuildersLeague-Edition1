@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { PersonIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import signOut from '../app/emp/(authenticated)/profile-settings/actions'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -325,9 +326,11 @@ export const ProfileSetting = () => {
                     Help
                   </Button>
                 </Link>
-                <Button variant="destructive" className="w-full">
-                  Logout
-                </Button>
+                <Link href="/" className="w-full" onClick={() => signOut()}>
+                  <Button variant="destructive" className="w-full">
+                    Logout
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>

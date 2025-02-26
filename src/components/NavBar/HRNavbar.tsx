@@ -1,7 +1,9 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Home, Users, Settings, LogIn, Calendar } from 'lucide-react'
+import signOut from '../../app/hr/actions'
 
 // Define an interface for NavItem props
 interface NavItemProps {
@@ -9,14 +11,23 @@ interface NavItemProps {
   link: string
   icon: React.ForwardRefExoticComponent<
     React.SVGProps<SVGSVGElement> & React.RefAttributes<SVGSVGElement>
-  > // Adjusted type for the icon
+  >
+  onClick?: () => void
 }
 
-const NavItem: React.FC<NavItemProps> = ({ label, link, icon: Icon }) => (
-  <Link href={link}>
-    <Button variant="ghost" className="flex items-center space-x-2">
+const NavItem: React.FC<NavItemProps> = ({
+  label,
+  link,
+  icon: Icon,
+  onClick,
+}) => (
+  <Link href={link} onClick={onClick}>
+    <Button
+      variant="ghost"
+      className="flex w-full items-center justify-start space-x-2"
+    >
       <Icon className="h-5 w-5" />
-      <span className="hidden sm:inline">{label}</span>
+      <span>{label}</span>
     </Button>
   </Link>
 )
@@ -36,7 +47,12 @@ const HRNavBar: React.FC = () => {
             <NavItem key={item.label} {...item} />
           ))}
         </div>
-        <NavItem label="Log in/out" link="/" icon={LogIn} />
+        <NavItem
+          label="Log in/out"
+          link="/"
+          icon={LogIn}
+          onClick={() => signOut()}
+        />
       </div>
     </nav>
   )
