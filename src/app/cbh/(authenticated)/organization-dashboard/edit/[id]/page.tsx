@@ -14,14 +14,15 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
+
+import ConfirmationDialog from '@/components/ui/confirmation-dialog'
+import { generateSecurePassword } from '@/utils/password'
+import { toast } from 'sonner'
 import {
   deleteOrganization,
   resetOrganizationPassword,
   updateOrganizationProfile,
-} from '../../actions'
-import ConfirmationDialog from '@/components/ui/confirmation-dialog'
-import { generateSecurePassword } from '@/utils/password'
-import { toast } from 'sonner'
+} from '@/actions/organization-action'
 
 export default function EditOrganization() {
   const { id } = useParams()

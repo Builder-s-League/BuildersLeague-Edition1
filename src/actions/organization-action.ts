@@ -198,22 +198,3 @@ export async function addEmployee(data: any, hrId: string) {
     return { error: 'Failed to add employee' }
   }
 }
-
-export async function resetEmployeePassword(id: string, newPassword: string) {
-  try {
-    const supabaseAdmin = createAdminClient()
-    const { error } = await supabaseAdmin.auth.admin.updateUserById(id, {
-      password: newPassword,
-    })
-
-    if (error) throw error
-
-    return { success: true }
-  } catch (error) {
-    console.error('Error resetting password:', error)
-    return {
-      error:
-        error instanceof Error ? error.message : 'Failed to reset password',
-    }
-  }
-}

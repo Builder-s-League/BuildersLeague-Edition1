@@ -55,7 +55,6 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    console.log(profile.role)
     return response
   } catch (e) {
     console.error('Middleware error:', e)

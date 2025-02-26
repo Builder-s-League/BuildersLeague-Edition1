@@ -14,6 +14,7 @@ import {
   LogIn,
   Menu,
 } from 'lucide-react'
+import signOut from '../../app/cbh/actions'
 
 interface NavItemProps {
   label: string
@@ -72,7 +73,12 @@ const CBHNavBar: React.FC = () => {
               <NavItem key={item.label} {...item} />
             ))}
           </div>
-          <NavItem label="Log in/out" link="/" icon={LogIn} />
+          <NavItem
+            label="Log in/out"
+            link="/"
+            icon={LogIn}
+            onClick={() => signOut()}
+          />
         </div>
         {isMenuOpen && (
           <div className="mt-4 flex flex-col space-y-2 lg:hidden">
