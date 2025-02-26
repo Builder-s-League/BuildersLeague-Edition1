@@ -137,6 +137,7 @@ export async function addEmployee(data: ProfileCreate, hrId: string) {
       await supabase.auth.admin.createUser({
         email: data.email,
         password: data.password,
+        email_confirm: true,
         user_metadata: {
           name: data.name,
           contact_info: data.contact_info,
