@@ -44,7 +44,7 @@ export const ChangePassword = () => {
       setErrors((prev) => ({
         ...prev,
         newPassword:
-          'Password must be at least 8 characters and contain uppercase, lowercase, numbers, and special characters',
+          'Password must be at least 6 characters and contain uppercase, lowercase, numbers, and special characters',
       }))
     } else {
       setErrors((prev) => ({ ...prev, newPassword: '' }))
