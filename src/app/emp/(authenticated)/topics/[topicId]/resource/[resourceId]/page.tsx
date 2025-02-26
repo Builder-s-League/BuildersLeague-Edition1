@@ -24,7 +24,8 @@ export default function ResourcePage() {
 
   async function fetchResourceContent() {
     const data = await fetch(
-      'http://localhost:3001/api/topic/resource?id=' + params.resourceId,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/topic/resource?id=` +
+        params.resourceId,
       {
         cache: 'no-cache',
       },
