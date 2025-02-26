@@ -52,6 +52,7 @@
     "aws-ses-v2-local": "^2.4.0",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
+    "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dotenv": "^16.4.5",

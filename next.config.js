@@ -2,6 +2,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+// Extract the Supabase project ID from the URL
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseProjectId =
+  supabaseUrl.match(/(?:https?:\/\/)?([^.]+)/)?.[1] || ''
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   headers: async () => [
@@ -41,7 +46,26 @@ const nextConfig = {
     },
   ],
   images: {
-    domains: ['buildersleague.payloadcms.app', 'localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: `${supabaseProjectId}.supabase.co`,
+        pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'buildersleague.payloadcms.app',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
   },
 }
 

@@ -13,7 +13,11 @@ export default function BottomNavBarItem({
   icon: Icon,
 }: BottomNavItemProps) {
   return (
-    <Link href={page} className="group flex flex-col items-center gap-2">
+    <Link
+      href={page}
+      replace
+      className="group flex flex-col items-center gap-2"
+    >
       {Icon && (
         <Icon className="h-4 w-4 text-gray-300 group-hover:text-gray-800" />
       )}

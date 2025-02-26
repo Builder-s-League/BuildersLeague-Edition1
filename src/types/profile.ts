@@ -14,6 +14,7 @@ export type Profile = {
   is_active: boolean
   role: number
   admin_id: string
+  avatar_url: string
 }
 export interface ProfileSummary {
   id: string
@@ -21,6 +22,7 @@ export interface ProfileSummary {
   email: string
   contact_info: string
   is_active: boolean
+  avatar_url: string
 }
 
 export interface ProfileUpdate {

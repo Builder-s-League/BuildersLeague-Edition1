@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     name VARCHAR(255),
+    avatar_url VARCHAR(255),
     email VARCHAR(255),
     contact_info VARCHAR(255),
     is_active BOOLEAN DEFAULT true,
