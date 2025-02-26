@@ -16,10 +16,13 @@ interface ScheduleTrimmed {
   schedule_at: number
 }
 export default async function Page() {
-  console.log(process.env.BASE_API_URL + '/topics')
-  const response = await fetch(process.env.BASE_API_URL + '/topics', {
-    cache: 'no-cache',
-  })
+  console.log(process.env.NEXT_PUBLIC_BASE_API_URL + '/topics')
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_BASE_API_URL + '/topics',
+    {
+      cache: 'no-cache',
+    },
+  )
 
   let data = await response.json()
 
