@@ -11,7 +11,7 @@ interface ScheduleInfoSchema {
   id?: number
   topic_id: string | undefined
   //   organization_id: number
-  cbh_admin_id: number
+  cbh_admin_id: string
   schedule_at: string
   created_at?: string
   updated_at: string
@@ -31,20 +31,22 @@ export default function ScheduleInfoPage({
   const [selectedCompany, setSelectedCompany] = useState<number | null>(null)
   const [contentOptions, setContentOptions] = useState<any[]>([])
   const [orgData, setOrgData] = useState<any[]>([])
-  const [selectedCompanies, setSelectedCompanies] = useState<number[]>([])
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
   const supabase = createBrowserClient()
 
   useEffect(() => {
-    fetchContent().then(setContentOptions)
+    fetchContent().then((data) => {
+      setContentOptions(data.docs)
+    })
   }, [])
 
   useEffect(() => {
     async function fetchOrganizations() {
       try {
         const { data, error } = await supabase
-          .from('users')
-          .select('id, name, email, contact_info, isactive')
-          .eq('role', 1)
+          .from('profiles')
+          .select('id, name, email, contact_info, is_active')
+          .eq('role', 2)
 
         if (error) throw error
 
@@ -108,7 +110,7 @@ export default function ScheduleInfoPage({
 
     const scheduleData: ScheduleInfoSchema = {
       topic_id: selectedContent,
-      cbh_admin_id: 1, // This should be the logged-in admin's ID
+      cbh_admin_id: '00000000-0000-0000-0000-000000000001', // This should be the logged-in admin's ID
       schedule_at: `${date}T${time}:00`,
       updated_at: new Date().toISOString(),
     }
@@ -221,7 +223,7 @@ export default function ScheduleInfoPage({
                 value={company.id}
                 checked={selectedCompanies.includes(company.id)}
                 onChange={(e) => {
-                  const companyId = Number(e.target.value)
+                  const companyId = e.target.value
                   setSelectedCompanies((prev) =>
                     e.target.checked
                       ? [...prev, companyId]

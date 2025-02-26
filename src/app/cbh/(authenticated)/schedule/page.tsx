@@ -14,11 +14,12 @@ import {
 import { createBrowserClient } from '@/utils/supabase'
 
 export async function fetchContent() {
-  const response = await fetch('/api/cms')
+  const response = await fetch('/api/topics')
   if (!response.ok) {
     throw new Error('Failed to fetch content')
   }
   const data = await response.json()
+  console.log(data)
   return data
 }
 
@@ -41,7 +42,7 @@ async function fetchReleases() {
     id: item.id,
     date: new Date(item.schedule_at).toLocaleDateString(),
     content:
-      contentOptions.find((content: any) => content.id === item.topic_id)
+      contentOptions.docs.find((content: any) => content.id === item.topic_id)
         ?.title || 'Unknown Content',
   }))
 }
@@ -95,7 +96,7 @@ export default function SchedulePage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Releases</h1>
-        <Link href="/hr/schedule/info?action=add">
+        <Link href="/cbh/schedule/info?action=add">
           <Button>Add new +</Button>
         </Link>
       </div>
@@ -113,7 +114,7 @@ export default function SchedulePage() {
               <TableCell>{release.date}</TableCell>
               <TableCell>{release.content}</TableCell>
               <TableCell>
-                <Link href={`/hr/schedule/info?action=edit&id=${release.id}`}>
+                <Link href={`/cbh/schedule/info?action=edit&id=${release.id}`}>
                   <Button variant="outline" size="sm" className="mr-2">
                     Edit
                   </Button>
