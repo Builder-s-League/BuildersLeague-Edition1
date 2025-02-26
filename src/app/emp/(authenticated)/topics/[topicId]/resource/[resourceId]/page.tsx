@@ -4,6 +4,8 @@ import MenuDrawer from '@/components/MenuDrawer'
 import Image from 'next/image'
 import ResourceContentTooltip from '@/components/ResourceContentTip'
 import { ResourceAddNote } from '@/components/ResourceAddNote'
+import RichTextRenderer from '@/components/RichText'
+import { useParams } from 'next/navigation'
 
 type Filetype = 'image' | 'video' | 'audio'
 
@@ -12,9 +14,12 @@ interface ResourcePageProps {
     resourceId: string
   }
 }
-export default function ResourcePage({ params }: ResourcePageProps) {
+export default function ResourcePage() {
+  const params = useParams()
+  const [title, setTitle] = useState('')
   const [content, setContent] = useState(null)
-  const [selectedFileType, setSelectedFileType] = useState<Filetype>('audio')
+  const [links, setLinks] = useState<[] | null>(null)
+  const [selectedFileType, setSelectedFileType] = useState<Filetype>('video')
   const [activateNoteArea, setActivateNoteArea] = useState(1)
 
   async function fetchResourceContent() {
@@ -25,7 +30,10 @@ export default function ResourcePage({ params }: ResourcePageProps) {
       },
     )
     const res = await data.json()
-    setContent(res)
+    setContent(res.content)
+    setTitle(res.title)
+
+    setLinks(res.links)
   }
   useEffect(() => {
     fetchResourceContent()
@@ -38,6 +46,8 @@ export default function ResourcePage({ params }: ResourcePageProps) {
             selectedFileType={selectedFileType}
             setActivateNoteArea={setActivateNoteArea}
             content={content}
+            title={title}
+            links={links}
           />
         )}
         <ResourceAddNote activateNoteArea={activateNoteArea} />
@@ -47,24 +57,50 @@ export default function ResourcePage({ params }: ResourcePageProps) {
 }
 
 const Content = ({
+  title,
   selectedFileType,
   setActivateNoteArea,
   content,
+  links,
 }: {
+  title: string
   content: any
+  links: [] | null
   setActivateNoteArea: any
   selectedFileType: Filetype
 }) => {
   return (
     <div className="mx-auto  flex w-full flex-col items-center justify-center gap-10   py-8  md:py-12 md:pb-8 lg:py-12 lg:pb-10">
-      <Title title={content.title} />
-      <PlayAudio text={content?.content[0]?.children[0]?.text} />
+      <Title title={title} />
 
-      <Description
-        text={content?.content[0]?.children[0]?.text}
-        setActivateNoteArea={setActivateNoteArea}
-      />
-      <File type={selectedFileType} />
+      <Description text={content} setActivateNoteArea={setActivateNoteArea} />
+
+      <div>
+        <div className="text-slate-400">Attached Video</div>
+        <File type={selectedFileType} />
+      </div>
+      <div className="w-full">
+        <div className="text-slate-400">Attached Links</div>{' '}
+        {links && (
+          <>
+            {links.map((l: { id: string; link: string }, i) => {
+              return (
+                <div key={l.id}>
+                  <a
+                    href={l.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="break-words text-blue-500 underline hover:text-blue-700"
+                  >
+                    Link {i + 1}
+                  </a>
+                  <br />
+                </div>
+              )
+            })}
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -74,7 +110,7 @@ const Description = ({
   setActivateNoteArea,
 }: {
   setActivateNoteArea: any
-  text: string
+  text: any
 }) => {
   const contentRef = useRef(null)
   const handleKeyDown = (e: any) => {
@@ -90,7 +126,8 @@ const Description = ({
       onMouseDown={() => setActivateNoteArea((prev: number) => prev + 1)}
       onMouseUp={() => setActivateNoteArea((prev: number) => prev + 1)}
     >
-      <p>{text}</p>
+      {text && <RichTextRenderer content={text} />}
+
       <ResourceContentTooltip
         contentRef={contentRef}
         setActivateNoteArea={setActivateNoteArea}
@@ -187,7 +224,7 @@ const File = ({ type }: { type: Filetype }) => {
 }
 
 const Title = ({ title }: { title: string }) => (
-  <div className="text-justify-center flex border-slate-400 text-3xl font-thin">
+  <div className="text-justify-center font-thik flex border-slate-400 text-3xl capitalize">
     {title}
   </div>
 )
