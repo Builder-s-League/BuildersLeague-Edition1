@@ -18,7 +18,7 @@ export default function MenuDrawer() {
   }, [])
 
   const getTopics = async () => {
-    const response = await fetch('http://localhost:3001/api/topics', {
+    const response = await fetch(`/api/topics`, {
       cache: 'no-cache',
     })
     const data = await response.json()
