@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/sonner'
 dotenv.config()
 const defaultUrl = process.env.CBH_APP_DOMAIN
   ? `http://${process.env.CBH_APP_DOMAIN}`
-  : 'http://localhost:3000'
+  : 'http://localhost:3002'
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),

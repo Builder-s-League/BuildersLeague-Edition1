@@ -62,7 +62,7 @@ The CBH app is a Indigenous education resource platform where users are able to 
    npm run dev
    ```
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+   The starter kit should now be running on [localhost:3002](http://localhost:3002/).
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
 
@@ -133,7 +133,7 @@ Fat Markers Sketches:
 
 ## Scripts
 
-- `npm run dev` — Starts the application in development mode at `http://localhost:3000`.
+- `npm run dev` — Starts the application in development mode at `http://localhost:3002`.
 - `npm run build` — Creates an optimized production build of your application.
 - `npm run start` — Starts the application in production mode.
 - `npm run type-check` — Validate code using TypeScript compiler.

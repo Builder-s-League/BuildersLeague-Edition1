@@ -30,7 +30,7 @@ COPY --from=build-stage /usr/src/app/.next ./.next
 COPY --from=build-stage /usr/src/app/public ./public
 
 # port for app
-EXPOSE 3000
+EXPOSE 3002
 
 # Start the application
 CMD ["npm", "run", "start"]

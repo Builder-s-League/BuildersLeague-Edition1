@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   }
 
   const apiUrl = process.env.CMS_API_URL
-  // http://localhost:3000/api/topics/67bb767e6b63e67ae807f34c?locale=undefined&draft=false&depth=1
+  // http://localhost:3002/api/topics/67bb767e6b63e67ae807f34c?locale=undefined&draft=false&depth=1
 
   const endpoint = `/topics/${id}?locale=undefined&draft=false&depth=1`
   const apiKey = process.env.CMS_API_KEY
