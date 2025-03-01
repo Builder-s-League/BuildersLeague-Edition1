@@ -6,8 +6,8 @@ import ReactQueryProvider from '@/providers/ReactQueryProvider'
 import dotenv from 'dotenv'
 import { Toaster } from '@/components/ui/sonner'
 dotenv.config()
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+const defaultUrl = process.env.CBH_APP_DOMAIN
+  ? `http://${process.env.CBH_APP_DOMAIN}`
   : 'http://localhost:3000'
 
 export const metadata = {

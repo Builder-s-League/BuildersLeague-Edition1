@@ -44,7 +44,7 @@ interface SitemapEntry {
 // Helper function to generate sitemap entries
 function generateSitemapEntries(configs: RouteConfig[]): SitemapEntry[] {
   const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:3000'
+    `http://${process.env.CBH_APP_DOMAIN}` || 'http://localhost:3000'
 
   return configs.map((config) => ({
     url: `${baseUrl}${config.path}`,
