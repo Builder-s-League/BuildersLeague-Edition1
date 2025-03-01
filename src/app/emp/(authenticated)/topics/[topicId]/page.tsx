@@ -1,5 +1,5 @@
-import { getTopicDetail } from '@/services/getTopicDetail'
 import TopicDetailPageContent from './_page'
+import { Topic } from '@/types/topic'
 
 interface TopicDetailPageProps {
   params: {
@@ -10,7 +10,19 @@ interface TopicDetailPageProps {
 export default async function TopicDetailPage({
   params,
 }: TopicDetailPageProps) {
-  const response = await getTopicDetail({ id: params.topicId })
+  let response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/topic?id=${{ id: params.topicId }}`,
+    {
+      next: {
+        revalidate: 600,
+      },
+    },
+  )
+  const responseJson: Topic = await response.json()
 
-  return <TopicDetailPageContent topic={response} />
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data: ${response.statusText}`)
+  }
+
+  return <TopicDetailPageContent topic={responseJson} />
 }
