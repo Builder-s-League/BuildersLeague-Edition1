@@ -43,8 +43,7 @@ interface SitemapEntry {
 
 // Helper function to generate sitemap entries
 function generateSitemapEntries(configs: RouteConfig[]): SitemapEntry[] {
-  const baseUrl =
-    `http://${process.env.CBH_APP_DOMAIN}` || 'http://localhost:3002'
+  const baseUrl = process.env.CBH_APP_URL || 'http://localhost:3002'
 
   return configs.map((config) => ({
     url: `${baseUrl}${config.path}`,
