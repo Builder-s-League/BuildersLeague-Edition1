@@ -29,11 +29,22 @@ export default function MenuDrawer() {
     getTopics()
   }, [])
 
+  const apiUrl = process.env.CMS_API_URL
+  const endpoint = `/topics`
+  const apiKey = process.env.CMS_API_KEY
+
   const getTopics = async () => {
-    const response = await fetch(`/api/topics`, {
+    const response = await fetch(apiUrl + endpoint, {
       cache: 'no-cache',
+      headers: {
+        Authorization: `users API-Key ${apiKey}`,
+      },
     })
-    const data = await response.json()
+    let data = await response.json()
+    data = {
+      ...data,
+      progress: 50,
+    }
 
     const supabase = createBrowserClient()
 
