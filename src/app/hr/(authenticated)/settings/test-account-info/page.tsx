@@ -22,7 +22,7 @@ export default function TestAccountInfo() {
     async function fetchUsers() {
       try {
         const { data, error } = await supabase
-          .from('users')
+          .from('profiles')
           .select('id, name, email, contact_info, isactive, password')
           .like('name', '%test%')
 

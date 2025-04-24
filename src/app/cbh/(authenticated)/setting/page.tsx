@@ -14,7 +14,7 @@ const Setting: React.FC = () => {
   useEffect(() => {
     const fetchAdminData = async () => {
       const { data, error } = await supabase
-        .from('users')
+        .from('profiles')
         .select('email, contact_info')
         .order('id', { ascending: true }) // Order by id to get the first entry
         .limit(1) // Limit the result to the first entry
