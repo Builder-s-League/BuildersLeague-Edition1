@@ -14,6 +14,7 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Reconciliation Road Challenge',
   description: 'A fresh adventure begins!',
+  manifest: '/manifest.webmanifest',
 }
 
 export default function RootLayout({

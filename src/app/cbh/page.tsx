@@ -20,7 +20,6 @@ export default async function CBHNavigation() {
 
   const navItems = [
     { name: 'About', href: 'cbh/about' },
-    { name: 'Login', href: 'cbh/login' },
     { name: 'Organization Dashboard', href: 'cbh/organization-dashboard' },
     { name: 'Settings', href: 'cbh/setting' },
     { name: 'Survey Dashboard', href: 'cbh/survey-dash' },
