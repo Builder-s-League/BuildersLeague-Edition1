@@ -107,7 +107,7 @@ Fat Markers Sketches:
 
 ## ERD
 
-![image](https://github.com/user-attachments/assets/455f25d2-7a7b-4f0c-8159-e7c3ce419783)
+![Blank diagram](https://github.com/user-attachments/assets/6b28add5-0c8c-43eb-8fdf-a93386fbce4c)
 
 ## Tech Stack
 
@@ -155,22 +155,10 @@ import { Button } from '@/components/ui/Button'
 import avatar from '@/public/avatar.png'
 ```
 
-## Quick Start
-
-To get started with the Appsmith dashboards:
-
-1. Ensure Docker is installed.
-2. Navigate to the `appsmith_dashboards` folder.
-3. Follow the detailed instructions provided in the guide within that folder.
-
-## Detailed Guide
-
-For detailed instructions on running and contributing to the Appsmith dashboards, please refer to the [Appsmith Dashboards Guide](./appsmith_dashboards/README.md).
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for more information.
 
 ## Feedback and issues
 
-Please file feedback and issues [here](https://github.com/michaeltroya/supa-next-starter/issues).
+Please file feedback and issues [here](https://github.com/Builder-s-League/BuildersLeague-Edition1/issues).
