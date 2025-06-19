@@ -68,7 +68,7 @@ The CBH app is a Indigenous education resource platform where users are able to 
 
 # Deployment
 For a quick and easy deployment that doesn't create much hassle, download the instructions below:
-[deploy-builders-league.zip](https://github.com/user-attachments/files/20823416/deploy-builders-league.zip)
+[deploy-builders-league.zip](https://github.com/user-attachments/files/20823635/deploy-builders-league.zip)
 
 If you are planning to use the instruction, the minimum spec for a VM is 2 cores and 8 GB of RAM ("e2-standard-2" in GCP). We tried using a custom VM with 2 cores and 4GB to reduce cost, but the installation is very unstable.
 
